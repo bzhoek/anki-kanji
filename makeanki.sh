@@ -11,7 +11,7 @@ MEANING=$(sqlite3 kanji.sqlite "select meaning from Kanji where literal='$1'")
 ONYOMI=$(sqlite3 kanjidic.sqlite "select onyomi from Kanji where kanji='$1'")
 KUNYOMI=$(sqlite3 kanjidic.sqlite "select kunyomi from Kanji where kanji='$1'")
 
-SVG='anki.kanji.svg'
+SVG='tmp/anki.kanji.svg'
 STYLED='tmp/anki.styled.svg'
 sqlite3 kanji.sqlite "select drawing from Kanji where literal='$1'" > $SVG
 xsltproc -nonet anki.styled.xslt $SVG > $STYLED
