@@ -13,9 +13,10 @@ KUNYOMI=$(sqlite3 kanjidic.sqlite "select kunyomi from Kanji where kanji='$1'")
 
 SVG='tmp/anki.kanji.svg'
 STYLED='tmp/anki.styled.svg'
+PNG='tmp/anki.styled.png'
 sqlite3 kanji.sqlite "select drawing from Kanji where literal='$1'" > $SVG
 xsltproc -nonet anki.styled.xslt $SVG > $STYLED
-convert -size 1024x1024 $STYLED tmp/anki.styled.png
+inkscape -z $STYLED -o $PNG
 
 function storeMediaFile {
   cat > tmp/anki.media.json <<- EOM
@@ -24,7 +25,7 @@ function storeMediaFile {
     "version": 6,
     "params": {
       "filename": "${UNICODE}-${STAMP}.png",
-      "data": "$(base64 tmp/anki.styled.png)"
+      "data": "$(base64 $PNG)"
     }
   }
 EOM
