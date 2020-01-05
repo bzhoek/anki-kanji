@@ -5,11 +5,14 @@ Make kanji stroke diagrams in Anki.
 Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) add-on, and InkScape for SVG rasterizing. SQLite is also required.
 
     $ brew cask install anki inkscape
-    
+
 Then run with
 
     $ sh makeanki.sh 猫
-    
+
 To output `tmp/anki.styled.png` with
 
 ![cat](neko.png).
+
+## Distinct colors
+https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
