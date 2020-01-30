@@ -39,7 +39,7 @@ case "$2" in
       "action": "findNotes",
       "version": 6,
       "params": {
-        "query": "deck:Japans::Kanji ${1}"
+        "query": "deck:Japans ${1}"
       }
     }
 EOM
@@ -71,7 +71,7 @@ EOM
       "action": "findNotes",
       "version": 6,
       "params": {
-        "query": "deck:Japans::Kanji ${1}"
+        "query": "deck:Japans ${1}"
       }
     }
 EOM
@@ -106,7 +106,7 @@ EOM
       "version": 6,
       "params": {
         "note": {
-          "deckName": "Japans::Kanji",
+          "deckName": "Japans",
           "modelName": "OnKanji",
           "fields": {
             "nederlands": "${MEANING}",
