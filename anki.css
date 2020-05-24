@@ -1,0 +1,84 @@
+/* https://en.wikipedia.org/wiki/Solarized_(color_scheme) */
+.card {
+  font-family: helvetica;
+  font-size: 20pt;
+  text-align: center;
+  color: black;
+  background-color: #fdf6e3;
+}
+
+div {
+  margin: 8pt 0
+}
+
+.answer {
+  font-size: 13pt;
+  margin: 8pt 0;
+}
+
+.answer b {
+  font-size: 15pt;
+}
+
+.notes, .strokes {
+  border-top: 1px solid grey;
+  padding-top: 8pt;
+  font-size: 14pt;
+}
+
+.notes b {
+  font-size: 14pt;
+}
+
+.extra {
+  font-size: 10pt;
+  margin: 8pt 0;
+}
+
+.jukukana {
+  color: white;
+  background-color: #d33682;
+}
+
+.jukumasu {
+  color: white;
+  background-color: #2aa198;
+}
+
+.jukuteta {
+  color: white;
+  background-color: #268bd2;
+}
+
+.jukukanji {
+  color: white;
+  background-color: #6c71c4;
+}
+
+.toonyomi {
+  color: white;
+  background-color: #b58900;
+}
+
+.tokanji {
+  color: white;
+  background-color: #dc322f;
+}
+
+.kanji {
+  margin-top: 8pt;
+  font-size: 48pt;
+  font-family: 'Hiragino Mincho ProN', 'HiraMinProN-W3';
+}
+
+.kana {
+  color: #268bd2;
+}
+
+.cloze {
+  color: #268bd2;
+}
+
+b {
+  font-size: 24pt;
+}
