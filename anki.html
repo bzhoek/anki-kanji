@@ -1,4 +1,35 @@
-<div class='jukukanji'>
+<main class='jukukanji'>
+  {{#kanji}}
+  <h1>{{nederlands}}</h1>
+  <h2>熟語</h2>
+  {{/kanji}}
+</main>
+
+<main class='jukukanji'>
+  <h1>{{nederlands}}</h1>
+  <h2>熟語</h2>
+  {{kanji}}
+  <br/>
+  {{kana}}
+  <div>
+    {{notes}}
+  </div>
+  {{#strokes}}
+  <div>
+    {{strokes}}
+  </div>
+  {{/strokes}}
+</main>
+
+
+<main class='jukukanji'>
+  {{#kanji}}
+  <h1>{{nederlands}}</h1>
+  <h2>辞書形</h2>
+  {{/kanji}}
+</main>
+
+<main class='jukukanji'>
   <h1>{{nederlands}}</h1>
   <h2>うV</h2>
   {{kanji}}
@@ -12,16 +43,126 @@
     {{strokes}}
   </div>
   {{/strokes}}
-</div>
+</main>
 
-<div>
-  {{nederlands}}
-  <div class='jukuteta'>うV</div>
-  <div class='answer'>
-    {{teta}}
-    <br/>
+
+<main class='jukukana'>
+  {{#kana}}
+  <h1>{{nederlands}}</h1>
+  <h2>じゅくご</h2>
+  {{/kana}}
+</main>
+
+<main class='jukukana'>
+  {{#kun}}
+  <h1>{{nederlands}}</h1>
+  <h2>くんよみ</h2>
+  {{/kun}}
+</main>
+<main>
+  {{FrontSide}}
+  {{kun}}
+  <div class='strokes'>
+    {{strokes}}
+  </div>
+</main>
+
+<main class='toonyomi'>
+  {{#on}}
+  <h1>{{nederlands}}</h1>
+  <h2>オンヨミ</h2>
+  {{/on}}
+</main>
+<main>
+  {{FrontSide}}
+  {{on}}
+  <div>
+    {{strokes}}
+  </div>
+  <div>
+    {{notes}}
+  </div>
+</main>
+
+<main class='tokanji'>
+  {{#on}}
+  <h1>{{nederlands}}</h1>
+  <h2>漢字</h2>
+  {{/on}}
+</main>
+<main>
+  {{FrontSide}}
+  <div class='kanji'>
     {{kanji}}
   </div>
+  <div>
+    {{notes}}
+  </div>
+  <div>
+    {{strokes}}
+  </div>
+</main>
+
+
+<main class='jukukana'>
+  {{FrontSide}}
+  {{kun}}
+  <div class='strokes'>
+    {{strokes}}
+  </div>
+</main>
+
+<main class='jukukana'>
+  {{#kana}}
+  <h1>{{nederlands}}</h1>
+  <h2>くんよみ</h2>
+  {{/kana}}
+</main>
+
+
+<main class='jukukana'>
+  <h1>{{nederlands}}</h1>
+  <h2>じゅくご</h2>
+  {{kana}}
+  <br/>
+  {{kanji}}
+  <div class='notes'>
+    {{notes}}
+  </div>
+</main>
+
+
+<main class='jukukana'>
+  {{#kana}}
+  <h1>{{nederlands}}</h1>
+  <h2>V</h2>
+  {{/kana}}
+</main>
+
+<main class='jukukana'>
+  <h1>{{nederlands}}</h1>
+  <h2>うV</h2>
+  {{kana}}
+  <br/>
+  {{kanji}}
+  <div class='notes'>
+    {{notes}}
+  </div>
+</main>
+
+<main class='jukuteta'>
+  {{#teta}}
+  <h1>{{nederlands}}</h1>
+  <h2>-て</h2>
+  {{/teta}}
+</main>
+
+<main class='jukuteta'>
+  <h1>{{nederlands}}</h1>
+  <h2>てV</h2>
+  {{teta}}
+  <br/>
+  {{kanji}}
   <div class='notes'>
     {{notes}}
   </div>
@@ -30,7 +171,32 @@
     {{strokes}}
   </div>
   {{/strokes}}
-</div>
+</main>
+
+
+<main class='jukumasu'>
+  {{#masu}}
+  <h1>{{nederlands}}</h1>
+  <h2>ますV</h2>
+  {{/masu}}
+</main>
+
+<main class='jukumasu'>
+  <h1>{{nederlands}}</h1>
+  <h2>ますV</h2>
+  {{masu}}
+  <br/>
+  {{kanji}}
+  <div class='notes'>
+    {{notes}}
+  </div>
+  {{#strokes}}
+  <div class='strokes'>
+    {{strokes}}
+  </div>
+  {{/strokes}}
+</main>
+
 
 <div>
   {{nederlands}}
@@ -44,16 +210,21 @@
     {{notes}}
   </div>
 </div>
+
 <div>
-  {{nederlands}}
   <div class='jukukana'>するV</div>
-  <div class='answer'>
-    {{kana}}
-    <br/>
-    {{kanji}}
-  </div>
-  <div class='notes'>
-    {{notes}}
-  </div>
 </div>
+
+<main>
+  {{cloze:Text}}
+</main>
+
+<main>
+  {{cloze:Text}}
+  <br>
+  {{Extra}}
+  <div class='extra'>
+    {{Tags}}, {{Type}}
+  </div>
+</main>
 

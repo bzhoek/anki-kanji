@@ -1,33 +1,55 @@
 /* https://en.wikipedia.org/wiki/Solarized_(color_scheme) */
 .card {
   font-family: helvetica;
-  font-size: 20pt;
+  font-size: 13pt;
   text-align: center;
   color: black;
   background-color: #fdf6e3;
 }
 
-div {
+h1, h2 {
+  font-size: 20pt;
+  font-weight: normal;
   margin: 8pt 0
 }
 
-.answer {
-  font-size: 13pt;
-  margin: 8pt 0;
+h2 {
+  color: white;
 }
 
-.answer b {
-  font-size: 15pt;
+.jukukanji h2 {
+  background-color: #6c71c4;
 }
 
-.notes, .strokes {
+.jukukana h2 {
+  background-color: #d33682;
+}
+
+.jukumasu h2 {
+  background-color: #2aa198;
+}
+
+.jukuteta h2 {
+  background-color: #268bd2;
+}
+
+.toonyomi h2 {
+  background-color: #b58900;
+}
+
+.tokanji h2 {
+  background-color: #dc322f;
+}
+
+main div {
   border-top: 1px solid grey;
   padding-top: 8pt;
   font-size: 14pt;
+  margin: 8pt 0
 }
 
-.notes b {
-  font-size: 14pt;
+main b {
+  font-size: 15pt;
 }
 
 .extra {
@@ -35,37 +57,8 @@ div {
   margin: 8pt 0;
 }
 
-.jukukana {
-  color: white;
-  background-color: #d33682;
-}
-
-.jukumasu {
-  color: white;
-  background-color: #2aa198;
-}
-
-.jukuteta {
-  color: white;
-  background-color: #268bd2;
-}
-
-.jukukanji {
-  color: white;
-  background-color: #6c71c4;
-}
-
-.toonyomi {
-  color: white;
-  background-color: #b58900;
-}
-
-.tokanji {
-  color: white;
-  background-color: #dc322f;
-}
-
 .kanji {
+  border: none;
   margin-top: 8pt;
   font-size: 48pt;
   font-family: 'Hiragino Mincho ProN', 'HiraMinProN-W3';
