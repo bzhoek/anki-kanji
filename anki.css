@@ -1,7 +1,7 @@
 /* https://en.wikipedia.org/wiki/Solarized_(color_scheme) */
 .card {
   font-family: helvetica;
-  font-size: 13pt;
+  font-size: 14pt;
   text-align: center;
   color: black;
   background-color: #fdf6e3;
@@ -41,15 +41,14 @@ h2 {
   background-color: #dc322f;
 }
 
-main div {
+.notes, .strokes {
   border-top: 1px solid grey;
   padding-top: 8pt;
-  font-size: 14pt;
   margin: 8pt 0
 }
 
 main b {
-  font-size: 15pt;
+  font-size: 16pt;
 }
 
 .extra {
