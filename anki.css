@@ -51,6 +51,11 @@ main b {
   font-size: 16pt;
 }
 
+main em {
+  font-size: 18pt;
+  font-style: normal;
+}
+
 .extra {
   font-size: 10pt;
   margin: 8pt 0;
