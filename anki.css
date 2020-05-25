@@ -61,7 +61,7 @@ main em {
   margin: 8pt 0;
 }
 
-.kanji {
+.kanji em {
   border: none;
   margin-top: 8pt;
   font-size: 48pt;

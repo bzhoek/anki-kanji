@@ -7,47 +7,45 @@ const post = (action, params) => {
     params: params
   }
   console.log(request)
-  return fetch('http://localhost:8765', {method: 'post', body: JSON.stringify(request)})
-  .then(res => res.json())
+  return fetch('http://localhost:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
 }
 
-const emphasize = async (id, field, prefix, suffix) => {
+const emphasize = (id, field, prefix, suffix) => {
   let clean = prefix.replace(/<.+?>/g, '').trim()
   if (!clean.length) {
     return
   }
-  let emphasized = `<em>${clean}</em>. ${suffix.trim()}`;
+  let trimmed = suffix.trim()
+  let emphasized = `<em>${clean}</em>` + (trimmed.length ? `. ${trimmed}` : '');
   let params = {note: {id: id, fields: {}}};
   Object.defineProperty(params.note.fields, field, {value: emphasized, enumerable: true})
-  console.log(params)
-  await post('updateNoteFields', params)
+  post('updateNoteFields', params)
 }
 
 const emphasizeNote = async (id) => {
-  await post("notesInfo", {notes: [id]}).then(json => {
-    let result = json.result[0];
-    ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
-      if (result.fields[field]) {
-        let value = result.fields[field].value.trim();
-        if (!value.startsWith('<em>')) {
-          let match = value.match(/(.+?)\.(.*)/);
-          if (match) {
-            emphasize(id, field, match[1], match[2])
-          } else {
-            emphasize(id, field, value, '')
-          }
-        }
+  let json = await post("notesInfo", {notes: [id]});
+  let result = json.result[0];
+  // console.log('emphasizeNote', result);
+  ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
+    if (result.fields[field]) {
+      let value = result.fields[field].value.trim();
+      let match = value.match(/(.+?)\.(.*)/);
+      if (match) {
+        emphasize(id, field, match[1], match[2])
+      } else {
+        emphasize(id, field, value, '')
       }
-    })
-  });
-}
-
-const findNotes = (query) => {
-  post('findNotes', {query: query}).then(json => {
-    console.log(json)
-    json.result.forEach(id => emphasizeNote(id))
+    }
   })
 }
 
-findNotes('note:Doushi')
+const findNotes = async (query) => {
+  let json = await post('findNotes', {query: query});
+  // console.log('findNotes', json);
+  for (const id of json.result) {
+    await emphasizeNote(id);
+  }
+}
+
+findNotes('note:OnKanji')
 // emphasizeNote(1590348573840)
