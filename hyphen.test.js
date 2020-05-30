@@ -25,7 +25,8 @@ const split = (word) => {
     hasVowel = false
   }
 
-  for (let i = 0; i < word.length; i++) {
+  syllable.push(word[0])
+  for (let i = 1; i < word.length; i++) {
     let c = word[i];
     syllable.push(c)
     hasVowel = hasVowel || V.test(c);
