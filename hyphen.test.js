@@ -1,9 +1,5 @@
-const isVowel = (c) => {
-  return ['a', 'e', 'i', 'o', 'u'].includes(c)
-}
-
 const regex = (string) => {
-  console.log(string)
+  // console.log(string)
   return new RegExp(string, 'i')
 }
 const vowels = 'aeiouAEIOU'
@@ -44,20 +40,28 @@ const split = (word) => {
 // https://woordenlijst.org/#/?q=bibliotheek
 // http://anw.inl.nl/article/bibliotheek
 
-test('split consonant', () => {
-  expect(split('lopen')).toEqual('lo-pen');
-  expect(split('Spelen')).toEqual('Spe-len');
-  expect(split('MUREN')).toEqual('MU-REN');
-  expect(split('boren')).toEqual('bo-ren');
-  expect(split('slapen')).toEqual('sla-pen');
-  expect(split('apotheek')).toEqual('sla-pen');
+describe('split consonant', () => {
+  test.each([
+    ['lopen', 'lo-pen'],
+    ['Spelen', 'Spe-len'],
+    ['MUREN', 'MU-REN'],
+    ['boren', 'bo-ren'],
+    ['slapen', 'sla-pen'],
+    ['apotheek', 'apo-theek'],
+  ])('%s', (a, expected) => {
+    expect(split(a)).toEqual(expected);
+  });
 });
 
-test('split two consonants', () => {
-  expect(split('bossen')).toEqual('bos-sen');
-  expect(split('lachen')).toEqual('la-chen');
+describe('split two consonants', () => {
+  test.each([
+    ['bossen', 'bos-sen'],
+    ['lachen', 'la-chen'],
+  ])('%s', (a, expected) => {
+    expect(split(a)).toEqual(expected);
+  });
 });
 
-test('split three consonants', () => {
-  expect(split('bibliotheek')).toEqual('bi-blio-theek');
-});
+// test('split three consonants', () => {
+//   expect(split('bibliotheek')).toEqual('bi-blio-theek');
+// });
