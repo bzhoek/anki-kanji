@@ -6,20 +6,23 @@ const split = (word) => {
   let syllables = []
   let syllable = []
   let hasVowel = false
+
   const isNextCV = (i) => {
-    if (i < word.length - 2) {
-      return !isVowel(word[i + 1]) && isVowel(word[i + 2])
-    }
-    return false
+    return i < word.length - 2 && !isVowel(word[i + 1]) && isVowel(word[i + 2])
   }
+
+  const reset = () => {
+    syllables.push(syllable.join(''))
+    syllable = []
+    hasVowel = false
+  }
+
   for (let i = 0; i < word.length; i++) {
     let c = word[i];
     syllable.push(c)
     hasVowel = hasVowel || isVowel(c);
     if (hasVowel && isNextCV(i)) {
-      syllables.push(syllable.join(''))
-      syllable = []
-      hasVowel = false
+      reset();
     }
   }
   syllables.push(syllable.join(''))
