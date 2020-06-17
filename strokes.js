@@ -3,11 +3,16 @@ const post = require('./ankipost'),
 
 const refreshStrokes = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
-  let result = json.result[0].fields['kanji'];
-  if (result) {
+  let strokes = json.result[0].fields['strokes'];
+  if (strokes.value.length > 4) {
+    console.log('skipping filled svg', id)
+    return
+  }
+  let kanji = json.result[0].fields['kanji'];
+  if (kanji) {
     let svg = ''
-    for (let i = 0; i < result.value.length; i++) {
-      let unicode = result.value.charCodeAt(i);
+    for (let i = 0; i < kanji.value.length; i++) {
+      let unicode = kanji.value.charCodeAt(i);
       if (unicode >= 0x4E00 && unicode <= 0x9fbf) {
         console.log(unicode)
         svg += await colorize(unicode)
@@ -19,7 +24,7 @@ const refreshStrokes = async (id) => {
     if (update.error) {
       console.error(update.error, strokes)
     }
-    console.log('completed', result.value)
+    console.log('completed', kanji.value)
   }
 }
 
@@ -27,29 +32,22 @@ const findNotes = async (query) => {
   let json = await post('findNotes', {query: query});
   for (const id of json.result) {
     await refreshStrokes(id);
-    // await sleep(1000)
   }
 }
 
 let modelNames = [
   'Genki',
   'Cloze',
-  // 'OnKanji',
+  'OnKanji',
   'Kunyomi',
   'Doushi',
   'Doushi-1',
   'Doushi-5']
 
-refreshStrokes(1550261296093);
+// refreshStrokes(1591967053505);
 
 // modelNames.forEach((model) => {
 //   findNotes(`note:${model}`)
 // })
 
-// findNotes('note:OnKanji')
-
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
+findNotes('note:OnKanji')
