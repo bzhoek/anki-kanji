@@ -1,81 +1,125 @@
-/* https://en.wikipedia.org/wiki/Solarized_(color_scheme) */
+svg {
+  width: 60%;
+  height: auto; }
+  svg text {
+    font: 8pt helvetica;
+    stroke-width: 0;
+    fill: #586e75; }
+  svg path {
+    stroke-width: 4pt;
+    fill: #ffffff;
+    fill-opacity: 0; }
+  svg .stroke-1 {
+    stroke: #E8ECFB; }
+  svg .stroke-2 {
+    stroke: #D9CCE3; }
+  svg .stroke-3 {
+    stroke: #CAACCB; }
+  svg .stroke-4 {
+    stroke: #BA8DB4; }
+  svg .stroke-5 {
+    stroke: #AA6F9E; }
+  svg .stroke-6 {
+    stroke: #994F88; }
+  svg .stroke-7 {
+    stroke: #882E72; }
+  svg .stroke-8 {
+    stroke: #7BAFDE; }
+  svg .stroke-9 {
+    stroke: #6195CF; }
+  svg .stroke-10 {
+    stroke: #437DBF; }
+  svg .stroke-11 {
+    stroke: #1965B0; }
+  svg .stroke-12 {
+    stroke: #CAE0AB; }
+  svg .stroke-13 {
+    stroke: #4EB265; }
+  svg .stroke-14 {
+    stroke: #90C987; }
+  svg .stroke-15 {
+    stroke: #F7F056; }
+  svg .stroke-16 {
+    stroke: #F7CB45; }
+  svg .stroke-17 {
+    stroke: #F4A736; }
+  svg .stroke-18 {
+    stroke: #EE8026; }
+  svg .stroke-19 {
+    stroke: #E65518; }
+  svg .stroke-20 {
+    stroke: #DC050C; }
+  svg .stroke-21 {
+    stroke: #A5170E; }
+  svg .stroke-22 {
+    stroke: #72190E; }
+  svg .stroke-23 {
+    stroke: #42150A; }
+
+.card.night_mode svg text {
+  fill: #93a1a1; }
+
 .card {
   font-family: helvetica;
   font-size: 14pt;
   text-align: center;
   color: black;
-  background-color: #fdf6e3;
-}
+  background-color: #fdf6e3; }
 
 h1, h2 {
   font-size: 20pt;
   font-weight: normal;
-  margin: 8pt 0
-}
+  margin: 8pt 0; }
 
 h2 {
-  color: white;
-}
+  color: white; }
 
 .jukukanji h2 {
-  background-color: #6c71c4;
-}
+  background-color: #6c71c4; }
 
 .jukukana h2 {
-  background-color: #d33682;
-}
+  background-color: #d33682; }
 
 .jukumasu h2 {
-  background-color: #2aa198;
-}
+  background-color: #2aa198; }
 
 .jukuteta h2 {
-  background-color: #268bd2;
-}
+  background-color: #268bd2; }
 
 .toonyomi h2 {
-  background-color: #b58900;
-}
+  background-color: #b58900; }
 
 .tokanji h2 {
-  background-color: #dc322f;
-}
+  background-color: #dc322f; }
 
 .notes, .strokes {
   border-top: 1px solid grey;
   padding-top: 8pt;
-  margin: 8pt 0
-}
+  margin: 8pt 0; }
 
 main b {
-  font-size: 16pt;
-}
-
+  font-size: 16pt; }
 main em {
   font-size: 18pt;
-  font-style: normal;
-}
+  font-style: normal; }
 
 .extra {
   font-size: 10pt;
-  margin: 8pt 0;
-}
+  margin: 8pt 0; }
 
 .kanji em {
   border: none;
   margin-top: 8pt;
   font-size: 48pt;
-  font-family: 'Hiragino Mincho ProN', 'HiraMinProN-W3';
-}
+  font-family: "Hiragino Mincho ProN", "HiraMinProN-W3"; }
 
 .kana {
-  color: #268bd2;
-}
+  color: #268bd2; }
 
 .cloze {
-  color: #268bd2;
-}
+  color: #268bd2; }
 
 b {
-  font-size: 24pt;
-}
+  font-size: 24pt; }
+
+/*# sourceMappingURL=anki.css.map */
