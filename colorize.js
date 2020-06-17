@@ -1,18 +1,20 @@
-const readline = require('readline'),
-  fs = require('fs');
+var fs = require('fs'),
+  xml2js = require('xml2js');
+var builder = new xml2js.Builder();
+var parser = new xml2js.Parser();
 
-const readInterface = readline.createInterface({
-  input: fs.createReadStream('/Users/bas/github/kanjivg/kanji/0f9a8.svg'),
-  output: process.stdout,
-  console: false
+function nameToUpperCase(name) {
+  return name.toUpperCase();
+}
+
+const traverse = (result) => {
+  console.dir(result);
+}
+
+fs.readFile('/Users/bas/github/kanjivg/kanji/0f9a8.svg', (err, data) => {
+  parser.parseString(data, (err, result) => {
+    traverse(result)
+    var xml = builder.buildObject(result);
+    console.log(xml);
+  });
 });
-
-readInterface.on('line', function (line) {
-  let match = line.match(/^(\s+?<path)(.*)$/)
-  if (match) {
-    console.log(`${match[1]} style="stroke: #E8ECFB" ${match[2]}`)
-  } else {
-    console.log(line)
-  }
-});
-
