@@ -14,12 +14,7 @@ const refreshStrokes = async (id) => {
     if (0x4E00 <= unicode < 0x9fbf) {
       let files = await colorize(unicode)
       let data = fs.readFileSync(files.outfile)
-      let media = {filename: `${unicode}.png`, data: data.toString('base64')};
-      let store = await post('storeMediaFile', media)
-      if (store.error) {
-        console.error(store.error, media)
-      }
-      let strokes = {note: {id: id, fields: {strokes: `<img src="${unicode}.png" />`}}};
+      let strokes = {note: {id: id, fields: {strokes: `${data.toString()}`}}};
       let update = await post('updateNoteFields', strokes)
       if (update.error) {
         console.error(update.error, strokes)
@@ -35,13 +30,14 @@ const findNotes = async (query) => {
   let json = await post('findNotes', {query: query});
   for (const id of json.result) {
     await refreshStrokes(id);
-    await sleep(1000)
+    // await sleep(1000)
   }
 }
 
+// refreshStrokes(1591967198782);
+
 findNotes('note:OnKanji')
 
-// emphasizeNote(1590348573840)
 function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
