@@ -1,19 +1,6 @@
 const post = require('./ankipost'),
   fs = require('fs')
 
-let find = {
-  "action": "findCards",
-  "version": 6,
-  "params": {
-    "query": "deck:current"
-  }
-}
-
-let models = {
-  "action": "modelNames",
-  "version": 6,
-}
-
 let css = fs.readFileSync('anki.css').toString()
 
 let modelNames = [
