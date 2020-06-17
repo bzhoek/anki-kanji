@@ -1,5 +1,4 @@
 var fs = require('fs');
-const exec = require('child_process').execSync
 
 module.exports = async (unicode) => {
   let source = `/Users/bas/github/kanjivg/kanji/0${unicode.toString(16)}.svg`
@@ -8,8 +7,8 @@ module.exports = async (unicode) => {
     throw new Error(`File ${source} does not exist.`)
   }
 
-  let outfile = `tmp/${unicode}.svg`;
-  let destination = fs.createWriteStream(outfile);
+  let i = 1
+  let svg = ""
 
   var saxStream = require("sax").createStream(true)
   saxStream.on("error", function (e) {
@@ -19,32 +18,31 @@ module.exports = async (unicode) => {
   })
 
   saxStream.on('opentag', function (node) {
-    destination.write(`<${node.name}`)
+    svg += `<${node.name}`
     if (node.name === 'path') {
-      destination.write(` class="stroke-${i++ % colors.length}"`)
+      svg += ` class="stroke-${i++ % 23}"`
     }
 
     for (const [key, value] of Object.entries(node.attributes)) {
       if (!key.startsWith('kvg:') && key !== 'style') {
-        destination.write(` ${key}="${value}"`)
+        svg += ` ${key}="${value}"`
       }
     }
-    destination.write(`>`)
+    svg += `>`
   });
 
   saxStream.on('closetag', function (node) {
-    destination.write(`</${node}>`)
+    svg += `</${node}>`
   });
 
   saxStream.on('text', function (text) {
     if (text !== '\n') {
-      destination.write(text)
+      svg += text
     }
   });
 
   let pipes = new Promise(((resolve, reject) => {
     saxStream.on('end', () => {
-      destination.end()
       resolve()
     })
     fs.createReadStream(source)
@@ -57,5 +55,5 @@ module.exports = async (unicode) => {
   )
 
   console.log(`returning ${unicode}`)
-  return {outfile: outfile}
+  return svg
 }

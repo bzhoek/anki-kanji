@@ -1,28 +1,25 @@
 const post = require('./ankipost'),
-  colorize = require('./colorize'),
-  fs = require('fs')
-
-const stamp = Date.now()
+  colorize = require('./colorize')
 
 const refreshStrokes = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let result = json.result[0].fields['kanji'];
   if (result) {
-    let value = result.value
-    let unicode = value.charCodeAt(value.startsWith('<em>') ? 4 : 0).toString(16)
-    console.log(value, unicode)
-    if (0x4E00 <= unicode < 0x9fbf) {
-      let files = await colorize(unicode)
-      let data = fs.readFileSync(files.outfile)
-      let strokes = {note: {id: id, fields: {strokes: `${data.toString()}`}}};
-      let update = await post('updateNoteFields', strokes)
-      if (update.error) {
-        console.error(update.error, strokes)
+    let svg = ''
+    for (let i = 0; i < result.value.length; i++) {
+      let unicode = result.value.charCodeAt(i);
+      if (unicode >= 0x4E00 && unicode <= 0x9fbf) {
+        console.log(unicode)
+        svg += await colorize(unicode)
       }
-      console.log('completed', value, unicode)
-    } else {
-      console.error(id, result, unicode)
     }
+
+    let strokes = {note: {id: id, fields: {strokes: svg}}};
+    let update = await post('updateNoteFields', strokes)
+    if (update.error) {
+      console.error(update.error, strokes)
+    }
+    console.log('completed', result.value)
   }
 }
 
@@ -34,9 +31,22 @@ const findNotes = async (query) => {
   }
 }
 
-// refreshStrokes(1591967198782);
+let modelNames = [
+  'Genki',
+  'Cloze',
+  // 'OnKanji',
+  'Kunyomi',
+  'Doushi',
+  'Doushi-1',
+  'Doushi-5']
 
-findNotes('note:OnKanji')
+refreshStrokes(1550261296093);
+
+// modelNames.forEach((model) => {
+//   findNotes(`note:${model}`)
+// })
+
+// findNotes('note:OnKanji')
 
 function sleep(ms) {
   return new Promise((resolve) => {
