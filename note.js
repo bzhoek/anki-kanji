@@ -1,14 +1,4 @@
-const fetch = require('node-fetch');
-
-const post = (action, params) => {
-  let request = {
-    action: action,
-    version: 6,
-    params: params
-  }
-  console.log(request)
-  return fetch('http://localhost:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
-}
+const post = require('./ankipost')
 
 const emphasize = (id, field, prefix, suffix) => {
   let clean = prefix.replace(/<.+?>/g, '').trim()
