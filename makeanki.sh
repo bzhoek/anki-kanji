@@ -16,7 +16,7 @@ STYLED='tmp/anki.styled.svg'
 PNG='tmp/anki.styled.png'
 sqlite3 kanji.sqlite "select drawing from Kanji where literal='$1'" > $SVG
 xsltproc -nonet anki.styled.xslt $SVG > $STYLED
-inkscape -z -b white -y 255 $STYLED -o $PNG
+inkscape -z -y 0.0 $STYLED -o $PNG
 
 function storeMediaFile {
   cat > tmp/anki.media.json <<- EOM
