@@ -17,3 +17,16 @@ To output `tmp/anki.styled.png` with
 ## Distinct colors
 https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
 https://en.wikipedia.org/wiki/Help:Distinguishable_colors
+
+## Nederlands
+
+Mnemonics voor lange *klinkers*, want die rijmen. 
+
+do -> dop
+to -> top
+dou -> doos
+tsuu
+ju
+yu
+you -> jouw
+jou -> joure
