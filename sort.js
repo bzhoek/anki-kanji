@@ -9,6 +9,7 @@ const findNotes = async (query, deck) => {
 
 findNotes('card:ToKanji note:OnKanji', '日本語::漢字')
 findNotes('card:ToOnYomi note:OnKanji', '日本語::音読み')
+findNotes('card:ToKunYomi note:OnKanji', '日本語::訓読み')
 findNotes('card:KunKana note:Kunyomi', '日本語::かな')
 findNotes('card:Jukugo note:Kunyomi', '日本語::熟語')
 
