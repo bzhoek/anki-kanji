@@ -20,7 +20,7 @@ let refresh = false
 const refreshStrokes = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let strokes = json.result[0].fields['strokes'];
-  if (!refresh && strokes.value.length > 4) {
+  if (!refresh && strokes.value.includes('</svg>')) {
     console.log('skipping filled svg', id)
     return
   }
