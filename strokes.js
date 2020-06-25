@@ -1,16 +1,32 @@
 const post = require('./ankipost'),
   colorize = require('./colorize')
 
+let style = `
+<style>
+  text {
+    font: 8pt helvetica;
+  }
+
+  path {
+    stroke-width: 4pt;
+    fill-opacity: 0;
+    stroke: #000
+  }
+</style>
+`
+
+// kata = 30A0 - 30FF, hira = 3040 - 309F
+let refresh = false
 const refreshStrokes = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let strokes = json.result[0].fields['strokes'];
-  if (strokes.value.length > 4) {
+  if (!refresh && strokes.value.length > 4) {
     console.log('skipping filled svg', id)
     return
   }
   let kanji = json.result[0].fields['kanji'];
   if (kanji) {
-    let svg = ''
+    let svg = style
     for (let i = 0; i < kanji.value.length; i++) {
       let unicode = kanji.value.charCodeAt(i);
       if (unicode >= 0x4E00 && unicode <= 0x9fbf) {
@@ -36,7 +52,6 @@ const findNotes = async (query) => {
 }
 
 let modelNames = [
-  'Genki',
   'Cloze',
   'OnKanji',
   'Kunyomi',
@@ -50,4 +65,4 @@ let modelNames = [
 //   findNotes(`note:${model}`)
 // })
 
-findNotes('note:OnKanji')
+findNotes('flag:4')
