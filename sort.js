@@ -2,7 +2,7 @@ const post = require('./ankipost')
 
 const findNotes = async (query, deck) => {
   let find = await post('findCards', {query: query});
-  console.log(find)
+  console.log(query, find)
   let move = await post('changeDeck', {cards: find.result, deck: deck})
   console.log(move)
 }
