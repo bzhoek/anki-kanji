@@ -21,6 +21,20 @@ let reading = new sqlite3.Database('kanjidic.sqlite', (err) => {
   }
 })
 
+let style = `
+<style>
+  text {
+    font: 8pt helvetica;
+  }
+
+  path {
+    stroke-width: 4pt;
+    fill-opacity: 0;
+    stroke: #000
+  }
+</style>
+`
+
 kanji.get("select meaning from Kanji where literal=?", [char], function (err, row) {
   let meaning = row.meaning
   reading.get("select onyomi, kunyomi from Kanji where kanji=?", [char], function (err, row) {
@@ -34,7 +48,7 @@ kanji.get("select meaning from Kanji where literal=?", [char], function (err, ro
             "kanji": char,
             "on": row.onyomi,
             "notes": "",
-            "strokes": svg
+            "strokes": style + svg
           },
           "options": {
             "allowDuplicate": false
