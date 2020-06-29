@@ -6,7 +6,7 @@ const post = (action, params) => {
     version: 6,
     params: params
   }
-  // console.log(request)
+  // console.log(JSON.stringify(request))
   return fetch('http://localhost:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
 }
 

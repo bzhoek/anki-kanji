@@ -16,7 +16,7 @@ let style = `
 `
 
 // kata = 30A0 - 30FF, hira = 3040 - 309F
-let refresh = false
+let refresh = true
 const refreshStrokes = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let strokes = json.result[0].fields['strokes'];
