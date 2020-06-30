@@ -4,7 +4,6 @@ const post = require('./ankipost'),
 let css = fs.readFileSync('anki.css').toString()
 
 let modelNames = [
-  'Genki',
   'Cloze',
   'OnKanji',
   'Kunyomi',

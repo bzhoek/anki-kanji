@@ -2,7 +2,6 @@
   "name": "anki-kanji",
   "version": "1.0.0",
   "description": "Generate Anki kanji cards",
-  "main": "css.js",
   "repository": "git@github.com:bzhoek/anki-kanji.git",
   "author": "Bas van der Hoek <bas@hoek.com>",
   "license": "MIT",
