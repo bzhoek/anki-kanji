@@ -2,11 +2,14 @@ const post = require('./ankipost'),
   fs = require('fs')
 
 let modelNames = [
-  'OnKanji',
-  'Kunyomi',
   'Doushi',
   'Doushi-1',
-  'Doushi-5']
+  'Doushi-5',
+  'Hiragana',
+  'Katakana',
+  'Kunyomi',
+  'OnKanji',
+]
 
 const saveTemplate = (model, template, result) => {
   fs.writeFileSync(`html/${template}.${model}.Front.html`, result[template].Front)

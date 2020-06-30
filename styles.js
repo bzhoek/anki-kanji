@@ -5,11 +5,14 @@ let css = fs.readFileSync('anki.css').toString()
 
 let modelNames = [
   'Cloze',
-  'OnKanji',
-  'Kunyomi',
   'Doushi',
   'Doushi-1',
-  'Doushi-5']
+  'Doushi-5',
+  'Hiragana',
+  'Katakana',
+  'Kunyomi',
+  'OnKanji',
+]
 
 const updateCss = (model) => {
   post("updateModelStyling", {
@@ -18,7 +21,7 @@ const updateCss = (model) => {
         "css": css
       }
     }
-  ).then(json => console.log(json.result));
+  ).then(json => console.log(model, json.result));
 }
 
 modelNames.forEach((model) => {
