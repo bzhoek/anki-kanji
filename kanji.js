@@ -38,6 +38,7 @@ let style = `
 kanji.get("select meaning from Kanji where literal=?", [char], function (err, row) {
   let meaning = row.meaning
   reading.get("select onyomi, kunyomi from Kanji where kanji=?", [char], function (err, row) {
+    let on = row ? row.onyomi : 'no'
     let svg = colorize(unicode).then((svg) => {
       let params = {
         "note": {
@@ -46,7 +47,7 @@ kanji.get("select meaning from Kanji where literal=?", [char], function (err, ro
           "fields": {
             "nederlands": meaning,
             "kanji": char,
-            "on": row.onyomi,
+            "on": on,
             "notes": "",
             "strokes": style + svg
           },
@@ -56,8 +57,9 @@ kanji.get("select meaning from Kanji where literal=?", [char], function (err, ro
           "tags": []
         }
       }
-      post('addNote', params)
-      console.log(meaning)
+      post('addNote', params).then(json => {
+        console.log(meaning, json)
+      })
     })
   });
 });
