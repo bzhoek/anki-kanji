@@ -286,10 +286,10 @@ let png_style = `<style type="text/css">
 }
 </style>`
 
-const renderPortableNetworkGraphic = async (unicode) => {
-  let svg = await colorize(unicode, inline_color)
-  fs.writeFileSync('test.svg', svg)
-  exec(`inkscape -z -y 0.0 test.svg -o test.png`, (err, stdout, stderr) => console.log(stdout))
+const renderPortableNetworkGraphic = async (kanji, filename) => {
+  let svg = await colorize(kanji.charCodeAt(0), inline_color)
+  fs.writeFileSync(`${filename}.svg`, svg)
+  exec(`inkscape -z -y 0.0 ${filename}.svg -o ${filename}.png`, (err, stdout, stderr) => console.log(stdout))
 }
 
 module.exports = {
