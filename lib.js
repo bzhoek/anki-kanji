@@ -132,4 +132,11 @@ let modelNames = [
 //   strokeNotes(`note:${model}`)
 // })
 
-module.exports = {post, colorize, strokeNotes}
+const moveCards = async (query, deck) => {
+  let find = await post('findCards', {query: query});
+  console.log(query, find)
+  let move = await post('changeDeck', {cards: find.result, deck: deck})
+  console.log(move)
+}
+
+module.exports = {post, colorize, strokeNotes, moveCards}
