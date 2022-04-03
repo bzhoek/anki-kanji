@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const fs = require("fs");
 const sax = require("sax");
+const exec = require('child_process').exec
 
 const post = (action, params) => {
   let request = {
@@ -12,7 +13,15 @@ const post = (action, params) => {
   return fetch('http://localhost:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
 }
 
-const colorize = async (unicode) => {
+let colors = [
+  "E8ECFB", "D9CCE3", "CAACCB", "BA8DB4", "AA6F9E", "994F88", "882E72", "7BAFDE",
+  "6195CF", "437DBF", "1965B0", "CAE0AB", "4EB265", "90C987", "F7F056", "F7CB45",
+  "F4A736", "EE8026", "E65518", "DC050C", "A5170E", "72190E", "42150A",]
+
+const inline_color = (i) => ` style="stroke: #${colors[i % colors.length]}"`
+const style_color = (i) => ` class="stroke-${i % 23}"`
+
+const colorize = async (unicode, color_fn) => {
   let source = `/Users/bas/github/kanjivg/kanji/0${unicode.toString(16)}.svg`
 
   if (!fs.existsSync(source)) {
@@ -32,7 +41,7 @@ const colorize = async (unicode) => {
   saxStream.on('opentag', function (node) {
     svg += `<${node.name}`
     if (node.name === 'path') {
-      svg += ` class="stroke-${i++ % 23}"`
+      svg += color_fn(i++)
     }
 
     for (const [key, value] of Object.entries(node.attributes)) {
@@ -41,11 +50,17 @@ const colorize = async (unicode) => {
       }
     }
     svg += `>`
+
+    if (node.name === 'svg') {
+      svg += svg_style
+    }
+
   });
 
   saxStream.on('closetag', function (node) {
-    svg += `</${node}>`
-  });
+      svg += ` </${node}>`
+    }
+  )
 
   saxStream.on('text', function (text) {
     if (text !== '\n') {
@@ -70,7 +85,7 @@ const colorize = async (unicode) => {
   return svg
 }
 
-let style = `
+let css_style = `
 <style>
   text {
     font: 8pt helvetica;
@@ -83,6 +98,19 @@ let style = `
   }
 </style>
 `
+let svg_style = `
+<style type="text/css">
+  text {
+  font: 8pt sans-serif;
+  stroke-width: 0pt;
+  fill: #586e75;
+  }
+  path {
+  stroke-width: 4pt;
+  fill: #ffffff;
+  fill-opacity: 0;
+  }
+</style>`
 
 let refresh = true
 
@@ -95,12 +123,12 @@ const strokeNote = async (id) => {
   }
   let kanji = json.result[0].fields['kanji'];
   if (kanji) {
-    let svg = style
+    let svg = css_style
     for (let i = 0; i < kanji.value.length; i++) {
       let unicode = kanji.value.charCodeAt(i);
       if (unicode >= 0x4E00 && unicode <= 0x9fbf) {
         console.log(unicode)
-        svg += await colorize(unicode)
+        svg += await colorize(unicode, style_color)
       }
     }
 
@@ -245,6 +273,25 @@ const configureJapaneseDecks = async () => {
   }
 }
 
+let png_style = `<style type="text/css">
+  text {
+  font: 8pt sans-serif;
+  stroke-width: 0pt;
+  fill: #586e75;
+}
+  path {
+  stroke - width: 4pt;
+  fill: #ffffff;
+  fill-opacity: 0;
+}
+</style>`
+
+const renderPortableNetworkGraphic = async (unicode) => {
+  let svg = await colorize(unicode, inline_color)
+  fs.writeFileSync('test.svg', svg)
+  exec(`inkscape -z -y 0.0 test.svg -o test.png`, (err, stdout, stderr) => console.log(stdout))
+}
+
 module.exports = {
   post,
   colorize,
@@ -254,5 +301,6 @@ module.exports = {
   updateStyling,
   downloadHtmlTemplates,
   uploadHtmlTemplates,
-  configureJapaneseDecks
+  configureJapaneseDecks,
+  renderPortableNetworkGraphic
 }

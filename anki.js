@@ -1,7 +1,7 @@
 const clap = require('clap');
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks
+  configureJapaneseDecks, renderPortableNetworkGraphic
 } = require('./lib')
 const fs = require("fs");
 
@@ -14,6 +14,10 @@ cli.command('emphasize <query>')
 cli.command('stroke <query>')
   .description('Add SVG strokes for all kanji of matched notes')
   .action(({_, args}) => strokeNotes(args[0]))
+  .end()
+cli.command('render <unicode>')
+  .description('Write kanji to PNG file')
+  .action(({_, args}) => renderPortableNetworkGraphic(args[0].charCodeAt(0)))
   .end()
 cli.command('configure')
   .description('Create separate configuration for each deck')
