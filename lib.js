@@ -112,12 +112,14 @@ const strokeNote = async (id) => {
   }
 }
 
-const strokeNotes = async (query) => {
+const processNotes = async (query, fn) => {
   let json = await post('findNotes', {query: query});
   for (const id of json.result) {
-    await strokeNote(id);
+    await fn(id);
   }
 }
+
+const strokeNotes = async (query) => processNotes(query, strokeNote)
 
 let modelNames = [
   'Cloze',
@@ -140,21 +142,21 @@ const moveCards = async (query, deck) => {
 }
 
 const emphasize = (id, field, prefix, suffix) => {
-  let clean = prefix.replace(/<.+?>/g, '').trim()
-  if (!clean.length) {
+  let tags_removed = prefix.replace(/<.+?>/g, '').trim()
+  if (!tags_removed.length) {
     return
   }
-  let trimmed = suffix.trim()
-  let emphasized = `<em>${clean}</em>` + (trimmed.length ? `. ${trimmed}` : '');
+  let trimmed_suffix = suffix.trim()
+  let emphasized = `<em>${tags_removed}</em>` + (trimmed_suffix.length ? `. ${trimmed_suffix}` : '');
   let params = {note: {id: id, fields: {}}};
   Object.defineProperty(params.note.fields, field, {value: emphasized, enumerable: true})
   post('updateNoteFields', params)
 }
 
-const emphasizeNote = async (id) => {
+const emphasizeFirstSentence = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let result = json.result[0];
-  // console.log('emphasizeNote', result);
+  // console.log('emphasizeFirstSentence', result);
   ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
     if (result.fields[field]) {
       let value = result.fields[field].value.trim();
@@ -168,11 +170,6 @@ const emphasizeNote = async (id) => {
   })
 }
 
-const emphasizeNotes = async (query) => {
-  let json = await post('findNotes', {query: query});
-  for (const id of json.result) {
-    await emphasizeNote(id);
-  }
-}
+const emphasizeNotes = async (query) => processNotes(query, emphasizeFirstSentence)
 
 module.exports = {post, colorize, emphasizeNotes, moveCards, strokeNotes}
