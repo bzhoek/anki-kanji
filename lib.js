@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const fs = require("fs");
+const sax = require("sax");
 
 const post = (action, params) => {
   let request = {
@@ -21,7 +22,7 @@ const colorize = async (unicode) => {
   let i = 1
   let svg = ""
 
-  var saxStream = require("sax").createStream(true)
+  let saxStream = sax.createStream(true)
   saxStream.on("error", function (e) {
     console.error("error!", e)
     this._parser.error = null
@@ -52,7 +53,7 @@ const colorize = async (unicode) => {
     }
   });
 
-  let pipes = new Promise(((resolve, reject) => {
+  let pipes = new Promise(((resolve) => {
     saxStream.on('end', () => {
       resolve()
     })
@@ -128,7 +129,7 @@ const moveCards = async (query, deck) => {
   console.log(move)
 }
 
-const emphasize = (id, field, prefix, suffix) => {
+const emphasize = async (id, field, prefix, suffix) => {
   let tags_removed = prefix.replace(/<.+?>/g, '').trim()
   if (!tags_removed.length) {
     return
@@ -137,7 +138,7 @@ const emphasize = (id, field, prefix, suffix) => {
   let emphasized = `<em>${tags_removed}</em>` + (trimmed_suffix.length ? `. ${trimmed_suffix}` : '');
   let params = {note: {id: id, fields: {}}};
   Object.defineProperty(params.note.fields, field, {value: emphasized, enumerable: true})
-  post('updateNoteFields', params)
+  await post('updateNoteFields', params)
 }
 
 const emphasizeFirstSentence = async (id) => {
@@ -214,7 +215,7 @@ const modelTemplates = (fn) => {
   modelNames.forEach((model) => {
     post("modelTemplates", {"modelName": model})
       .then(json => {
-        for (const [key, value] of Object.entries(json.result)) {
+        for (const [key, _] of Object.entries(json.result)) {
           fn(model, key, json.result)
         }
       });
@@ -224,6 +225,26 @@ const modelTemplates = (fn) => {
 const downloadHtmlTemplates = () => modelTemplates(downloadHtmlTemplate)
 const uploadHtmlTemplates = () => modelTemplates(uploadHtmlTemplate)
 
+const configureDeck = async (deckName, suffix) => {
+  let config = await post('getDeckConfig', {deck: deckName});
+  if (config.result.name.endsWith(suffix)) {
+    return
+  }
+  let clone = await post('cloneDeckConfigId', {name: `Japans ${suffix}`, cloneFrom: config.result.id});
+  let result = await post('setDeckConfigId', {decks: [deckName], configId: clone.result});
+  console.log(result)
+}
+
+const configureJapaneseDecks = async () => {
+  let json = await post('deckNamesAndIds', {});
+  for (const [key, _] of Object.entries(json.result)) {
+    let match = key.match(/日本語::(.*)/)
+    if (match) {
+      await configureDeck(match[0], match[1])
+    }
+  }
+}
+
 module.exports = {
   post,
   colorize,
@@ -232,5 +253,6 @@ module.exports = {
   strokeNotes,
   updateStyling,
   downloadHtmlTemplates,
-  uploadHtmlTemplates
+  uploadHtmlTemplates,
+  configureJapaneseDecks
 }

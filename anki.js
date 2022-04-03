@@ -1,5 +1,8 @@
 const clap = require('clap');
-const {moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates} = require('./lib')
+const {
+  moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
+  configureJapaneseDecks
+} = require('./lib')
 const fs = require("fs");
 
 let cli = clap.command('anki ')
@@ -11,6 +14,10 @@ cli.command('emphasize <query>')
 cli.command('stroke <query>')
   .description('Add SVG strokes for all kanji of matched notes')
   .action(({_, args}) => strokeNotes(args[0]))
+  .end()
+cli.command('configure')
+  .description('Create separate configuration for each deck')
+  .action(() => configureJapaneseDecks())
   .end()
 cli.command('download')
   .description('Download card templates to html folder')
