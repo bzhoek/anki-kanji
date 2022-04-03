@@ -1,4 +1,4 @@
-const post = require('./ankipost')
+const post = require('./lib')
 
 const configureDeck = async (match) => {
   let config = await post('getDeckConfig', {deck: match[0]});

@@ -1,4 +1,5 @@
-const post = require('./ankipost'),
+// Update CSS stylesheets for notes from `anki.css`
+const post = require('./lib'),
   fs = require('fs')
 
 let css = fs.readFileSync('anki.css').toString()

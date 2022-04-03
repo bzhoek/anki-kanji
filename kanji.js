@@ -1,11 +1,11 @@
 const sqlite3 = require('sqlite3'),
-  colorize = require('./colorize'),
-  post = require('./ankipost')
+  {post, colorize} = require('./lib')
 
 if (process.argv.length !== 3) {
   console.error(`Usage: kanji 客`)
   process.exit(1)
 }
+
 let char = process.argv[2]
 let unicode = char.charCodeAt(0)
 

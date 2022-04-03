@@ -1,5 +1,4 @@
-const post = require('./ankipost'),
-  colorize = require('./colorize')
+const {post, colorize} = require('./lib')
 
 let style = `
 <style>
@@ -65,4 +64,4 @@ let modelNames = [
 //   findNotes(`note:${model}`)
 // })
 
-findNotes('flag:4')
+findNotes('deck:Karate')

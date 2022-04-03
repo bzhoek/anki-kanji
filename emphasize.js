@@ -1,4 +1,4 @@
-const post = require('./ankipost')
+const post = require('./lib')
 
 const emphasize = (id, field, prefix, suffix) => {
   let clean = prefix.replace(/<.+?>/g, '').trim()

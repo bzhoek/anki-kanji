@@ -1,6 +1,11 @@
 # anki-kanji
 Make kanji stroke diagrams in Anki.
 
+## Anki volgorde
+
+じゅくご = schrijf kana
+熟語 = schrijf kanji
+
 ## Usage
 Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) add-on, and InkScape for SVG rasterizing. SQLite is also required.
 
@@ -11,6 +16,10 @@ Then run with
     $ sh makeanki.sh 猫
 
 To output `tmp/anki.styled.png` with
+
+|sort.js|Sort specific cards to specific decks|
+|strokes.js|Add SVG strokes for each kanji of matching cards|
+|styles.js|Update CSS stylesheets for notes|
 
 ![cat](neko.png).
 

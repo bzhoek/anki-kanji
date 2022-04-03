@@ -1,4 +1,4 @@
-const post = require('./ankipost')
+const post = require('./lib')
 
 const findNotes = async (query, deck) => {
   let find = await post('findCards', {query: query});
@@ -7,6 +7,7 @@ const findNotes = async (query, deck) => {
   console.log(move)
 }
 
+// sorts different cards to different decks
 findNotes('card:ToKanji note:OnKanji', '日本語::漢字')
 findNotes('card:ToOnYomi note:OnKanji', '日本語::音読み')
 findNotes('card:ToKunYomi note:OnKanji', '日本語::訓読み')

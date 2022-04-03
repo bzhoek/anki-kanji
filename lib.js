@@ -1,6 +1,17 @@
-var fs = require('fs');
+const fetch = require('node-fetch');
+const fs = require("fs");
 
-module.exports = async (unicode) => {
+const post = (action, params) => {
+  let request = {
+    action: action,
+    version: 6,
+    params: params
+  }
+  // console.log(JSON.stringify(request))
+  return fetch('http://localhost:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
+}
+
+const colorize = async (unicode) => {
   let source = `/Users/bas/github/kanjivg/kanji/0${unicode.toString(16)}.svg`
 
   if (!fs.existsSync(source)) {
@@ -57,3 +68,6 @@ module.exports = async (unicode) => {
   console.log(`returning ${unicode}`)
   return svg
 }
+
+
+module.exports = {post, colorize}

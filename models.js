@@ -1,4 +1,4 @@
-const post = require('./ankipost'),
+const post = require('./lib'),
   fs = require('fs')
 
 let modelNames = [
