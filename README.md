@@ -13,13 +13,7 @@ Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) 
 
 Then run with
 
-    $ sh makeanki.sh 猫
-
-To output `tmp/anki.styled.png` with
-
-|sort.js|Sort specific cards to specific decks|
-|strokes.js|Add SVG strokes for each kanji of matching cards|
-|styles.js|Update CSS stylesheets for notes|
+    $ node anki.js -h
 
 ![cat](neko.png).
 
