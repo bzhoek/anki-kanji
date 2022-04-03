@@ -172,4 +172,36 @@ const emphasizeFirstSentence = async (id) => {
 
 const emphasizeNotes = async (query) => processNotes(query, emphasizeFirstSentence)
 
-module.exports = {post, colorize, emphasizeNotes, moveCards, strokeNotes}
+const updateModelStyling = (model, css) => {
+  post("updateModelStyling", {
+      "model": {
+        "name": model,
+        "css": css
+      }
+    }
+  ).then(json => console.log(model, json.result));
+}
+
+let modelNames = [
+  'Cloze',
+  'Doushi',
+  'Doushi-1',
+  'Doushi-5',
+  'Hiragana',
+  'Katakana',
+  'Kunyomi',
+  'OnKanji',
+]
+
+const updateStyling = (css) => {
+  modelNames.forEach((model) => {
+    post("modelStyling", {"modelName": model})
+      .then(json => {
+        if (json.result.css !== css) {
+          updateModelStyling(model, css)
+        }
+      });
+  })
+}
+
+module.exports = {post, colorize, emphasizeNotes, moveCards, strokeNotes, updateStyling}

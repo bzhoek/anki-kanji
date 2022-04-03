@@ -1,19 +1,27 @@
-const cli = require('clap');
-const {moveCards, strokeNotes, emphasizeNotes} = require('./lib')
+const clap = require('clap');
+const {moveCards, strokeNotes, emphasizeNotes, updateStyling} = require('./lib')
+const fs = require("fs");
 
-cli.command('anki ')
+let cli = clap.command('anki ')
   .description('Manipulate Anki decks, notes, cards. Queries like \n - note:OnKanji\n - deck:Karate')
-  .command('emphasize <query>')
+cli.command('emphasize <query>')
   .description('Emphasize first sentence of field, delimited by period')
   .action(({options, args, literalArgs}) => emphasizeNotes(args[0]))
   .end()
-  .command('stroke <query>')
+cli.command('stroke <query>')
   .description('Add SVG strokes for all kanji of matched notes')
   .action(({options, args, literalArgs}) => strokeNotes(args[0]))
   .end()
-  .command('sort')
+cli.command('restyle')
+  .description('Reapply anki.css stylesheet to all notes')
+  .action(() => {
+    let css = fs.readFileSync('anki.css').toString()
+    updateStyling(css)
+  })
+  .end()
+cli.command('sort')
   .description('Move different cards to different decks')
-  .action(({options, args, literalArgs}) => {
+  .action(() => {
     moveCards('card:ToKanji note:OnKanji', '日本語::漢字')
     moveCards('card:ToOnYomi note:OnKanji', '日本語::音読み')
     moveCards('card:ToKunYomi note:OnKanji', '日本語::訓読み')
@@ -23,4 +31,4 @@ cli.command('anki ')
     moveCards('card:Jukugo note:Kunyomi', '日本語::熟語')
   })
   .end()
-  .run()
+cli.run()
