@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const fs = require("fs");
 const sax = require("sax");
+const sqlite3 = require("sqlite3");
 const exec = require('child_process').exec
 
 const post = (action, params) => {
@@ -292,6 +293,50 @@ const renderPortableNetworkGraphic = async (kanji, filename) => {
   exec(`inkscape -z -y 0.0 ${filename}.svg -o ${filename}.png`, (err, stdout, stderr) => console.log(stdout))
 }
 
+let kanjidb = new sqlite3.Database('kanji.sqlite', (err) => {
+  if (err) {
+    console.error(err)
+  }
+})
+
+let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
+  if (err) {
+    console.error(err)
+  }
+})
+
+const addKanjiWithReadingAndMeaning = (kanji) => {
+  let unicode = kanji.charCodeAt(0)
+  kanjidb.get("select meaning from Kanji where literal=?", [kanji], function (err, row) {
+    let meaning = row.meaning
+    readingdb.get("select onyomi, kunyomi from Kanji where kanji=?", [kanji], function (err, row) {
+      let on = row ? row.onyomi : 'no'
+      colorize(unicode, style_color).then((svg) => {
+        let params = {
+          "note": {
+            "deckName": "Default",
+            "modelName": "OnKanji",
+            "fields": {
+              "nederlands": meaning,
+              "kanji": kanji,
+              "on": on,
+              "notes": "",
+              "strokes": css_style + svg
+            },
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": []
+          }
+        }
+        post('addNote', params).then(json => {
+          console.log(meaning, json)
+        })
+      })
+    });
+  })
+}
+
 module.exports = {
   post,
   colorize,
@@ -302,5 +347,6 @@ module.exports = {
   downloadHtmlTemplates,
   uploadHtmlTemplates,
   configureJapaneseDecks,
-  renderPortableNetworkGraphic
+  renderPortableNetworkGraphic,
+  addKanjiWithReadingAndMeaning
 }
