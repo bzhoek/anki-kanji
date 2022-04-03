@@ -1,10 +1,14 @@
 const cli = require('clap');
-const {moveCards, strokeNotes} = require('./lib')
+const {moveCards, strokeNotes, emphasizeNotes} = require('./lib')
 
 cli.command('anki ')
-  .description('Manipulate Anki decks, notes, cards')
+  .description('Manipulate Anki decks, notes, cards. Queries like \n - note:OnKanji\n - deck:Karate')
+  .command('emphasize <query>')
+  .description('Emphasize notes')
+  .action(({options, args, literalArgs}) => emphasizeNotes(args[0]))
+  .end()
   .command('stroke <query>')
-  .description('Add SVG strokes for all kanji for matched notes')
+  .description('Add SVG strokes for all kanji of matched notes')
   .action(({options, args, literalArgs}) => strokeNotes(args[0]))
   .end()
   .command('sort')
