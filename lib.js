@@ -121,19 +121,6 @@ const processNotes = async (query, fn) => {
 
 const strokeNotes = async (query) => processNotes(query, strokeNote)
 
-let modelNames = [
-  'Cloze',
-  'OnKanji',
-  'Kunyomi',
-  'Doushi',
-  'Doushi-1',
-  'Doushi-5']
-
-// strokeNote(1591967053505);
-// modelNames.forEach((model) => {
-//   strokeNotes(`note:${model}`)
-// })
-
 const moveCards = async (query, deck) => {
   let find = await post('findCards', {query: query});
   console.log(query, find)
@@ -183,7 +170,6 @@ const updateModelStyling = (model, css) => {
 }
 
 let modelNames = [
-  'Cloze',
   'Doushi',
   'Doushi-1',
   'Doushi-5',
@@ -204,4 +190,47 @@ const updateStyling = (css) => {
   })
 }
 
-module.exports = {post, colorize, emphasizeNotes, moveCards, strokeNotes, updateStyling}
+const downloadHtmlTemplate = (model, template, result) => {
+  fs.writeFileSync(`html/${template}.${model}.Front.html`, result[template].Front)
+  fs.writeFileSync(`html/${template}.${model}.Back.html`, result[template].Back)
+}
+
+const uploadHtmlTemplate = (model, template, result) => {
+  function updateCard(side) {
+    let html = fs.readFileSync(`html/${template}.${model}.${side}.html`).toString()
+    if (result[template][side] !== html) {
+      console.log(`${template} Update ${side}`)
+      post("updateModelTemplates", {model: {name: model, templates: {[template]: {[side]: html}}}}).then(json => {
+        console.log(json)
+      })
+    }
+  }
+
+  updateCard('Front');
+  updateCard('Back');
+}
+
+const modelTemplates = (fn) => {
+  modelNames.forEach((model) => {
+    post("modelTemplates", {"modelName": model})
+      .then(json => {
+        for (const [key, value] of Object.entries(json.result)) {
+          fn(model, key, json.result)
+        }
+      });
+  })
+}
+
+const downloadHtmlTemplates = () => modelTemplates(downloadHtmlTemplate)
+const uploadHtmlTemplates = () => modelTemplates(uploadHtmlTemplate)
+
+module.exports = {
+  post,
+  colorize,
+  emphasizeNotes,
+  moveCards,
+  strokeNotes,
+  updateStyling,
+  downloadHtmlTemplates,
+  uploadHtmlTemplates
+}
