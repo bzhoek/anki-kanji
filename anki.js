@@ -1,12 +1,13 @@
 const clap = require('clap');
+const fs = require("fs");
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
   configureJapaneseDecks, renderPortableNetworkGraphic, addKanjiWithReadingAndMeaning
 } = require('./lib')
-const fs = require("fs");
 
 let cli = clap.command('anki ')
-  .description('Manipulate Anki decks, notes, cards. Queries like \n - note:OnKanji\n - deck:Karate')
+  .description('Manipulate Anki decks, notes, cards. Queries https://docs.ankiweb.net/searching.html, like \n - note:OnKanji\n - deck:Karate')
+  .action(() => cli.outputHelp())
 cli.command('emphasize <query>')
   .description('Emphasize first sentence of field, delimited by period')
   .action(({_, args}) => emphasizeNotes(args[0]))
