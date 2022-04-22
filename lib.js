@@ -11,7 +11,7 @@ const post = (action, params) => {
     params: params
   }
   // console.log(JSON.stringify(request))
-  return fetch('http://localhost:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
+  return fetch('http://127.0.0.1:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
 }
 
 let colors = [
