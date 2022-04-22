@@ -1,6 +1,6 @@
 # anki-kanji
 
-Make kanji stroke diagrams in Anki.
+Make beautiful kanji stroke diagrams in Anki.
 
 ![cat](neko.png).
 
