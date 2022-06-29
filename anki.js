@@ -6,7 +6,10 @@ const {
 } = require('./lib')
 
 let cli = clap.command('anki ')
-  .description('Manipulate Anki decks, notes, cards. Queries https://docs.ankiweb.net/searching.html, like \n - note:OnKanji\n - deck:Karate')
+  .description(`Manipulate Anki decks, notes, cards. Queries https://docs.ankiweb.net/searching.html, like
+   - note:OnKanj for all notes of types
+   - deck:Karate for all notes in deck
+   - nid:1656500001715 note with id`)
   .action(() => cli.outputHelp())
 cli.command('emphasize <query>')
   .description('Emphasize first sentence of field, delimited by period')
