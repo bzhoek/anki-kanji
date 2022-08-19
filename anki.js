@@ -1,5 +1,7 @@
 const clap = require('clap');
+const sass = require('node-sass');
 const fs = require("fs");
+
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
   configureJapaneseDecks, renderPortableNetworkGraphic, addKanjiWithReadingAndMeaning
@@ -42,7 +44,9 @@ cli.command('upload')
 cli.command('restyle')
   .description('Reapply anki.css stylesheet to all notes')
   .action(() => {
-    let css = fs.readFileSync('anki.css').toString()
+    const css = sass.renderSync({
+      file: 'anki.sass',
+    }).css.toString()
     updateStyling(css)
   })
   .end()
