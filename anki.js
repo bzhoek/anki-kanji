@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, renderPortableNetworkGraphic, addKanjiWithReadingAndMeaning
+  configureJapaneseDecks, renderPortableNetworkGraphic, add_kanji_with_reading_and_meaning
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -21,13 +21,9 @@ cli.command('stroke <query>')
   .description('Add SVG strokes for all kanji of matched notes')
   .action(({_, args}) => strokeNotes(args[0]))
   .end()
-cli.command('render <kanji> <filename>')
-  .description('Write kanji to PNG file')
-  .action(({_, args}) => renderPortableNetworkGraphic(args[0], args[1]))
-  .end()
 cli.command('kanji <kanji>')
   .description('Create a new note with reading and meaning')
-  .action(({_, args}) => addKanjiWithReadingAndMeaning(args[0]))
+  .action(({_, args}) => add_kanji_with_reading_and_meaning(args[0]))
   .end()
 cli.command('configure')
   .description('Create separate configuration for each deck')

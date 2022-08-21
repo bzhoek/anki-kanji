@@ -287,12 +287,6 @@ let png_style = `<style type="text/css">
 }
 </style>`
 
-const renderPortableNetworkGraphic = async (kanji, filename) => {
-  let svg = await colorize(kanji.charCodeAt(0), inline_color)
-  fs.writeFileSync(`${filename}.svg`, svg)
-  exec(`inkscape -z -y 0.0 ${filename}.svg -o ${filename}.png`, (err, stdout, stderr) => console.log(stdout))
-}
-
 let kanjidb = new sqlite3.Database('kanji.sqlite', (err) => {
   if (err) {
     console.error(err)
@@ -305,7 +299,7 @@ let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
   }
 })
 
-const addKanjiWithReadingAndMeaning = (kanji) => {
+const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("select meaning from Kanji where literal=?", [kanji], function (err, row) {
     let meaning = row.meaning
@@ -348,5 +342,5 @@ module.exports = {
   uploadHtmlTemplates,
   configureJapaneseDecks,
   renderPortableNetworkGraphic,
-  addKanjiWithReadingAndMeaning
+  add_kanji_with_reading_and_meaning
 }
