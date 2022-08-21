@@ -18,4 +18,4 @@ Stroke order is by color and number. Distinguishing many colors is random and di
 
 ## Strategies
 
-My current strategy is to make all mnemonics personal: I do something *radical* with *radical*, etc.
+My current strategy is to make all mnemonics personal: *i* do something *radical* with *radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
