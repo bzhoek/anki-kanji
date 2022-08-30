@@ -341,6 +341,5 @@ module.exports = {
   downloadHtmlTemplates,
   uploadHtmlTemplates,
   configureJapaneseDecks,
-  renderPortableNetworkGraphic,
   add_kanji_with_reading_and_meaning
 }

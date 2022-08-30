@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, renderPortableNetworkGraphic, add_kanji_with_reading_and_meaning
+  configureJapaneseDecks, add_kanji_with_reading_and_meaning
 } = require('./lib')
 
 let cli = clap.command('anki ')
