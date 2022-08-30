@@ -10,6 +10,8 @@ Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) 
 
 ```sh
 node anki.js -h
+node anki.js kanji 張 # create new `OnKanji` note
+node anki stroke nid:1661888566814 # add strokes for found kanji
 ```
 
 ## Colors
