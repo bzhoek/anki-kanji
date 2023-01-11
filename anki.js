@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const clap = require('clap');
 const sass = require('node-sass');
 const fs = require("fs");
