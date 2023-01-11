@@ -20,4 +20,24 @@ Stroke order is by color and number. Distinguishing many colors is random and di
 
 ## Strategies
 
-My current strategy is to make all mnemonics personal: *i* do something *radical* with *radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
+My current strategy is to make all mnemonics personal: *I* do something *radical* with *radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
+
+## Background
+
+### Readings
+
+Kanji followed by hiragana is called 'おくりかな', and is used to conjugate verbs and adjectives.
+
+1. Kanji combined with hiragana, not particles, is kunyomi.
+2. Two or more kanji in a row without hiragana, called じゅくご, is onyomi.
+3. A kanji by itself is usually kunyomi, and this is what the kanji is referred to.
+
+[1]: Kanji from Zero #12
+
+### Strokes
+
+Only 'Bounce fade' can be distinguished from the current strokes:
+
+1. Fade out はらい (はらう)
+2. Dead stop とめ (とめる)
+3. Bounce fade はれ (はれる)
