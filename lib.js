@@ -331,18 +331,32 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
   })
 }
 
+const is_hiragana = (char) => char >= 'ぁ' && char <= 'ゎ'
+
 const is_kunyomi = (word) => {
-  if(word.length === 1) { // single kanji is kun
+  if (word.length === 1) { // single kanji is kun
     return true
   }
 
   for (var i = 0; i < word.length; i++) {
-    if (word.charAt(i) >= 'ぁ' && word.charAt(i) <= 'ゎ') {
+    if (is_hiragana(word.charAt(i))) {
       return true
     }
   }
 
   return false
+}
+
+const to_onyomi = (word) => {
+  let result = ""
+  for (let i = 0; i < word.length; i++) {
+    if (is_hiragana(word.charAt(i))) {
+      result += String.fromCharCode(word.charCodeAt(i) + 96)
+    } else {
+      result += word.charAt(i)
+    }
+  }
+  return result
 }
 
 module.exports = {
@@ -356,5 +370,6 @@ module.exports = {
   uploadHtmlTemplates,
   configureJapaneseDecks,
   add_kanji_with_reading_and_meaning,
-  is_kunyomi
+  is_kunyomi,
+  to_onyomi
 }
