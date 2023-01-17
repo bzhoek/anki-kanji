@@ -36,6 +36,8 @@ Kanji followed by hiragana is called 'おくりかな', and is used to conjugate
 
 [1]: Kanji from Zero #12
 
+Hiragana start with unicode ぁ (12353) and go for 
+
 ### Strokes
 
 Only 'Bounce fade' can be distinguished from the current strokes:

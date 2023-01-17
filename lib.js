@@ -331,6 +331,20 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
   })
 }
 
+const is_kunyomi = (word) => {
+  if(word.length === 1) { // single kanji is kun
+    return true
+  }
+
+  for (var i = 0; i < word.length; i++) {
+    if (word.charAt(i) >= 'ぁ' && word.charAt(i) <= 'ゎ') {
+      return true
+    }
+  }
+
+  return false
+}
+
 module.exports = {
   post,
   colorize,
@@ -341,5 +355,6 @@ module.exports = {
   downloadHtmlTemplates,
   uploadHtmlTemplates,
   configureJapaneseDecks,
-  add_kanji_with_reading_and_meaning
+  add_kanji_with_reading_and_meaning,
+  is_kunyomi
 }
