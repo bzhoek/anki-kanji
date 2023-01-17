@@ -338,25 +338,17 @@ const is_kunyomi = (word) => {
     return true
   }
 
-  for (var i = 0; i < word.length; i++) {
-    if (is_hiragana(word.charAt(i))) {
-      return true
-    }
-  }
-
-  return false
+  return Array.from(word)
+    .filter(ch => is_hiragana(ch))
+    .length > 0
 }
 
 const to_onyomi = (word) => {
-  let result = ""
-  for (let i = 0; i < word.length; i++) {
-    if (is_hiragana(word.charAt(i))) {
-      result += String.fromCharCode(word.charCodeAt(i) + 96)
-    } else {
-      result += word.charAt(i)
-    }
-  }
-  return result
+  return Array.from(word)
+    .map(ch => {
+      let c = ch.charCodeAt(0) + (is_hiragana(ch) ? 96 : 0)
+      return String.fromCharCode(c)
+    }).join('')
 }
 
 module.exports = {
