@@ -14,6 +14,8 @@ node anki.js kanji 張 # create new `OnKanji` note
 node anki stroke nid:1661888566814 # add strokes for found kanji
 ```
 
+Nested decks <top level>::<next level>
+
 ## Colors
 
 Stroke order is by color and number. Distinguishing many colors is random and difficult for [26 colors](https://en.wikipedia.org/wiki/Help:Distinguishable_colors) but [progressive for 20](https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/)
