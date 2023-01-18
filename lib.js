@@ -343,6 +343,20 @@ const is_kunyomi = (word) => {
     .length > 0
 }
 
+const is_jukugo = (word) => {
+  if (word.length === 1) { // single kanji is kun
+    return false
+  }
+
+  if (word.includes("する")) {
+    return true
+  }
+
+  return Array.from(word)
+    .filter(ch => is_hiragana(ch))
+    .length === 0
+}
+
 const to_onyomi = (word) => {
   return Array.from(word)
     .map(ch => {
@@ -363,5 +377,6 @@ module.exports = {
   configureJapaneseDecks,
   add_kanji_with_reading_and_meaning,
   is_kunyomi,
+  is_jukugo,
   to_onyomi
 }

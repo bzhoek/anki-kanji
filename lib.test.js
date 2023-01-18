@@ -1,6 +1,24 @@
-const {is_kunyomi, to_onyomi} = require('./lib')
+const {is_jukugo, is_kunyomi, to_onyomi} = require('./lib')
 
 // ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎ
+
+describe('jukugo', () => {
+  test('single', () => {
+    expect(is_jukugo("食")).toBeFalsy()
+  });
+  test('okurikana', () => {
+    expect(is_jukugo("食べて")).toBeFalsy()
+  });
+  test('double', () => {
+    expect(is_jukugo("運命")).toBeTruthy()
+  });
+  test('ending', () => {
+    expect(is_jukugo("運転する")).toBeTruthy()
+  });
+  test('sentence', () => {
+    expect(is_jukugo("来る. De RUs komt")).toBeTruthy()
+  });
+})
 
 describe('kunyomi reading', () => {
   test('single', () => {
