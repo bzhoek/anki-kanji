@@ -38,6 +38,8 @@ Kanji followed by hiragana is called 'おくりかな', and is used to conjugate
 
 Hiragana start with unicode ぁ (12353) and go for 
 
+0x4e00 一 tot 0x9f98 龘 zijn kanji.
+
 ### Strokes
 
 Only 'Bounce fade' can be distinguished from the current strokes:

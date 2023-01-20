@@ -151,6 +151,26 @@ const processNotes = async (query, fn) => {
 
 const strokeNotes = async (query) => processNotes(query, strokeNote)
 
+const fix_kana = async (query) => processNotes(query, async (id) => {
+  let json = await post("notesInfo", {notes: [id]});
+  let entity = json.result[0];
+  if (entity.fields['kana'] === undefined) {
+    return
+  }
+
+  let kana = entity.fields['kana'].value;
+  let kanji = entity.fields['kanji'].value;
+  if (is_jukugo(kanji)) {
+    let onyomi = to_onyomi(kana);
+    if (onyomi !== kana) {
+      let params = {note: {id: id, fields: {}}};
+      Object.defineProperty(params.note.fields, "kana", {value: onyomi, enumerable: true})
+      await post('updateNoteFields', params)
+      console.log("fix_kana", kanji, kana, onyomi)
+    }
+  }
+})
+
 const moveCards = async (query, deck) => {
   let find = await post('findCards', {query: query});
   console.log(query, find)
@@ -331,7 +351,11 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
   })
 }
 
-const is_hiragana = (char) => char >= 'ぁ' && char <= 'ゎ'
+const is_kanji = (char) => char >= '一' && char <= '龘'
+const is_hiragana = (ch) => {
+  let c = ch.charCodeAt(0);
+  return (c >= 0x3040 && c <= 0x309f)
+}
 
 const is_kunyomi = (word) => {
   if (word.length === 1) { // single kanji is kun
@@ -344,15 +368,20 @@ const is_kunyomi = (word) => {
 }
 
 const is_jukugo = (word) => {
-  if (word.length === 1) { // single kanji is kun
+  let clean = word.split(".")[0].trim()
+
+  let kanji = Array.from(clean)
+    .filter(ch => is_kanji(ch))
+
+  if (kanji.length === 1) { // single kanji is kun
     return false
   }
 
-  if (word.includes("する")) {
+  if (clean.includes("する")) {
     return true
   }
 
-  return Array.from(word)
+  return Array.from(clean)
     .filter(ch => is_hiragana(ch))
     .length === 0
 }
@@ -360,8 +389,12 @@ const is_jukugo = (word) => {
 const to_onyomi = (word) => {
   return Array.from(word)
     .map(ch => {
-      let c = ch.charCodeAt(0) + (is_hiragana(ch) ? 96 : 0)
-      return String.fromCharCode(c)
+      let c = ch.charCodeAt(0);
+      if (c >= 0x3040 && c <= 0x309f) {
+        return String.fromCharCode(c + 96)
+      } else {
+        return ch
+      }
     }).join('')
 }
 
@@ -378,5 +411,6 @@ module.exports = {
   add_kanji_with_reading_and_meaning,
   is_kunyomi,
   is_jukugo,
-  to_onyomi
+  to_onyomi,
+  fix_kana
 }
