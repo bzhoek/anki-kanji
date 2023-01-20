@@ -2,7 +2,9 @@ const fetch = require('node-fetch');
 const fs = require("fs");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
-const exec = require('child_process').exec
+const {RateLimit} = require('async-sema')
+
+const limit = RateLimit(5);
 
 const post = (action, params) => {
   let request = {
@@ -398,6 +400,20 @@ const to_onyomi = (word) => {
     }).join('')
 }
 
+const find_kanji = async (kanji) => {
+  await limit()
+  let json = await post('findNotes', {query: `note:OnKanji kanji:*${kanji}*`});
+  return json.result.length === 1
+}
+
+const multiple_kanji = (list) => {
+  return list.split(/\s/).map(str => str.trim()).filter(kanji => kanji !== "")
+}
+
+const missing_kanji = (list) => {
+  return multiple_kanji(list).map(async kanji => await find_kanji(kanji) ? null : kanji)
+}
+
 module.exports = {
   post,
   colorize,
@@ -412,5 +428,8 @@ module.exports = {
   is_kunyomi,
   is_jukugo,
   to_onyomi,
-  fix_kana
+  fix_kana,
+  find_kanji,
+  multiple_kanji,
+  exist_kanji: missing_kanji
 }

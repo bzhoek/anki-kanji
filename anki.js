@@ -5,7 +5,7 @@ const fs = require("fs");
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana
+  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, exist_kanji
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -33,6 +33,10 @@ cli.command('stroke <query>')
 cli.command('kanji <kanji>')
   .description('Create a new note with reading and meaning')
   .action(({_, args}) => add_kanji_with_reading_and_meaning(args[0]))
+  .end()
+cli.command('exist <kanji>')
+  .description('Checks if kanji exist')
+  .action(({_, args}) => console.log(exist_kanji(args[0])))
   .end()
 cli.command('configure')
   .description('Create separate configuration for each deck')
