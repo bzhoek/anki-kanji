@@ -5,7 +5,7 @@ const fs = require("fs");
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, exist_kanji
+  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -36,7 +36,12 @@ cli.command('kanji <kanji>')
   .end()
 cli.command('exist <kanji>')
   .description('Checks if kanji exist')
-  .action(({_, args}) => console.log(exist_kanji(args[0])))
+  .action(async ({_, args}) => {
+    let result = await Promise.all(missing_kanji(args[0]))
+    for (const kanji of result.filter(v => v)) {
+      add_kanji_with_reading_and_meaning(kanji)
+    }
+  })
   .end()
 cli.command('configure')
   .description('Create separate configuration for each deck')

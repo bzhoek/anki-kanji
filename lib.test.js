@@ -1,4 +1,4 @@
-const {is_jukugo, is_kunyomi, to_onyomi, find_kanji, multiple_kanji, exist_kanji} = require('./lib')
+const {is_jukugo, is_kunyomi, to_onyomi, find_kanji, multiple_kanji, missing_kanji} = require('./lib')
 
 // ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎ
 
@@ -68,11 +68,11 @@ describe('multiple kanji', () => {
     expect(multiple_kanji(n5_sample)).toStrictEqual(["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "人", "今", "日"])
   });
   test('has kanjis', async () => {
-    let result = await Promise.all(exist_kanji(n5_sample))
+    let result = await Promise.all(missing_kanji(n5_sample))
     expect(result.filter(v => v)).toStrictEqual([])
   });
   test('missing kanjis', async () => {
-    let result = await Promise.all(exist_kanji("汗\t危\t宇\t灰\t仮\t叫\t机\t吸\t舟\t宅\t存\t忙\t灯"))
+    let result = await Promise.all(missing_kanji("汗\t危\t宇\t灰\t仮\t叫\t机\t吸\t舟\t宅\t存\t忙\t灯"))
     expect(result.filter(v => v)).toStrictEqual(["汗", "宇", "仮", "叫", "吸", "舟", "存", "灯"])
   });
 })

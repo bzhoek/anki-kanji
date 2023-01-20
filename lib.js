@@ -4,7 +4,7 @@ const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
 
-const limit = RateLimit(5);
+const rate_limit = RateLimit(5);
 
 const post = (action, params) => {
   let request = {
@@ -327,7 +327,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
     let meaning = row.meaning
     readingdb.get("select onyomi, kunyomi from Kanji where kanji=?", [kanji], function (err, row) {
       let on = row ? row.onyomi : 'no'
-      colorize(unicode, style_color).then((svg) => {
+      colorize(unicode, style_color).then(async (svg) => {
         let params = {
           "note": {
             "deckName": "Default",
@@ -345,6 +345,8 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
             "tags": []
           }
         }
+        await rate_limit()
+
         post('addNote', params).then(json => {
           console.log(meaning, json)
         })
@@ -401,7 +403,7 @@ const to_onyomi = (word) => {
 }
 
 const find_kanji = async (kanji) => {
-  await limit()
+  await rate_limit()
   let json = await post('findNotes', {query: `note:OnKanji kanji:*${kanji}*`});
   return json.result.length === 1
 }
@@ -431,5 +433,5 @@ module.exports = {
   fix_kana,
   find_kanji,
   multiple_kanji,
-  exist_kanji: missing_kanji
+  missing_kanji
 }
