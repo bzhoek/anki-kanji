@@ -227,8 +227,9 @@ let modelNames = [
   'Doushi-5',
   'Hiragana',
   'Katakana',
-  'Kunyomi',
   'OnKanji',
+  'Onyomi',
+  'Kunyomi',
 ]
 
 const updateStyling = (css) => {

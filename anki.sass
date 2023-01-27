@@ -41,8 +41,11 @@ main
   &.toonyomi h2
     background-color: #b58900
 
-  &.tokanji h2
+  &.tokanji h2, &.kanji h2
     background-color: #dc322f
+
+  &.jukugo h2
+    background-color: #E65518
 
   b
     font-size: 16pt
@@ -160,6 +163,10 @@ h2
 .tomeaning
   .strokes
     border: none
+
+    svg
+      text
+        fill: transparent
 
 .extra
   font-size: 10pt
