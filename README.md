@@ -31,6 +31,18 @@ Stroke order is by color and number. Distinguishing many colors is random and di
 
 My current strategy is to make all mnemonics personal: *I* do something *radical* with *radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
 
+1. ToMeaning for reading, from kanji
+2. ToKanji for writing, from native language
+3. To<On|Kun>Yomi for speaking, from kanji
+
+At first, I studied under the assumption that if I could write it, I could also read it, so I only had to learn Dutch to kana and kanji, but that didn't work for me. When I visited Japan, I realized that I recognized many of the kanji on the signs, but didn't know what they meant.
+
+```sh
+./anki.js move "deck:Japans::2022 card:ToKunYomi" Japans::Spreken::Kunyomi
+./anki.js move "deck:Japans::2022 card:ToMeaning" Japans::Lezen
+./anki.js move "deck:Japans::2022 card:ToKanji" Japans::Schrijven::Kanji
+```
+
 ## Background
 
 ### Readings
