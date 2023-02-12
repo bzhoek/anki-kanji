@@ -5,7 +5,7 @@ const fs = require("fs");
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji
+  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji, move_related
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -14,6 +14,10 @@ let cli = clap.command('anki ')
    - deck:Karate for all notes in deck
    - nid:1656500001715 note with id`)
   .action(() => cli.outputHelp())
+cli.command('default <query>')
+  .description('Move all related cards to the Default deck')
+  .action(({_, args}) => move_related(args[0]))
+  .end()
 cli.command('kana <query>')
   .description('Fix kana for jukugo words')
   .action(({_, args}) => fix_kana(args[0]))

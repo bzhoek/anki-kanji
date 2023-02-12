@@ -155,6 +155,12 @@ const processNotes = async (query, fn) => {
 
 const strokeNotes = async (query) => processNotes(query, strokeNote)
 
+const move_related = async (query) => {
+  await processNotes(query, (nid) => {
+    moveCards(`nid:${nid}`, 'Default')
+  })
+}
+
 const fix_kana = async (query) => processNotes(query, async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let entity = json.result[0];
@@ -434,5 +440,6 @@ module.exports = {
   fix_kana,
   find_kanji,
   multiple_kanji,
-  missing_kanji
+  missing_kanji,
+  move_related
 }
