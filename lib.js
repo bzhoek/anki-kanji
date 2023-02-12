@@ -6,13 +6,15 @@ const {RateLimit} = require('async-sema')
 
 const rate_limit = RateLimit(5);
 
-const post = (action, params) => {
+const post = async (action, params) => {
   let request = {
     action: action,
     version: 6,
     params: params
   }
-  // console.log(JSON.stringify(request))
+
+  await rate_limit()
+
   return fetch('http://127.0.0.1:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
 }
 
@@ -346,7 +348,6 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
             "tags": []
           }
         }
-        await rate_limit()
 
         post('addNote', params).then(json => {
           console.log(meaning, json)
@@ -404,7 +405,6 @@ const to_onyomi = (word) => {
 }
 
 const find_kanji = async (kanji) => {
-  await rate_limit()
   let json = await post('findNotes', {query: `note:OnKanji kanji:*${kanji}*`});
   return json.result.length === 1
 }
