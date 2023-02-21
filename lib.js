@@ -231,8 +231,8 @@ const updateModelStyling = (model, css) => {
 
 let modelNames = [
   'Doushi',
-  'Doushi-1',
-  'Doushi-5',
+  'Ichidan',
+  'Godan',
   'Hiragana',
   'Katakana',
   'OnKanji',
