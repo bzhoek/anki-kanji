@@ -13,7 +13,6 @@ anki_sort() {
 }
 
 anki_process() {
-  anki_sort $1
   ./anki.js kana $1
   ./anki.js stroke $1
 }
