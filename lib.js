@@ -230,7 +230,7 @@ const updateModelStyling = (model, css) => {
 }
 
 let modelNames = [
-  'Doushi',
+  'Suru',
   'Ichidan',
   'Godan',
   'Hiragana',
