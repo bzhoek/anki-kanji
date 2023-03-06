@@ -330,6 +330,13 @@ let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
   }
 })
 
+const lookup_kanji = (kanji) => {
+  let unicode = kanji.charCodeAt(0)
+  kanjidb.get("select * from Kanji where literal=?", [kanji], function (err, row) {
+    console.log(row)
+  })
+}
+
 const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("select meaning from Kanji where literal=?", [kanji], function (err, row) {
@@ -441,5 +448,6 @@ module.exports = {
   find_kanji,
   multiple_kanji,
   missing_kanji,
+  lookup_kanji,
   move_related
 }
