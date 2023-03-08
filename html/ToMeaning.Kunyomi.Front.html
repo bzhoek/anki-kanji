@@ -1,6 +1,14 @@
 <main class='tomeaning jukugo'>
+  {{#kanji}}
   <div>
     {{kanji}}
   </div>
   <h2>&equals; 熟語 &equals;</h2>
+  {{/kanji}}
+  {{^kanji}}
+  <div>
+    {{kana}}
+  </div>
+  <h2>&equals; じゅくご &equals;</h2>
+  {{/kanji}}
 </main>
