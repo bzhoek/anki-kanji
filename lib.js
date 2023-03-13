@@ -23,7 +23,6 @@ let colors = [
   "6195CF", "437DBF", "1965B0", "CAE0AB", "4EB265", "90C987", "F7F056", "F7CB45",
   "F4A736", "EE8026", "E65518", "DC050C", "A5170E", "72190E", "42150A",]
 
-const inline_color = (i) => ` style="stroke: #${colors[i % colors.length]}"`
 const style_color = (i) => ` class="stroke-${i % 23}"`
 
 const colorize = async (unicode, color_fn) => {
@@ -330,13 +329,6 @@ let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
   }
 })
 
-const lookup_kanji = (kanji) => {
-  let unicode = kanji.charCodeAt(0)
-  kanjidb.get("select * from Kanji where literal=?", [kanji], function (err, row) {
-    console.log(row)
-  })
-}
-
 const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("select meaning from Kanji where literal=?", [kanji], function (err, row) {
@@ -448,6 +440,5 @@ module.exports = {
   find_kanji,
   multiple_kanji,
   missing_kanji,
-  lookup_kanji,
   move_related
 }

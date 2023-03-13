@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 const clap = require('clap');
 const sass = require('node-sass');
-const fs = require("fs");
+const {exec} = require('child_process');
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji, move_related,
-  lookup_kanji
+  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji, move_related
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -37,7 +36,9 @@ cli.command('stroke <query>')
   .end()
 cli.command('lookup <kanji>')
   .description('Lookup kanji unicode meaning')
-  .action(({_, args}) => lookup_kanji(args[0]))
+  .action(({_, args}) => {
+    exec(`open https://kanjivg.tagaini.net/viewer.html?kanji=${args[0]}`)
+  })
   .end()
 cli.command('kanji <kanji>')
   .description('Create a new note with reading and meaning')
