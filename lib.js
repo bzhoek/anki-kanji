@@ -3,6 +3,7 @@ const fs = require("fs");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
+const {exec} = require("child_process");
 
 const rate_limit = RateLimit(5);
 
@@ -329,6 +330,15 @@ let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
   }
 })
 
+const lookup_kanji = (kanji) => {
+  let unicode = kanji.charCodeAt(0)
+  kanjidb.get("select * from Kanji where literal=?", [kanji], function (err, row) {
+    delete row.drawing
+    console.log(row)
+    console.log(`subl /Users/bas/github/kanjivg/kanji/0${row.unicode}.svg`)
+  })
+}
+
 const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("select meaning from Kanji where literal=?", [kanji], function (err, row) {
@@ -440,5 +450,6 @@ module.exports = {
   find_kanji,
   multiple_kanji,
   missing_kanji,
+  lookup_kanji,
   move_related
 }

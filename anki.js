@@ -5,7 +5,7 @@ const {exec} = require('child_process');
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji, move_related
+  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji, move_related, lookup_kanji
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -37,6 +37,7 @@ cli.command('stroke <query>')
 cli.command('lookup <kanji>')
   .description('Lookup kanji unicode meaning')
   .action(({_, args}) => {
+    lookup_kanji(args[0])
     exec(`open https://kanjivg.tagaini.net/viewer.html?kanji=${args[0]}`)
   })
   .end()
