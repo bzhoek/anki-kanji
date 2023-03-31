@@ -5,7 +5,7 @@ const {exec} = require('child_process');
 
 const {
   moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, add_kanji_with_reading_and_meaning, fix_kana, missing_kanji, move_related, lookup_kanji
+  configureJapaneseDecks, add_kanji_with_reading_and_meaning, add_speech, fix_kana, missing_kanji, move_related, lookup_kanji
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -33,6 +33,10 @@ cli.command('emphasize <query>')
 cli.command('stroke <query>')
   .description('Add SVG strokes for all kanji of matched notes')
   .action(({_, args}) => strokeNotes(args[0]))
+  .end()
+cli.command('speech <query>')
+  .description('Add speech for matched notes')
+  .action(({_, args}) => add_speech(args[0]))
   .end()
 cli.command('lookup <kanji>')
   .description('Lookup kanji unicode meaning')

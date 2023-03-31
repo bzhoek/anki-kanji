@@ -181,6 +181,32 @@ const fix_kana = async (query) => processNotes(query, async (id) => {
   }
 })
 
+const add_speech = async (query) => processNotes(query, async (id) => {
+  let note = await post("notesInfo", {notes: [id]});
+  let entity = note.result[0];
+
+  let words = entity.fields['kanji'].value;
+  let kanji = as_jukugo(words)
+  if (kanji.length === 0) {
+    return
+  }
+
+  let filename = kanji.join('') + '_b.mp3'
+  let media = await post("retrieveMediaFile", {filename: filename});
+  if (!media.result) {
+    console.error("No media for", filename)
+    return
+  }
+
+  let sound = `[sound:${filename}]`;
+  let strokes = {note: {id: id, fields: {speech: sound}}};
+  let update = await post('updateNoteFields', strokes)
+  if (update.error) {
+    console.error(update.error, strokes)
+  }
+  console.log('completed', sound)
+})
+
 const moveCards = async (query, deck) => {
   let find = await post('findCards', {query: query});
   console.log(query, find)
@@ -407,6 +433,29 @@ const is_jukugo = (word) => {
     .length === 0
 }
 
+const as_jukugo = (word) => {
+  let clean = word.split(".")[0].trim()
+
+  let kanji = Array.from(clean)
+    .filter(ch => is_kanji(ch))
+
+  if (kanji.length === 1) { // single kanji is kun
+    return []
+  }
+
+  if (clean.includes("する")) {
+    return kanji
+  }
+
+  if (Array.from(clean)
+    .filter(ch => is_hiragana(ch))
+    .length === 0) {
+    return kanji
+  }
+
+  return []
+}
+
 const to_onyomi = (word) => {
   return Array.from(word)
     .map(ch => {
@@ -451,5 +500,6 @@ module.exports = {
   multiple_kanji,
   missing_kanji,
   lookup_kanji,
-  move_related
+  move_related,
+  add_speech
 }
