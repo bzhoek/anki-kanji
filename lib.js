@@ -278,13 +278,13 @@ const updateStyling = (css) => {
 }
 
 const downloadHtmlTemplate = (model, template, result) => {
-  fs.writeFileSync(`html/${template}.${model}.Front.html`, result[template].Front)
-  fs.writeFileSync(`html/${template}.${model}.Back.html`, result[template].Back)
+  fs.writeFileSync(`html/${model}.${template}.Front.html`, result[template].Front)
+  fs.writeFileSync(`html/${model}.${template}.Back.html`, result[template].Back)
 }
 
 const uploadHtmlTemplate = (model, template, result) => {
   function updateCard(side) {
-    let html = fs.readFileSync(`html/${template}.${model}.${side}.html`).toString()
+    let html = fs.readFileSync(`html/${model}.${template}.${side}.html`).toString()
     if (result[template][side] !== html) {
       console.log(`${template} Update ${side}`)
       post("updateModelTemplates", {model: {name: model, templates: {[template]: {[side]: html}}}}).then(json => {
