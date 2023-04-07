@@ -184,6 +184,10 @@ const fix_kana = async (query) => processNotes(query, async (id) => {
 const add_speech = async (query) => processNotes(query, async (id) => {
   let note = await post("notesInfo", {notes: [id]});
   let entity = note.result[0];
+  let speech = entity.fields['speech'].value;
+  if (speech !== undefined && speech.startsWith("[")) {
+    return
+  }
 
   let words = entity.fields['kanji'].value;
   let kanji = as_jukugo(words)
