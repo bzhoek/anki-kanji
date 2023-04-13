@@ -184,21 +184,35 @@ const fix_kana = async (query) => processNotes(query, async (id) => {
 const add_speech = async (query) => processNotes(query, async (id) => {
   let note = await post("notesInfo", {notes: [id]});
   let entity = note.result[0];
+  if (entity.fields['speech'] === undefined) {
+    return
+  }
+
   let speech = entity.fields['speech'].value;
-  if (speech !== undefined && speech.startsWith("[")) {
+  if (speech.startsWith("[")) {
     return
   }
 
   let words = entity.fields['kanji'].value;
-  let kanji = as_jukugo(words)
-  if (kanji.length === 0) {
+  words = words.replace(/<.+?>/g, '').trim()
+
+  let clean = words.split(".")[0].trim()
+  if (clean.length === 0) {
     return
   }
+  console.log(clean)
 
-  let filename = kanji.join('') + '_b.mp3'
-  let media = await post("retrieveMediaFile", {filename: filename});
-  if (!media.result) {
-    console.error("No media for", filename)
+  let filename = await try_media(clean)
+  if (filename === undefined) {
+    let kanji = as_jukugo(words)
+    if (kanji.length === 0) {
+      return
+    }
+    filename = await try_media(kanji.join(''))
+  }
+
+  if (filename === undefined) {
+    console.error("No media for", clean[0])
     return
   }
 
@@ -210,6 +224,17 @@ const add_speech = async (query) => processNotes(query, async (id) => {
   }
   console.log('completed', sound)
 })
+
+const try_media = async (name) => {
+  let filename = name + '_b.mp3'
+  let media = await post("retrieveMediaFile", {filename: filename});
+  if (!media.result) {
+    console.error("No media for", filename)
+    return undefined
+  } else {
+    return filename
+  }
+}
 
 const moveCards = async (query, deck) => {
   let find = await post('findCards', {query: query});
