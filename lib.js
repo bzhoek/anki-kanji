@@ -146,42 +146,43 @@ const strokeNote = async (id) => {
   }
 }
 
-const processNotes = async (query, fn) => {
+const find_notes = async (query, fn) => {
   let json = await post('findNotes', {query: query});
   for (const id of json.result) {
     await fn(id);
   }
 }
 
-const strokeNotes = async (query) => processNotes(query, strokeNote)
+const strokeNotes = async (query) => find_notes(query, strokeNote)
 
 const move_related = async (query) => {
-  await processNotes(query, (nid) => {
-    moveCards(`nid:${nid}`, 'Default')
+  await find_notes(query, (nid) => {
+    move_cards(`nid:${nid}`, 'Default')
   })
 }
 
-const fix_kana = async (query) => processNotes(query, async (id) => {
-  let json = await post("notesInfo", {notes: [id]});
-  let entity = json.result[0];
-  if (entity.fields['kana'] === undefined) {
-    return
-  }
-
-  let kana = entity.fields['kana'].value;
-  let kanji = entity.fields['kanji'].value;
-  if (is_jukugo(kanji)) {
-    let onyomi = to_onyomi(kana);
-    if (onyomi !== kana) {
-      let params = {note: {id: id, fields: {}}};
-      Object.defineProperty(params.note.fields, "kana", {value: onyomi, enumerable: true})
-      await post('updateNoteFields', params)
-      console.log("fix_kana", kanji, kana, onyomi)
+const fix_kana = async (query) =>
+  find_notes(query, async (id) => {
+    let json = await post("notesInfo", {notes: [id]});
+    let entity = json.result[0];
+    if (entity.fields['kana'] === undefined) {
+      return
     }
-  }
-})
 
-const add_speech = async (query) => processNotes(query, async (id) => {
+    let kana = entity.fields['kana'].value;
+    let kanji = entity.fields['kanji'].value;
+    if (is_jukugo(kanji)) {
+      let onyomi = to_onyomi(kana);
+      if (onyomi !== kana) {
+        let params = {note: {id: id, fields: {}}};
+        Object.defineProperty(params.note.fields, "kana", {value: onyomi, enumerable: true})
+        await post('updateNoteFields', params)
+        console.log("fix_kana", kanji, kana, onyomi)
+      }
+    }
+  })
+
+const add_speech = async (query) => find_notes(query, async (id) => {
   let note = await post("notesInfo", {notes: [id]});
   let entity = note.result[0];
   if (entity.fields['speech'] === undefined) {
@@ -236,12 +237,23 @@ const try_media = async (name) => {
   }
 }
 
-const moveCards = async (query, deck) => {
+const move_cards = async (query, deck) => {
   let find = await post('findCards', {query: query});
   console.log(query, find)
   let move = await post('changeDeck', {cards: find.result, deck: deck})
   console.log(move)
 }
+
+const lapse_cards = async (count) =>
+  find_notes(`prop:lapses=${count} note:OnKanji`, async (id) => {
+    let json = await post("notesInfo", {notes: [id]});
+    let kanji = json.result[0].fields.kanji.value.replace(/<.+?>/g, '').trim()
+    let yomi = await post('findNotes', {query: `kanji:*${kanji}* card:ToKanji (note:OnYomi or note:Suru)`});
+    console.log(kanji, yomi.result.length)
+    if (yomi.result.length < 1) {
+      await move_cards(`nid:${id}`, 'Lapsed')
+    }
+  })
 
 const emphasize = async (id, field, prefix, suffix) => {
   let tags_removed = prefix.replace(/<.+?>/g, '').trim()
@@ -272,7 +284,7 @@ const emphasizeFirstSentence = async (id) => {
   })
 }
 
-const emphasizeNotes = async (query) => processNotes(query, emphasizeFirstSentence)
+const emphasizeNotes = async (query) => find_notes(query, emphasizeFirstSentence)
 
 const updateModelStyling = (model, css) => {
   post("updateModelStyling", {
@@ -514,7 +526,7 @@ module.exports = {
   post,
   colorize,
   emphasizeNotes,
-  moveCards,
+  move_cards,
   strokeNotes,
   updateStyling,
   downloadHtmlTemplates,
@@ -530,5 +542,6 @@ module.exports = {
   missing_kanji,
   lookup_kanji,
   move_related,
-  add_speech
+  add_speech,
+  lapse_cards
 }

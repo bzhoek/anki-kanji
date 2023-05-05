@@ -4,8 +4,9 @@ const sass = require('node-sass');
 const {exec} = require('child_process');
 
 const {
-  moveCards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, add_kanji_with_reading_and_meaning, add_speech, fix_kana, missing_kanji, move_related, lookup_kanji
+  move_cards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
+  configureJapaneseDecks, lapse_cards,
+  add_kanji_with_reading_and_meaning, add_speech, fix_kana, missing_kanji, move_related, lookup_kanji
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -24,7 +25,11 @@ cli.command('kana <query>')
   .end()
 cli.command('move <query> <deck>')
   .description('Move matching cards to a given deck')
-  .action(({_, args}) => moveCards(args[0], args[1]))
+  .action(({_, args}) => move_cards(args[0], args[1]))
+  .end()
+cli.command('lapse <count>')
+  .description('Find lapsed kanji without vocab')
+  .action(({_, args}) => lapse_cards(args[0]))
   .end()
 cli.command('emphasize <query>')
   .description('Emphasize first sentence of field, delimited by period')
@@ -82,13 +87,13 @@ cli.command('restyle')
 cli.command('sort')
   .description('Move different cards to different decks')
   .action(() => {
-    moveCards('card:ToKanji note:OnKanji', '日本語::漢字')
-    moveCards('card:ToOnYomi note:OnKanji', '日本語::音読み')
-    moveCards('card:ToKunYomi note:OnKanji', '日本語::訓読み')
-    moveCards('card:KunKana note:Kunyomi', '日本語::かな')
-    moveCards('card:ToHiragana note:Hiragana', '日本語::かな')
-    moveCards('card:ToKatakana note:Katakana', '日本語::かな')
-    moveCards('card:Jukugo note:Kunyomi', '日本語::熟語')
+    move_cards('card:ToKanji note:OnKanji', '日本語::漢字')
+    move_cards('card:ToOnYomi note:OnKanji', '日本語::音読み')
+    move_cards('card:ToKunYomi note:OnKanji', '日本語::訓読み')
+    move_cards('card:KunKana note:Kunyomi', '日本語::かな')
+    move_cards('card:ToHiragana note:Hiragana', '日本語::かな')
+    move_cards('card:ToKatakana note:Katakana', '日本語::かな')
+    move_cards('card:Jukugo note:Kunyomi', '日本語::熟語')
   })
   .end()
 cli.run()
