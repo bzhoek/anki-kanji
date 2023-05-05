@@ -4,8 +4,8 @@ const sass = require('node-sass');
 const {exec} = require('child_process');
 
 const {
-  move_cards, strokeNotes, emphasizeNotes, updateStyling, downloadHtmlTemplates, uploadHtmlTemplates,
-  configureJapaneseDecks, lapse_cards,
+  move_cards, stroke_notes, emphasize_notes, update_styling, download_html_templates, upload_html_templates,
+  configure_decks, lapse_cards,
   add_kanji_with_reading_and_meaning, add_speech, fix_kana, missing_kanji, move_related, lookup_kanji
 } = require('./lib')
 
@@ -33,11 +33,11 @@ cli.command('lapse <count>')
   .end()
 cli.command('emphasize <query>')
   .description('Emphasize first sentence of field, delimited by period')
-  .action(({_, args}) => emphasizeNotes(args[0]))
+  .action(({_, args}) => emphasize_notes(args[0]))
   .end()
 cli.command('stroke <query>')
   .description('Add SVG strokes for all kanji of matched notes')
-  .action(({_, args}) => strokeNotes(args[0]))
+  .action(({_, args}) => stroke_notes(args[0]))
   .end()
 cli.command('speech <query>')
   .description('Add speech for matched notes')
@@ -65,15 +65,15 @@ cli.command('exist <kanji>')
   .end()
 cli.command('configure')
   .description('Create separate configuration for each deck')
-  .action(() => configureJapaneseDecks())
+  .action(() => configure_decks())
   .end()
 cli.command('download')
   .description('Download card templates to html folder')
-  .action(() => downloadHtmlTemplates())
+  .action(() => download_html_templates())
   .end()
 cli.command('upload')
   .description('Update card templates from html folder')
-  .action(() => uploadHtmlTemplates())
+  .action(() => upload_html_templates())
   .end()
 cli.command('restyle')
   .description('Reapply anki.css stylesheet to all notes')
@@ -81,7 +81,7 @@ cli.command('restyle')
     const css = sass.renderSync({
       file: 'anki.sass',
     }).css.toString()
-    updateStyling(css)
+    update_styling(css)
   })
   .end()
 cli.command('sort')

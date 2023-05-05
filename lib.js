@@ -3,7 +3,6 @@ const fs = require("fs");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
-const {exec} = require("child_process");
 
 const rate_limit = RateLimit(5);
 
@@ -19,6 +18,7 @@ const post = async (action, params) => {
   return fetch('http://127.0.0.1:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
 }
 
+// noinspection JSUnusedLocalSymbols
 let colors = [
   "E8ECFB", "D9CCE3", "CAACCB", "BA8DB4", "AA6F9E", "994F88", "882E72", "7BAFDE",
   "6195CF", "437DBF", "1965B0", "CAE0AB", "4EB265", "90C987", "F7F056", "F7CB45",
@@ -104,10 +104,10 @@ let css_style = `
 </style>
 `
 let svg_style = `
-<style type="text/css">
+<style>
   text {
   font: 8pt sans-serif;
-  stroke-width: 0pt;
+  stroke-width: 0;
   fill: #586e75;
   }
   path {
@@ -119,7 +119,7 @@ let svg_style = `
 
 let refresh = true
 
-const strokeNote = async (id) => {
+const stroke_note = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let strokes = json.result[0].fields['strokes'];
   if (!refresh && strokes.value.includes('</svg>')) {
@@ -153,7 +153,7 @@ const find_notes = async (query, fn) => {
   }
 }
 
-const strokeNotes = async (query) => find_notes(query, strokeNote)
+const stroke_notes = async (query) => find_notes(query, stroke_note)
 
 const move_related = async (query) => {
   await find_notes(query, (nid) => {
@@ -267,7 +267,7 @@ const emphasize = async (id, field, prefix, suffix) => {
   await post('updateNoteFields', params)
 }
 
-const emphasizeFirstSentence = async (id) => {
+const emphasize_first_sentence = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let result = json.result[0];
   // console.log('emphasizeFirstSentence', result);
@@ -284,9 +284,9 @@ const emphasizeFirstSentence = async (id) => {
   })
 }
 
-const emphasizeNotes = async (query) => find_notes(query, emphasizeFirstSentence)
+const emphasize_notes = async (query) => find_notes(query, emphasize_first_sentence)
 
-const updateModelStyling = (model, css) => {
+const update_model_styling = (model, css) => {
   post("updateModelStyling", {
       "model": {
         "name": model,
@@ -296,7 +296,7 @@ const updateModelStyling = (model, css) => {
   ).then(json => console.log(model, json.result));
 }
 
-let modelNames = [
+let model_names = [
   'Suru',
   'Ichidan',
   'Godan',
@@ -307,23 +307,23 @@ let modelNames = [
   'Kunyomi',
 ]
 
-const updateStyling = (css) => {
-  modelNames.forEach((model) => {
+const update_styling = (css) => {
+  model_names.forEach((model) => {
     post("modelStyling", {"modelName": model})
       .then(json => {
         if (json.result.css !== css) {
-          updateModelStyling(model, css)
+          update_model_styling(model, css)
         }
       });
   })
 }
 
-const downloadHtmlTemplate = (model, template, result) => {
+const download_html_template = (model, template, result) => {
   fs.writeFileSync(`html/${model}.${template}.Front.html`, result[template].Front)
   fs.writeFileSync(`html/${model}.${template}.Back.html`, result[template].Back)
 }
 
-const uploadHtmlTemplate = (model, template, result) => {
+const upload_html_template = (model, template, result) => {
   function updateCard(side) {
     let html = fs.readFileSync(`html/${model}.${template}.${side}.html`).toString()
     if (result[template][side] !== html) {
@@ -338,8 +338,8 @@ const uploadHtmlTemplate = (model, template, result) => {
   updateCard('Back');
 }
 
-const modelTemplates = (fn) => {
-  modelNames.forEach((model) => {
+const model_templates = (fn) => {
+  model_names.forEach((model) => {
     post("modelTemplates", {"modelName": model})
       .then(json => {
         for (const [key, _] of Object.entries(json.result)) {
@@ -349,10 +349,10 @@ const modelTemplates = (fn) => {
   })
 }
 
-const downloadHtmlTemplates = () => modelTemplates(downloadHtmlTemplate)
-const uploadHtmlTemplates = () => modelTemplates(uploadHtmlTemplate)
+const download_html_templates = () => model_templates(download_html_template)
+const upload_html_templates = () => model_templates(upload_html_template)
 
-const configureDeck = async (deckName, suffix) => {
+const configure_deck = async (deckName, suffix) => {
   let config = await post('getDeckConfig', {deck: deckName});
   if (config.result.name.endsWith(suffix)) {
     return
@@ -362,28 +362,15 @@ const configureDeck = async (deckName, suffix) => {
   console.log(result)
 }
 
-const configureJapaneseDecks = async () => {
+const configure_decks = async () => {
   let json = await post('deckNamesAndIds', {});
   for (const [key, _] of Object.entries(json.result)) {
     let match = key.match(/日本語::(.*)/)
     if (match) {
-      await configureDeck(match[0], match[1])
+      await configure_deck(match[0], match[1])
     }
   }
 }
-
-let png_style = `<style type="text/css">
-  text {
-  font: 8pt sans-serif;
-  stroke-width: 0pt;
-  fill: #586e75;
-}
-  path {
-  stroke - width: 4pt;
-  fill: #ffffff;
-  fill-opacity: 0;
-}
-</style>`
 
 let kanjidb = new sqlite3.Database('kanji.sqlite', (err) => {
   if (err) {
@@ -398,7 +385,6 @@ let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
 })
 
 const lookup_kanji = (kanji) => {
-  let unicode = kanji.charCodeAt(0)
   kanjidb.get("select * from Kanji where literal=?", [kanji], function (err, row) {
     delete row.drawing
     console.log(row)
@@ -525,13 +511,13 @@ const missing_kanji = (list) => {
 module.exports = {
   post,
   colorize,
-  emphasizeNotes,
+  emphasize_notes,
   move_cards,
-  strokeNotes,
-  updateStyling,
-  downloadHtmlTemplates,
-  uploadHtmlTemplates,
-  configureJapaneseDecks,
+  stroke_notes,
+  update_styling,
+  download_html_templates,
+  upload_html_templates,
+  configure_decks,
   add_kanji_with_reading_and_meaning,
   is_kunyomi,
   is_jukugo,
