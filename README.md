@@ -81,7 +81,7 @@ where
   id / 1000 > unixepoch(date('now', '-1 month')) and
   type = 1 and
   ease = 2 and
-  ivl > 30
+  ivl > 21
 order by id desc)
 -- update cards  set flags = 2, usn = -1 from hard as h where cards.id = h.cid;
 select *
@@ -90,4 +90,31 @@ where h.cid = c.id;
 
 
 select unixepoch(date('now', '-1 month'))
+```
+
+### Hard answers last week
+
+```sqlite
+with hard as (
+select
+  datetime(id / 1000, 'unixepoch') as 'datetime',
+  cast(strftime('%Y%W', datetime(id / 1000, 'unixepoch')) as int) as 'weeknr',
+  *
+from revlog
+where
+  weeknr = cast(strftime('%Y%W', date('now')) as int) - 1 and
+  type = 1 and
+  ease = 2 and
+  ivl > 14
+order by id desc)
+
+select *
+from cards as c, hard as h
+where h.cid = c.id;
+```
+
+### Flag as yellow
+
+```sqlite
+update cards  set flags = 2, usn = -1 from hard as h where cards.id = h.cid
 ```
