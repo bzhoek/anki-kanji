@@ -1,5 +1,5 @@
 @media only screen and (orientation: portrait)
-  .small
+  .strokes
     svg
       width: 40vw
       height: 40vw
@@ -8,7 +8,7 @@
     height: 80vw
 
 @media only screen and (orientation: landscape)
-  .small
+  .strokes
     svg
       width: 28vh
       height: 28vh
@@ -17,7 +17,7 @@
     height: 56vh
 
 @media only screen and (orientation: portrait) and (min-device-width: 1024px)
-  .small
+  .strokes
     svg
       width: 20vh
       height: 20vh
@@ -155,16 +155,24 @@ h1, h2
 h2
   color: white
 
-.notes, .strokes, .border
+div
+  margin: 8pt 0
+
+.notes, .border
   border-top: 1px solid grey
   padding-top: 8pt
   margin: 8pt 0
 
-.tomeaning
-  div, em, h1
-    font-size: 48pt
+.front
+  svg
+    text
+      fill: transparent
 
 .tomeaning, .toonyomi, .jukukana
+  .title
+    font-size: 48pt
+    font-family: 'Hiragino Sans', sans-serif
+
   .strokes
     border: none
 
@@ -175,12 +183,6 @@ h2
 .extra
   font-size: 10pt
   margin: 8pt 0
-
-.kanji em
-  border: none
-  margin-top: 8pt
-  font-size: 48pt
-  font-family: 'Hiragino Mincho ProN', 'HiraMinProN-W3'
 
 .kana
   color: #268bd2

@@ -1,11 +1,21 @@
-<main>
-  {{FrontSide}}
+<main class='jukugo tomeaning'>
+  {{#kanji}}
+  <h1 class='title'>{{kanji}}</h1>
   <h1>{{nederlands}}</h1>
+  <h2>&equals; 熟語 &equals;</h2>
+  {{/kanji}}
+  {{^kanji}}
+  <div>
+    {{kana}}
+  </div>
+  <h1>{{nederlands}}</h1>
+  <h2>&equals; じゅくご &equals;</h2>
+  {{/kanji}}
   {{kana}}
   <div>
     {{notes}}
   </div>
-  <div class='small strokes'>
+  <div class='strokes'>
     {{strokes}}
   </div>
   <div>
