@@ -1,13 +1,11 @@
 <main class='jukugo tomeaning'>
   {{#kanji}}
-  <h1 class='title'>{{kanji}}</h1>
+  <h1 class='title'>{{kanji}} {{speech}}</h1>
   <h1>{{nederlands}}</h1>
   <h2>&equals; 熟語 &equals;</h2>
   {{/kanji}}
   {{^kanji}}
-  <div>
-    {{kana}}
-  </div>
+  <h1 class='title'>{{kana}} {{speech}}</h1>
   <h1>{{nederlands}}</h1>
   <h2>&equals; じゅくご &equals;</h2>
   {{/kanji}}
@@ -15,10 +13,8 @@
   <div>
     {{notes}}
   </div>
-  <div class='strokes'>
-    {{strokes}}
-  </div>
-  <div>
-    {{speech}}
-  </div>
+  <div class='strokes'>{{strokes}}</div>
+  {{#context}}
+  <div>{{context}}</div>
+  {{/context}}
 </main>

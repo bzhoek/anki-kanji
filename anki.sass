@@ -16,7 +16,8 @@
     width: 56vh
     height: 56vh
 
-@media only screen and (orientation: portrait) and (min-device-width: 1024px)
+// ipad and desktop
+@media only screen and (min-device-width: 1024px)
   .strokes
     svg
       width: 20vh
@@ -168,13 +169,16 @@ div
     text
       fill: transparent
 
-.tomeaning, .toonyomi, .jukukana
+.tomeaning, .toonyomi, .jukukana, .reading
   .title
     font-size: 48pt
     font-family: 'Hiragino Sans', sans-serif
 
   .strokes
     border: none
+
+    &.lookalike
+      border: 1px solid red
 
     svg
       text

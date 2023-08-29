@@ -1,5 +1,10 @@
 <main class='magenta tomeaning'>
-  <h1 class="title">{{kanji}} {{speech}}</h1>
+  {{#kanji}}
+  <h1 class='title'>{{kanji}} {{speech}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class='title'>{{kana}} {{speech}}</h1>
+  {{/kanji}}
   <h1>{{nederlands}}</h1>
   <h2>&equals; 五段活用 &equals;</h2>
   {{#notes}}
@@ -7,12 +12,11 @@
     {{notes}}
   </div>
   {{/notes}}
-  <div class="border">
-    {{kana}}
-  </div>
+  <div>{{kana}}</div>
   {{#strokes}}
-  <div class='strokes border'>
-    {{strokes}}
-  </div>
+  <div class='strokes border'>{{strokes}}</div>
   {{/strokes}}
+  {{#context}}
+  <div>{{context}}</div>
+  {{/context}}
 </main>

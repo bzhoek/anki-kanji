@@ -1,12 +1,12 @@
 <main class='tomeaning kanji'>
-  <div class='strokes'>
-    {{strokes}}
-  </div>
+  <div class='strokes'>{{strokes}}</div>
   <h1>{{nederlands}}</h1>
   <h2>&equals; 漢字 &equals;</h2>
   <div>
     {{notes}}
   </div>
   {{on}}
-  <br/>
+  {{#context}}
+  <div>{{context}}</div>
+  {{/context}}
 </main>

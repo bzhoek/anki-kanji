@@ -1,6 +1,9 @@
-{{#kanji}}
 <main class='magenta tomeaning'>
+  {{#kanji}}
   <h1 class='title'>{{kanji}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class='title'>{{kana}}</h1>
+  {{/kanji}}
   <h2>&equals; 終止形 &equals;</h2>
 </main>
-{{/kanji}}

@@ -1,5 +1,5 @@
 <main class='jukukanji'>
-  <h1>{{nederlands}}</h1>
+  <h1>{{nederlands}} {{speech}}</h1>
   {{notes}}
   {{#kanji}}
   <h2>\️ 熟語 /️</h2>
@@ -9,12 +9,10 @@
   {{/kanji}}
   {{kanji}}
   {{#strokes}}
-  <div class='strokes'>
-    {{strokes}}
-  </div>
+  <div class='strokes'>{{strokes}}</div>
   {{/strokes}}
   {{kana}}
-  <div>
-    {{speech}}
-  </div>
+  {{#context}}
+  <div>{{context}}</div>
+  {{/context}}
 </main>

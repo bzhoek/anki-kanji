@@ -1,12 +1,12 @@
 <main class='jukugo'>
-  <h1>{{nederlands}}</h1>
+  <h1>{{nederlands}} {{speech}}</h1>
   {{notes}}
   <h2>\️ 熟語 /️</h2>
   <div>
     {{strokes}}
   </div>
   {{kana}}
-  <div>
-    {{speech}}
-  </div>
+  {{#context}}
+  <div>{{context}}</div>
+  {{/context}}
 </main>

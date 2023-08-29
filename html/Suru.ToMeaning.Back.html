@@ -3,16 +3,13 @@
   <h1>{{nederlands}}</h1>
   <h2>&equals; V &equals;</h2>
   {{#notes}}
-  <div>
-    {{notes}}
-  </div>
+  <div>{{notes}}</div>
   {{/notes}}
-  <div class="border">
-    {{kana}}
-  </div>
+  <div>{{kana}}</div>
   {{#strokes}}
-  <div class='strokes border'>
-    {{strokes}}
-  </div>
+  <div class='strokes border'>{{strokes}}</div>
   {{/strokes}}
+  {{#context}}
+  <div>{{context}}</div>
+  {{/context}}
 </main>
