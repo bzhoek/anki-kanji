@@ -165,6 +165,12 @@ const fix_kana = async (query) =>
   find_notes(query, async (id) => {
     let json = await post("notesInfo", {notes: [id]});
     let entity = json.result[0];
+
+    if(!['OnYomi', 'Suru'].includes(entity.modelName)) {
+      console.log("Skip", entity.modelName)
+      return
+    }
+
     if (entity.fields['kana'] === undefined) {
       return
     }
