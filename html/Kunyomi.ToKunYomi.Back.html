@@ -1,13 +1,13 @@
 <main class='jukukana'>
-  <h1 class='title'>{{kanji}} </h1>
+  <h1 class='title'>{{kanji}} {{speech}}</h1>
   {{kana}}
   <h2>&gt; じゅくご &lt;</h2>
   <h1>{{nederlands}}</h1>
   <div class='notes'>{{notes}}</div>
-  {{#strokes}}
-  <div class='strokes'>{{strokes}}</div>
-  {{/strokes}}
   {{#context}}
-  <div>{{context}}</div>
+  <div class="context">{{context}}</div>
   {{/context}}
+  {{#strokes}}
+  <div class="strokes">{{strokes}}</div>
+  {{/strokes}}
 </main>
