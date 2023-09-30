@@ -1,6 +1,11 @@
 {{#kana}}
 <main class='toonyomi'>
-  <div class="strokes">{{strokes}}</div>
+  {{#kanji}}
+  <h1 class="title {{Tags}}">{{kanji}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class="title {{Tags}}">{{kana}}</h1>
+  {{/kanji}}
   <h2>&gt; オンヨミ &lt;</h2>
 </main>
 {{/kana}}

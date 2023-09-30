@@ -1,5 +1,10 @@
 <main class='jukugo reading back'>
-  <div class="strokes">{{strokes}}</div>
+  {{#kanji}}
+  <h1 class="title {{Tags}}">{{kanji}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class="title {{Tags}}">{{kana}}</h1>
+  {{/kanji}}
   <h1>{{nederlands}} {{speech}}</h1>
   <h2>&equals; 熟語 &equals;</h2>
   <div>{{notes}}</div>
@@ -7,4 +12,5 @@
   {{#context}}
   <div class="context">{{context}}</div>
   {{/context}}
+  <div class="strokes">{{strokes}}</div>
 </main>

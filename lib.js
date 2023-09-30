@@ -311,6 +311,7 @@ let model_names = [
   'OnKanji',
   'Onyomi',
   'Kunyomi',
+  'Immersion'
 ]
 
 const update_styling = (css) => {
