@@ -1,15 +1,5 @@
-<main class='magenta tomeaning'>
-  <h1 class="title">{{kanji}}</h1>
-  <h1>{{nederlands}} {{speech}}</h1>
-  <h2>&equals; V &equals;</h2>
-  {{#notes}}
-  <div>{{notes}}</div>
-  {{/notes}}
-  <div>{{kana}}</div>
-  {{#strokes}}
-  <div class='strokes border'>{{strokes}}</div>
-  {{/strokes}}
-  {{#context}}
-  <div class="context">{{context}}</div>
-  {{/context}}
-</main>
+<main class="magenta tomeaning back">
+{{#kanji}}<h1 class="title">{{kanji}}</h1><h1>{{nederlands}} {{speech}}</h1><h2>&equals; V &equals;</h2>{{/kanji}}
+{{^kanji}}<h1 class="title">{{kana}}</h1><h1>{{nederlands}} {{speech}}</h1><h2>&equals; V &equals;</h2>{{/kanji}}
+{{#notes}}<div>{{notes}}</div>{{/notes}}<div>{{kana}}</div>{{#context}}<div class="context">{{context}}</div>{{/context}}
+{{#strokes}}<div class="strokes">{{strokes}}</div>{{/strokes}}</main>
