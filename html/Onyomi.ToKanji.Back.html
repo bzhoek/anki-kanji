@@ -1,5 +1,11 @@
 <main class='jukugo'>
   <h1>{{nederlands}} {{speech}}</h1>
+  {{#kanji}}
+  <h1 class="title {{Tags}}">{{kanji}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class="title {{Tags}}">{{kana}}</h1>
+  {{/kanji}}
   {{notes}}
   <h2>\️ 熟語 /️</h2>
   <div class="strokes">{{strokes}}</div>
