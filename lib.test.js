@@ -87,9 +87,9 @@ describe('multiple kanji', () => {
 const pug = require('pug');
 
 describe('templates', () => {
-  test('has kanji', () => {
-    const back_template = pug.compileFile('template.back.pug');
-    const front_template = pug.compileFile('template.front.pug');
+  test('meaning', () => {
+    const meaning_back = pug.compileFile('reading.back.pug');
+    const meaning_front = pug.compileFile('reading.front.pug');
     const meanings = (ary) => ary.map(text => `&equals; ${text} &equals;`)
     let jukugo = meanings(['熟語', 'じゅくご']);
     let suru = meanings(['V']);
@@ -102,7 +102,7 @@ describe('templates', () => {
       {name: 'Suru', grammar: suru}
     ].map(meaning => Object.assign(meaning, {
       color: 'magenta',
-      mode: 'tomeaning',
+      mode: 'reading',
       name: `${meaning.name}.ToMeaning.Front`
     }))
 
@@ -114,16 +114,53 @@ describe('templates', () => {
       {name: 'Suru', grammar: suru,},
     ].map(meaning => Object.assign(meaning, {
       color: 'magenta',
-      mode: 'tomeaning',
+      mode: 'reading',
       name: `${meaning.name}.ToMeaning.Back`
     }))
 
-    write_html(backs, back_template);
-    write_html(fronts, front_template);
+    write_html(backs, meaning_back);
+    write_html(fronts, meaning_front);
 
-    let result = front_template(fronts[0])
+    let result = meaning_front(fronts[0])
     expect(result).toBe('<main class="magenta tomeaning front">\n' +
       '{{#kanji}}<h1 class="title">{{kanji}}</h1><h2>&equals; 終止形 &equals;</h2>{{/kanji}}\n' +
       '{{^kanji}}<h1 class="title">{{kana}}</h1><h2>&equals; しゅうしけい &equals;</h2>{{/kanji}}</main>')
+  })
+  test('speaking', () => {
+    const speaking_front = pug.compileFile('speaking.front.pug');
+    const speaking_back = pug.compileFile('speaking.back.pug');
+    const speaking = (ary) => ary.map(text => `&gt; ${text} &lt;`)
+    let jukugo = speaking(['熟語', 'じゅくご']);
+    let godan = speaking(['V', '五段活用']);
+    let ichidan = speaking(['V', '一段活用']);
+    let suru = speaking(['V', 'するV']);
+
+    let cards = [
+      {name: 'Godan', grammar: godan},
+      {name: 'Ichidan', grammar: ichidan},
+      {name: 'Kunyomi', grammar: jukugo},
+      {name: 'Suru', grammar: suru},
+    ];
+
+    const prepare_for = (cards, color, mode, suffix) => cards.map(card => Object.assign(meaning,
+      {
+        color: color,
+        mode: mode,
+        name: `${card.name}.${suffix}`
+      }))
+
+    let backs = cards.map(meaning => Object.assign(meaning, {
+      color: 'magenta',
+      mode: 'speaking',
+      name: `${meaning.name}.ToKunYomi.Back`
+    }))
+
+    write_html(fronts, speaking_front);
+    write_html(backs, speaking_back);
+
+    let result = speaking_front(fronts[0])
+    expect(result).toBe('{{#kanji}}\n' +
+      '<main class="magenta speaking front"><h1 class="title {{Tags}}">{{kanji}}</h1><h2>&gt; V &lt;</h2></main>\n' +
+      '{{/kanji}}')
   });
 })

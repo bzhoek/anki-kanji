@@ -1,0 +1,15 @@
+main(class=`${color} ${mode} back`)
+  |
+  h1(class=`title {{Tags}}`) {{kanji}}
+  h1 {{nederlands}} {{speech}}
+  h2!= grammar[1] || grammar[0]
+  div {{kana}}
+  | {{#notes}}
+  div {{notes}}
+  | {{/notes}}
+  | {{#context}}
+  div.context {{context}}
+  | {{/context}}
+  | {{#strokes}}
+  div.strokes {{strokes}}
+  | {{/strokes}}
