@@ -1,5 +1,4 @@
 const {is_jukugo, is_kunyomi, to_onyomi, find_kanji, multiple_kanji, missing_kanji} = require('./lib')
-
 // ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎ
 
 describe('jukugo', () => {
@@ -74,5 +73,62 @@ describe('multiple kanji', () => {
   test('missing kanjis', async () => {
     let result = await Promise.all(missing_kanji("汗\t危\t宇\t灰\t仮\t叫\t机\t吸\t舟\t宅\t存\t忙\t灯"))
     expect(result.filter(v => v)).toStrictEqual(["汗", "宇", "仮", "叫", "吸", "舟", "存", "灯"])
+  });
+})
+
+const fs = require('fs');
+const pug = require('pug');
+describe('templates', () => {
+  test('has kanji', () => {
+    const compiledFunction = pug.compileFile('template.front.pug');
+    const meaning = (text) => `&equals; ${text} &equals;`
+    let files = [
+      {
+        name: 'Godan.ToMeaning.Front',
+        color: 'magenta',
+        mode: 'tomeaning',
+        kanji_gr: meaning('終止形'),
+        kana_gr: meaning('しゅうしけい'),
+      },
+      {
+        name: 'Ichidan.ToMeaning.Front',
+        color: 'magenta',
+        mode: 'tomeaning',
+        kanji_gr: meaning('終止形'),
+        kana_gr: meaning('しゅうしけい'),
+      },
+      {
+        name: 'Onyomi.ToMeaning.Front',
+        color: 'magenta',
+        mode: 'tomeaning',
+        kanji_gr: meaning('熟語'),
+        kana_gr: meaning('しゅうしけい'),
+      },
+      {
+        name: 'Kunyomi.ToMeaning.Front',
+        color: 'magenta',
+        mode: 'tomeaning',
+        kanji_gr: meaning('熟語'),
+        kana_gr: meaning('じゅくご'),
+      },
+      {
+        name: 'Suru.ToMeaning.Front',
+        color: 'magenta',
+        mode: 'tomeaning',
+        kanji_gr: meaning('V'),
+        kana_gr: meaning('V'),
+      }
+    ]
+
+    files.forEach(file => {
+        let result = compiledFunction(file)
+        fs.writeFileSync(`html/${file.name}.html`, result, 'utf8')
+      }
+    )
+
+    // expect(result).toBe('<main class="magenta tomeaning">\n' +
+    //   '{{#kanji}}<h1 class="title">{{kanji}}</h1>{{/kanji}}\n' +
+    //   '{{^kanji}}<h1 class="title">{{kana}}</h1>{{/kanji}}\n' +
+    //   '<h2>&equals; 終止形 &equals;</h2></main>')
   });
 })

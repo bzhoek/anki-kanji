@@ -334,7 +334,7 @@ const upload_html_template = (model, template, result) => {
   function updateCard(side) {
     let html = fs.readFileSync(`html/${model}.${template}.${side}.html`).toString()
     if (result[template][side] !== html) {
-      console.log(`${template} Update ${side}`)
+      console.log(`${model}.${template} Update ${side}`)
       post("updateModelTemplates", {model: {name: model, templates: {[template]: {[side]: html}}}}).then(json => {
         console.log(json)
       })
