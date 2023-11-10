@@ -1,4 +1,12 @@
-const {is_jukugo, is_kunyomi, to_onyomi, find_kanji, multiple_kanji, missing_kanji} = require('./lib')
+const {
+  is_jukugo,
+  is_kunyomi,
+  to_onyomi,
+  find_kanji,
+  multiple_kanji,
+  missing_kanji,
+  write_html
+} = require('./lib')
 // ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎ
 
 describe('jukugo', () => {
@@ -76,59 +84,46 @@ describe('multiple kanji', () => {
   });
 })
 
-const fs = require('fs');
 const pug = require('pug');
+
 describe('templates', () => {
   test('has kanji', () => {
-    const compiledFunction = pug.compileFile('template.front.pug');
-    const meaning = (text) => `&equals; ${text} &equals;`
-    let files = [
-      {
-        name: 'Godan.ToMeaning.Front',
-        color: 'magenta',
-        mode: 'tomeaning',
-        kanji_gr: meaning('終止形'),
-        kana_gr: meaning('しゅうしけい'),
-      },
-      {
-        name: 'Ichidan.ToMeaning.Front',
-        color: 'magenta',
-        mode: 'tomeaning',
-        kanji_gr: meaning('終止形'),
-        kana_gr: meaning('しゅうしけい'),
-      },
-      {
-        name: 'Onyomi.ToMeaning.Front',
-        color: 'magenta',
-        mode: 'tomeaning',
-        kanji_gr: meaning('熟語'),
-        kana_gr: meaning('しゅうしけい'),
-      },
-      {
-        name: 'Kunyomi.ToMeaning.Front',
-        color: 'magenta',
-        mode: 'tomeaning',
-        kanji_gr: meaning('熟語'),
-        kana_gr: meaning('じゅくご'),
-      },
-      {
-        name: 'Suru.ToMeaning.Front',
-        color: 'magenta',
-        mode: 'tomeaning',
-        kanji_gr: meaning('V'),
-        kana_gr: meaning('V'),
-      }
-    ]
+    const back_template = pug.compileFile('template.back.pug');
+    const front_template = pug.compileFile('template.front.pug');
+    const meanings = (ary) => ary.map(text => `&equals; ${text} &equals;`)
+    let jukugo = meanings(['熟語', 'じゅくご']);
+    let suru = meanings(['V']);
 
-    files.forEach(file => {
-        let result = compiledFunction(file)
-        fs.writeFileSync(`html/${file.name}.html`, result, 'utf8')
-      }
-    )
+    let fronts = [
+      {name: 'Godan', grammar: meanings(['終止形', 'しゅうしけい'])},
+      {name: 'Ichidan', grammar: meanings(['終止形', 'しゅうしけい'])},
+      {name: 'Onyomi', grammar: jukugo},
+      {name: 'Kunyomi', grammar: jukugo},
+      {name: 'Suru', grammar: suru}
+    ].map(meaning => Object.assign(meaning, {
+      color: 'magenta',
+      mode: 'tomeaning',
+      name: `${meaning.name}.ToMeaning.Front`
+    }))
 
-    // expect(result).toBe('<main class="magenta tomeaning">\n' +
-    //   '{{#kanji}}<h1 class="title">{{kanji}}</h1>{{/kanji}}\n' +
-    //   '{{^kanji}}<h1 class="title">{{kana}}</h1>{{/kanji}}\n' +
-    //   '<h2>&equals; 終止形 &equals;</h2></main>')
+    let backs = [
+      {name: 'Godan', grammar: meanings(['五段活用']),},
+      {name: 'Ichidan', grammar: meanings(['一段活用']),},
+      {name: 'Onyomi', grammar: jukugo},
+      {name: 'Kunyomi', grammar: jukugo},
+      {name: 'Suru', grammar: suru,},
+    ].map(meaning => Object.assign(meaning, {
+      color: 'magenta',
+      mode: 'tomeaning',
+      name: `${meaning.name}.ToMeaning.Back`
+    }))
+
+    write_html(backs, back_template);
+    write_html(fronts, front_template);
+
+    let result = front_template(fronts[0])
+    expect(result).toBe('<main class="magenta tomeaning front">\n' +
+      '{{#kanji}}<h1 class="title">{{kanji}}</h1><h2>&equals; 終止形 &equals;</h2>{{/kanji}}\n' +
+      '{{^kanji}}<h1 class="title">{{kana}}</h1><h2>&equals; しゅうしけい &equals;</h2>{{/kanji}}</main>')
   });
 })

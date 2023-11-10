@@ -1,0 +1,22 @@
+main(class=`${color} ${mode} back`)
+  |
+  | {{#kanji}}
+  h1.title {{kanji}}
+  h1 {{nederlands}} {{speech}}
+  h2!= grammar[0]
+  | {{/kanji}}
+  | {{^kanji}}
+  h1.title {{kana}}
+  h1 {{nederlands}} {{speech}}
+  h2!= grammar[1] || grammar[0]
+  | {{/kanji}}
+  | {{#notes}}
+  div {{notes}}
+  | {{/notes}}
+  div {{kana}}
+  | {{#context}}
+  div.context {{context}}
+  | {{/context}}
+  | {{#strokes}}
+  div.strokes {{strokes}}
+  | {{/strokes}}

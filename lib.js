@@ -515,6 +515,16 @@ const missing_kanji = (list) => {
   return multiple_kanji(list).map(async kanji => await find_kanji(kanji) ? null : kanji)
 }
 
+const write_html = (cards, compiledTemplate) => {
+  cards.forEach(card => {
+      let result = compiledTemplate(card)
+      let filename = `html/${card.name}.html`;
+      fs.writeFileSync(filename, result, 'utf8')
+      console.log(`Wrote ${filename}`)
+    }
+  )
+};
+
 module.exports = {
   post,
   colorize,
@@ -536,5 +546,6 @@ module.exports = {
   lookup_kanji,
   move_related,
   add_speech,
-  lapse_cards
+  lapse_cards,
+  write_html
 }
