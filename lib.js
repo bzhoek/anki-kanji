@@ -3,6 +3,7 @@ const fs = require("fs");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
+const pug = require("pug");
 
 const rate_limit = RateLimit(5);
 
@@ -515,7 +516,9 @@ const missing_kanji = (list) => {
   return multiple_kanji(list).map(async kanji => await find_kanji(kanji) ? null : kanji)
 }
 
-const write_html = (cards, compiledTemplate) => {
+const write_html = (cards, template) => {
+  const compiledTemplate = pug.compileFile(template);
+
   cards.forEach(card => {
       let result = compiledTemplate(card)
       let filename = `html/${card.name}.html`;
@@ -523,6 +526,7 @@ const write_html = (cards, compiledTemplate) => {
       console.log(`Wrote ${filename}`)
     }
   )
+  return compiledTemplate
 };
 
 module.exports = {

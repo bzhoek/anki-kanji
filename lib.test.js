@@ -84,12 +84,15 @@ describe('multiple kanji', () => {
   });
 })
 
-const pug = require('pug');
+const prepare_for = (cards, color, mode, suffix) => cards.map(card =>
+  Object.assign(card, {
+    color: color,
+    mode: mode,
+    name: `${card.name}.${suffix}`
+  }))
 
 describe('templates', () => {
-  test('meaning', () => {
-    const meaning_back = pug.compileFile('reading.back.pug');
-    const meaning_front = pug.compileFile('reading.front.pug');
+  test('reading', () => {
     const meanings = (ary) => ary.map(text => `&equals; ${text} &equals;`)
     let jukugo = meanings(['熟語', 'じゅくご']);
     let suru = meanings(['V']);
@@ -118,21 +121,20 @@ describe('templates', () => {
       name: `${meaning.name}.ToMeaning.Back`
     }))
 
-    write_html(backs, meaning_back);
-    write_html(fronts, meaning_front);
+    let compiledTemplate = write_html(fronts, 'reading.front.pug');
+    write_html(backs, 'reading.back.pug');
 
-    let result = meaning_front(fronts[0])
-    expect(result).toBe('<main class="magenta tomeaning front">\n' +
-      '{{#kanji}}<h1 class="title">{{kanji}}</h1><h2>&equals; 終止形 &equals;</h2>{{/kanji}}\n' +
-      '{{^kanji}}<h1 class="title">{{kana}}</h1><h2>&equals; しゅうしけい &equals;</h2>{{/kanji}}</main>')
+    let result = compiledTemplate(fronts[0])
+    expect(result).toBe('<main class="magenta reading front">\n' +
+      '{{#kanji}}<h1 class="title {{Tags}}">{{kanji}}</h1><h2>&equals; 終止形 &equals;</h2>{{/kanji}}\n' +
+      '{{^kanji}}<h1 class="title {{Tags}}">{{kana}}</h1><h2>&equals; しゅうしけい &equals;</h2>{{/kanji}}</main>')
   })
+
   test('speaking', () => {
-    const speaking_front = pug.compileFile('speaking.front.pug');
-    const speaking_back = pug.compileFile('speaking.back.pug');
     const speaking = (ary) => ary.map(text => `&gt; ${text} &lt;`)
-    let jukugo = speaking(['熟語', 'じゅくご']);
     let godan = speaking(['V', '五段活用']);
     let ichidan = speaking(['V', '一段活用']);
+    let jukugo = speaking(['熟語', 'じゅくご']);
     let suru = speaking(['V', 'するV']);
 
     let cards = [
@@ -142,25 +144,42 @@ describe('templates', () => {
       {name: 'Suru', grammar: suru},
     ];
 
-    const prepare_for = (cards, color, mode, suffix) => cards.map(card => Object.assign(meaning,
-      {
-        color: color,
-        mode: mode,
-        name: `${card.name}.${suffix}`
-      }))
+    let fronts = prepare_for(cards, 'magenta', 'speaking', 'ToKunYomi.Front')
+    let backs = prepare_for(cards, 'magenta', 'speaking', 'ToKunYomi.Back')
 
-    let backs = cards.map(meaning => Object.assign(meaning, {
-      color: 'magenta',
-      mode: 'speaking',
-      name: `${meaning.name}.ToKunYomi.Back`
-    }))
+    let compiledTemplate = write_html(fronts, 'speaking.front.pug');
+    write_html(backs, 'speaking.back.pug');
 
-    write_html(fronts, speaking_front);
-    write_html(backs, speaking_back);
-
-    let result = speaking_front(fronts[0])
+    let result = compiledTemplate(fronts[0])
     expect(result).toBe('{{#kanji}}\n' +
       '<main class="magenta speaking front"><h1 class="title {{Tags}}">{{kanji}}</h1><h2>&gt; V &lt;</h2></main>\n' +
       '{{/kanji}}')
+  })
+
+  test('writing', () => {
+    const writing = (ary) => ary.map(text => `\\ ${text} /`)
+    let godan = writing(['辞書形', '五段活用']);
+    let ichidan = writing(['辞書形', '一段活用']);
+    let jukugo = writing(['熟語', 'じゅくご']);
+    let suru = writing(['辞書形', 'するV']);
+
+    let cards = [
+      {name: 'Ichidan', grammar: ichidan},
+      {name: 'Godan', grammar: godan},
+      {name: 'Kunyomi', grammar: jukugo},
+      {name: 'Suru', grammar: suru},
+    ];
+
+    let violet = prepare_for(cards, 'violet', 'writing', 'ToKanji.Front')
+    let magenta = prepare_for(
+      [{name: 'Onyomi', grammar: jukugo},],
+      'magenta', 'writing', 'ToKanji.Front')
+
+    let compiledTemplate = write_html(violet, 'writing.front.pug');
+    write_html(magenta, 'writing.front.pug');
+    // write_html(backs, 'speaking.back.pug');
+
+    let result = compiledTemplate(violet[0])
+    expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1><h2>\\ 辞書形 /</h2></main>')
   });
 })
