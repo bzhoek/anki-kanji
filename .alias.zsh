@@ -5,6 +5,7 @@ anki_sort() {
     return
   fi
 
+  ./anki.js move "$1 card:ToExpress" Japans::Zeggen
   ./anki.js move "$1 card:ToMeaning" Japans::Lezen
   ./anki.js move "$1 card:ToKanji" Japans::Schrijven::Kanji
   ./anki.js move "$1 note:OnKanji card:ToOnYomi" Japans::Spreken::Kanji

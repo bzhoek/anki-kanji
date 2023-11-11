@@ -174,4 +174,20 @@ describe('templates', () => {
     expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
       '{{^kanji}}<h2>\\ 五段活用 /</h2>{{/kanji}}</main>')
   });
+
+  test('expressing', () => {
+    const speaking = (ary) => ary.map(text => `&gt; ${text} &lt;`)
+    let godan = speaking(['V', '五段活用']);
+
+    let cards = [
+      {name: 'Godan', grammar: godan, color: 'cyan'},
+    ].map(card => Object.assign(card, {mode: 'saying'}));
+
+    let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToExpress.Front');
+    write_html(cards, 'saying.back.pug', 'ToExpress.Back');
+
+    let result = compiledTemplate(cards[0])
+    expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
+      '{{^kanji}}<h2>\\ 五段活用 /</h2>{{/kanji}}</main>')
+  });
 })
