@@ -15,7 +15,7 @@ let cli = clap.command('anki ')
    - deck:Karate for all notes in deck
    - nid:1656500001715 note with id`)
   .action(() => cli.outputHelp())
-cli.command('default <query>')
+cli.command('collect <query>')
   .description('Move all related cards to the Default deck')
   .action(({_, args}) => move_related(args[0]))
   .end()
