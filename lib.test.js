@@ -97,16 +97,16 @@ describe('templates', () => {
     let jukugo = meanings(['熟語', 'じゅくご']);
     let suru = meanings(['V']);
 
+    let dictionary = meanings(['終止形', 'しゅうしけい']);
     let fronts = [
-      {name: 'Godan', grammar: meanings(['終止形', 'しゅうしけい'])},
-      {name: 'Ichidan', grammar: meanings(['終止形', 'しゅうしけい'])},
+      {name: 'Godan', grammar: dictionary},
+      {name: 'Ichidan', grammar: dictionary},
       {name: 'Onyomi', grammar: jukugo},
       {name: 'Kunyomi', grammar: jukugo},
       {name: 'Suru', grammar: suru}
     ].map(meaning => Object.assign(meaning, {
       color: 'magenta',
-      mode: 'reading',
-      name: `${meaning.name}.ToMeaning.Front`
+      mode: 'reading'
     }))
 
     let backs = [
@@ -117,12 +117,11 @@ describe('templates', () => {
       {name: 'Suru', grammar: suru,},
     ].map(meaning => Object.assign(meaning, {
       color: 'magenta',
-      mode: 'reading',
-      name: `${meaning.name}.ToMeaning.Back`
+      mode: 'reading'
     }))
 
-    let compiledTemplate = write_html(fronts, 'reading.front.pug');
-    write_html(backs, 'reading.back.pug');
+    let compiledTemplate = write_html(fronts, 'reading.front.pug', 'ToMeaning.Front');
+    write_html(backs, 'reading.back.pug', 'ToMeaning.Back');
 
     let result = compiledTemplate(fronts[0])
     expect(result).toBe('<main class="magenta reading front">\n' +
@@ -138,19 +137,16 @@ describe('templates', () => {
     let suru = speaking(['V', 'するV']);
 
     let cards = [
-      {name: 'Godan', grammar: godan},
-      {name: 'Ichidan', grammar: ichidan},
-      {name: 'Kunyomi', grammar: jukugo},
-      {name: 'Suru', grammar: suru},
-    ];
+      {name: 'Godan', grammar: godan, color: 'magenta'},
+      {name: 'Ichidan', grammar: ichidan, color: 'magenta'},
+      {name: 'Kunyomi', grammar: jukugo, color: 'magenta'},
+      {name: 'Suru', grammar: suru, color: 'magenta'},
+    ].map(card => Object.assign(card, {mode: 'speaking'}));
 
-    let fronts = prepare_for(cards, 'magenta', 'speaking', 'ToKunYomi.Front')
-    let backs = prepare_for(cards, 'magenta', 'speaking', 'ToKunYomi.Back')
+    let compiledTemplate = write_html(cards, 'speaking.front.pug', 'ToKunYomi.Front');
+    write_html(cards, 'speaking.back.pug', 'ToKunYomi.Back');
 
-    let compiledTemplate = write_html(fronts, 'speaking.front.pug');
-    write_html(backs, 'speaking.back.pug');
-
-    let result = compiledTemplate(fronts[0])
+    let result = compiledTemplate(cards[0])
     expect(result).toBe('{{#kanji}}\n' +
       '<main class="magenta speaking front"><h1 class="title {{Tags}}">{{kanji}}</h1><h2>&gt; V &lt;</h2></main>\n' +
       '{{/kanji}}')
@@ -164,22 +160,18 @@ describe('templates', () => {
     let suru = writing(['辞書形', 'するV']);
 
     let cards = [
-      {name: 'Ichidan', grammar: ichidan},
-      {name: 'Godan', grammar: godan},
-      {name: 'Kunyomi', grammar: jukugo},
-      {name: 'Suru', grammar: suru},
-    ];
+      {name: 'Ichidan', grammar: ichidan, color: 'violet'},
+      {name: 'Godan', grammar: godan, color: 'violet'},
+      {name: 'Kunyomi', grammar: jukugo, color: 'violet'},
+      {name: 'Suru', grammar: suru, color: 'violet'},
+      {name: 'Onyomi', grammar: jukugo, color: 'magenta'}
+    ].map(card => Object.assign(card, {mode: 'writing'}));
 
-    let violet = prepare_for(cards, 'violet', 'writing', 'ToKanji.Front')
-    let magenta = prepare_for(
-      [{name: 'Onyomi', grammar: jukugo},],
-      'magenta', 'writing', 'ToKanji.Front')
-
-    let compiledTemplate = write_html(violet, 'writing.front.pug');
-    write_html(magenta, 'writing.front.pug');
+    let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToKanji.Front');
     // write_html(backs, 'speaking.back.pug');
 
-    let result = compiledTemplate(violet[0])
-    expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1><h2>\\ 辞書形 /</h2></main>')
+    let result = compiledTemplate(cards[0])
+    expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
+      '{{^kanji}}<h2>\\ 一段活用 /</h2>{{/kanji}}</main>')
   });
 })

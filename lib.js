@@ -516,12 +516,12 @@ const missing_kanji = (list) => {
   return multiple_kanji(list).map(async kanji => await find_kanji(kanji) ? null : kanji)
 }
 
-const write_html = (cards, template) => {
+const write_html = (cards, template, suffix) => {
   const compiledTemplate = pug.compileFile(template);
 
   cards.forEach(card => {
       let result = compiledTemplate(card)
-      let filename = `html/${card.name}.html`;
+      let filename = `html/${card.name}.${suffix}.html`;
       fs.writeFileSync(filename, result, 'utf8')
       console.log(`Wrote ${filename}`)
     }
