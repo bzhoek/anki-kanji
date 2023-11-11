@@ -1,16 +1,2 @@
-<main class='jukugo'>
-  <h1>{{nederlands}} {{speech}}</h1>
-  {{#kanji}}
-  <h1 class="title {{Tags}}">{{kanji}}</h1>
-  {{/kanji}}
-  {{^kanji}}
-  <h1 class="title {{Tags}}">{{kana}}</h1>
-  {{/kanji}}
-  {{notes}}
-  <h2>\️ 熟語 /️</h2>
-  <div class="strokes">{{strokes}}</div>
-  {{kana}}
-  {{#context}}
-  <div class="context">{{context}}</div>
-  {{/context}}
-</main>
+<main class="magenta writing back"><h1>{{nederlands}} {{speech}}</h1><h2>\ じゅくご /</h2><div>{{kanji}}</div>{{#notes}}<div>{{notes}}</div>{{/notes}}
+{{#strokes}}<div class="strokes">{{strokes}}</div>{{/strokes}}<div>{{kana}}</div>{{#context}}<div class="context">{{context}}</div>{{/context}}</main>

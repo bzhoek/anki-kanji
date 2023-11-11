@@ -160,18 +160,18 @@ describe('templates', () => {
     let suru = writing(['辞書形', 'するV']);
 
     let cards = [
-      {name: 'Ichidan', grammar: ichidan, color: 'violet'},
       {name: 'Godan', grammar: godan, color: 'violet'},
+      {name: 'Ichidan', grammar: ichidan, color: 'violet'},
       {name: 'Kunyomi', grammar: jukugo, color: 'violet'},
+      {name: 'Onyomi', grammar: jukugo, color: 'magenta'},
       {name: 'Suru', grammar: suru, color: 'violet'},
-      {name: 'Onyomi', grammar: jukugo, color: 'magenta'}
     ].map(card => Object.assign(card, {mode: 'writing'}));
 
     let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToKanji.Front');
-    // write_html(backs, 'speaking.back.pug');
+    write_html(cards, 'writing.back.pug', 'ToKanji.Back');
 
     let result = compiledTemplate(cards[0])
     expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
-      '{{^kanji}}<h2>\\ 一段活用 /</h2>{{/kanji}}</main>')
+      '{{^kanji}}<h2>\\ 五段活用 /</h2>{{/kanji}}</main>')
   });
 })
