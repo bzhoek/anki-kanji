@@ -167,7 +167,7 @@ const fix_kana = async (query) =>
     let json = await post("notesInfo", {notes: [id]});
     let entity = json.result[0];
 
-    if(!['OnYomi', 'Suru'].includes(entity.modelName)) {
+    if (!['OnYomi', 'Suru'].includes(entity.modelName)) {
       console.log("Skip", entity.modelName)
       return
     }
@@ -517,7 +517,7 @@ const missing_kanji = (list) => {
 }
 
 const write_html = (cards, template, suffix) => {
-  const compiledTemplate = pug.compileFile(template);
+  const compiledTemplate = pug.compileFile(`template/${template}`);
 
   cards.forEach(card => {
       let result = compiledTemplate(card)
