@@ -1,9 +1,9 @@
 main(class=`${color} ${mode} back`)
   |
   h1(class=`title {{Tags}}`) {{kanji}}
-  h1 {{nederlands}} {{speech}}
-  h2!= grammar[1] || grammar[0]
   div {{kana}}
+  h2!= grammar[1] || grammar[0]
+  h1 {{nederlands}} {{speech}}
   | {{#notes}}
   div {{notes}}
   | {{/notes}}
