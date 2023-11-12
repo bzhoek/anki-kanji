@@ -84,13 +84,6 @@ describe('multiple kanji', () => {
   });
 })
 
-const prepare_for = (cards, color, mode, suffix) => cards.map(card =>
-  Object.assign(card, {
-    color: color,
-    mode: mode,
-    name: `${card.name}.${suffix}`
-  }))
-
 describe('templates', () => {
   test('reading', () => {
     const meanings = (ary) => ary.map(text => `&equals; ${text} &equals;`)
@@ -129,8 +122,9 @@ describe('templates', () => {
       '{{^kanji}}<h1 class="title {{Tags}}">{{kana}}</h1><h2>&equals; しゅうしけい &equals;</h2>{{/kanji}}</main>')
   })
 
-  test('speaking', () => {
-    const speaking = (ary) => ary.map(text => `&gt; ${text} &lt;`)
+  const speaking = (ary) => ary.map(text => `&gt; ${text} &lt;`)
+
+  test('speaking kun', () => {
     let godan = speaking(['V', '五段活用']);
     let ichidan = speaking(['V', '一段活用']);
     let jukugo = speaking(['熟語', 'じゅくご']);
@@ -151,6 +145,32 @@ describe('templates', () => {
       '<main class="magenta speaking front"><h1 class="title {{Tags}}">{{kanji}}</h1><h2>&gt; V &lt;</h2></main>\n' +
       '{{/kanji}}')
   })
+
+  test('speaking on', () => {
+    let onyomi = speaking(['オンヨミ']);
+
+    let cards = [
+      {name: 'Onyomi', grammar: onyomi, color: 'yellow', mode: 'speaking'},
+    ]
+
+    write_html(cards, 'speaking.front.pug', 'ToOnYomi.Front');
+    write_html(cards, 'speaking.back.pug', 'ToOnYomi.Back');
+  })
+
+  test('expressing', () => {
+    let godan = speaking(['V', '五段活用']);
+
+    let cards = [
+      {name: 'Godan', grammar: godan, color: 'cyan'},
+    ].map(card => Object.assign(card, {mode: 'saying'}));
+
+    let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToExpress.Front');
+    write_html(cards, 'saying.back.pug', 'ToExpress.Back');
+
+    let result = compiledTemplate(cards[0])
+    expect(result).toBe('<main class="cyan saying front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#kanji}}<h2>&gt; V &lt;</h2>{{/kanji}}\n' +
+      '{{^kanji}}<h2>&gt; 五段活用 &lt;</h2>{{/kanji}}</main>')
+  });
 
   test('writing', () => {
     const writing = (ary) => ary.map(text => `\\ ${text} /`)
@@ -175,19 +195,4 @@ describe('templates', () => {
       '{{^kanji}}<h2>\\ 五段活用 /</h2>{{/kanji}}</main>')
   });
 
-  test('expressing', () => {
-    const speaking = (ary) => ary.map(text => `&gt; ${text} &lt;`)
-    let godan = speaking(['V', '五段活用']);
-
-    let cards = [
-      {name: 'Godan', grammar: godan, color: 'cyan'},
-    ].map(card => Object.assign(card, {mode: 'saying'}));
-
-    let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToExpress.Front');
-    write_html(cards, 'saying.back.pug', 'ToExpress.Back');
-
-    let result = compiledTemplate(cards[0])
-    expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
-      '{{^kanji}}<h2>\\ 五段活用 /</h2>{{/kanji}}</main>')
-  });
 })
