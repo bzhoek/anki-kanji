@@ -148,6 +148,7 @@ const stroke_note = async (id) => {
 
 const find_notes = async (query, fn) => {
   let json = await post('findNotes', {query: query});
+  console.log("Matches", json.result.length, "notes")
   for (const id of json.result) {
     await fn(id);
   }
@@ -202,6 +203,7 @@ const add_speech = async (query) => find_notes(query, async (id) => {
 
   let words = entity.fields['kanji'].value;
   words = words.replace(/<.+?>/g, '').trim()
+  words = words.replace(/\s/g, '').trim()
 
   let clean = words.split(".")[0].trim()
   if (clean.length === 0) {
@@ -276,7 +278,6 @@ const emphasize = async (id, field, prefix, suffix) => {
 const emphasize_first_sentence = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let result = json.result[0];
-  // console.log('emphasizeFirstSentence', result);
   ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
     if (result.fields[field]) {
       let value = result.fields[field].value.trim();
