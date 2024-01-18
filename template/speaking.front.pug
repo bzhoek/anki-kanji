@@ -1,8 +1,9 @@
-| {{#kanji}}
+= notempty && `{{#${notempty}}}\n`
 |
 main(class=`${color} ${mode} front`)
   |
-  h1(class=`title {{Tags}}`) {{kanji}}
+  h1(class=`${clazz} {{Tags}}`)= `{{${front}}}`
+  div.target {{target}}
   h2!= grammar[0]
 |
-| {{/kanji}}
+= notempty && `\n{{/${notempty}}}`

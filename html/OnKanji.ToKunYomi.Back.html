@@ -1,11 +1,3 @@
-{{#kun}}
-<main class='jukukana'>
-  <div class="strokes {{Tags}}">{{strokes}}</div>
-  {{kun}}
-  <h2>&gt; くんよみ &lt;</h2>
-  <h1>{{nederlands}}</h1>
-  <div>
-    {{notes}}
-  </div>
-</main>
-{{/kun}}
+<main class="magenta speaking back"><h1 class="strokes {{Tags}}">{{strokes}}</h1><div>{{kun}} {{target}}</div><h2>&gt; くんよみ &lt;</h2><h1>{{nederlands}} {{speech}}</h1>{{#notes}}<div>{{notes}}</div>{{/notes}}
+{{#context}}<div class="context">{{context}}</div>{{/context}}
+{{#strokes}}<div class="strokes">{{strokes}}</div>{{/strokes}}</main>

@@ -1,6 +1,6 @@
 # anki-kanji
 
-Make beautiful kanji stroke diagrams in Anki with very distinct colors and convenient stroke order numbering based on [KanjiVG](https://github.com/KanjiVG/kanjivg)
+Make beautiful kanji stroke diagrams in Anki with very distinct colors and convenient stroke order numbering based on [KanjiVG](https://github.com/KanjiVG/kanjivg). Stroke order is by [progressive](https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/) color and number. 
 
 ![cat](neko.png).
 
@@ -14,18 +14,14 @@ node anki.js kanji 張 # create new `OnKanji` note
 node anki stroke nid:1661888566814 # add strokes for found kanji
 ```
 
-Nested decks <top level>::<next level>
-
 ### Organize
+
+Nested decks are named `<top level>::<next level>`
 
 ```sh
 ./anki.js move card:ToMeaning Japans::Lezen
 ./anki.js move card:ToKanji Japans::Schrijven::Kanji
 ```
-
-## Colors
-
-Stroke order is by color and number. Distinguishing many colors is random and difficult for [26 colors](https://en.wikipedia.org/wiki/Help:Distinguishable_colors) but [progressive for 20](https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/)
 
 ## Strategies
 
@@ -37,11 +33,20 @@ My current strategy is to make all mnemonics personal: *I* do something *radical
 
 At first, I studied under the assumption that if I could write it, I could also read it, so I only had to learn Dutch to kana and kanji, but that didn't work for me. When I visited Japan, I realized that I recognized many of the kanji on the signs, but didn't know what they meant.
 
-```sh
-./anki.js move "deck:Japans::2022 card:ToKunYomi" Japans::Spreken::Kunyomi
-./anki.js move "deck:Japans::2022 card:ToMeaning" Japans::Lezen
-./anki.js move "deck:Japans::2022 card:ToKanji" Japans::Schrijven::Kanji
-```
+### Templates
+
+- `reading` tests the understanding of the *meaning*
+- `saying` tests expressing *verbs*
+- `speaking` tests the on and kun *pronouncing*
+- `writing` tests knowing how to write kanji and kana for words
+
+### 2024
+
+There is still a lot of regression, probably because there is too little context. So this year, I'm adding 1T for a `target` word or sentence.
+- reading the meaning
+- speaking by pronouncing
+
+For writing, I'm adding a `hint` that leaves out the kanji or word. 
 
 ## Background
 
