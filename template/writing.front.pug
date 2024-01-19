@@ -1,6 +1,9 @@
 main(class=`${color} ${mode} front`)
   |
   h1(class=`title {{Tags}}`) {{nederlands}}
+  | {{#hint}}
+  div {{hint}}
+  | {{/hint}}
   | {{#kanji}}
   h2!= grammar[0]
   | {{/kanji}}

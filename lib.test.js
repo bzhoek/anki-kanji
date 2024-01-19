@@ -226,7 +226,8 @@ describe('templates', () => {
     write_html(cards, 'writing.back.pug', 'ToKanji.Back');
 
     let result = compiledTemplate(cards[0])
-    expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
+    expect(result).toBe('<main class="violet writing front"><h1 class="title {{Tags}}">{{nederlands}}</h1>{{#hint}}<div>{{hint}}</div>{{/hint}}\n' +
+      '{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
       '{{^kanji}}<h2>\\ 五段活用 /</h2>{{/kanji}}</main>')
   });
 
