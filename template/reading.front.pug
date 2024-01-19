@@ -2,13 +2,17 @@ main(class=`${color} ${mode} front`)
   |
   | {{#kanji}}
   h1(class=`title {{Tags}}`) {{kanji}}
-  h2!= grammar[0]
   | {{/kanji}}
   | {{^kanji}}
   h1(class=`title {{Tags}}`) {{kana}}
-  h2!= grammar[1] || grammar[0]
   | {{/kanji}}
   | {{#target}}
   div {{target}}
   | {{/target}}
+  | {{#kanji}}
+  h2!= grammar[0]
+  | {{/kanji}}
+  | {{^kanji}}
+  h2!= grammar[1] || grammar[0]
+  | {{/kanji}}
 
