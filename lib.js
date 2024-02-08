@@ -161,7 +161,7 @@ const move_related = async (query) => {
   })
 }
 
-const fix_kana = async (query) =>
+const convert_kana_field_to_onyomi = async (query) =>
   find_notes(query, async (id) => {
     let json = await post("notesInfo", {notes: [id]});
     let entity = json.result[0];
@@ -172,12 +172,12 @@ const fix_kana = async (query) =>
     let kana = entity.fields['kana'].value;
     let kanji = entity.fields['kanji'].value;
     if (is_jukugo(kanji)) {
-      let onyomi = to_onyomi(kana);
+      let onyomi = convert_kunyomi_to_onyomi(kana);
       if (onyomi !== kana) {
         let params = {note: {id: id, fields: {}}};
         Object.defineProperty(params.note.fields, "kana", {value: onyomi, enumerable: true})
         await post('updateNoteFields', params)
-        console.log("fix_kana", kanji, kana, onyomi)
+        console.log("convert_kana_field_to_onyomi", kanji, kana, onyomi)
       }
     }
   })
@@ -483,7 +483,7 @@ const as_jukugo = (word) => {
   return []
 }
 
-const to_onyomi = (word) => {
+const convert_kunyomi_to_onyomi = (word) => {
   return Array.from(word)
     .map(ch => {
       let c = ch.charCodeAt(0);
@@ -521,8 +521,8 @@ module.exports = {
   add_kanji_with_reading_and_meaning,
   is_kunyomi,
   is_jukugo,
-  to_onyomi,
-  fix_kana,
+  convert_kunyomi_to_onyomi,
+  convert_kana_field_to_onyomi,
   find_kanji,
   multiple_kanji,
   missing_kanji,

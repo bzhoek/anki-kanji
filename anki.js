@@ -6,7 +6,7 @@ const {exec} = require('child_process');
 const {
   move_cards, stroke_notes, emphasize_notes, update_styling, download_html_templates, upload_html_templates,
   configure_decks, lapse_cards,
-  add_kanji_with_reading_and_meaning, add_speech, fix_kana, missing_kanji, move_related, lookup_kanji
+  add_kanji_with_reading_and_meaning, add_speech, convert_kana_field_to_onyomi, missing_kanji, move_related, lookup_kanji
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -20,8 +20,8 @@ cli.command('default <query>')
   .action(({_, args}) => move_related(args[0]))
   .end()
 cli.command('kana <query>')
-  .description('Fix kana for jukugo words')
-  .action(({_, args}) => fix_kana(args[0]))
+  .description("Convert kana for jukugo words to on'yomi")
+  .action(({_, args}) => convert_kana_field_to_onyomi(args[0]))
   .end()
 cli.command('move <query> <deck>')
   .description('Move matching cards to a given deck')

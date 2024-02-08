@@ -1,4 +1,4 @@
-const {is_jukugo, is_kunyomi, to_onyomi, find_kanji, multiple_kanji, missing_kanji} = require('./lib')
+const {is_jukugo, is_kunyomi, convert_kunyomi_to_onyomi, find_kanji, multiple_kanji, missing_kanji} = require('./lib')
 
 // ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎ
 
@@ -38,12 +38,15 @@ describe('kunyomi reading', () => {
   });
 })
 
-describe('transpose onyomi', () => {
+describe('convert kunyomi to onyomi', () => {
   test('ending', () => {
-    expect(to_onyomi("食べて")).toBe("食ベテ")
+    expect(convert_kunyomi_to_onyomi("食べて")).toBe("食ベテ")
+  });
+  test('embedded', () => {
+    expect(convert_kunyomi_to_onyomi("涼風 <i>(りょうふう)</i>")).toBe("涼風 <i>(リョウフウ)</i>")
   });
   test('n', () => {
-    expect(to_onyomi("いん")).toBe("イン")
+    expect(convert_kunyomi_to_onyomi("いん")).toBe("イン")
   });
   test('functional', () => {
     let it = Array.from("べて")
