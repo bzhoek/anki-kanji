@@ -1,18 +1,22 @@
-<main class='magenta'>
-  <h1>{{nederlands}}</h1>
+<main class='magenta tomeaning'>
+  {{#kanji}}
+  <h1 class='title'>{{kanji}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class='title'>{{kana}}</h1>
+  {{/kanji}}
+  <h1>{{nederlands}} {{speech}}</h1>
   <h2>&equals; 五段活用 &equals;</h2>
-  <h1>{{kanji}} {{speech}}</h1>
   {{#notes}}
-  <div class="border">
+  <div>
     {{notes}}
   </div>
   {{/notes}}
-  <div class="border">
-    {{kana}}
-  </div>
+  <div>{{kana}}</div>
+  {{#context}}
+  <div class="context">{{context}}</div>
+  {{/context}}
   {{#strokes}}
-  <div class='small border'>
-    {{strokes}}
-  </div>
+  <div class="strokes">{{strokes}}</div>
   {{/strokes}}
 </main>

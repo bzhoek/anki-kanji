@@ -1,6 +1,9 @@
-<main class='tomeaning jukugo'>
-  <div class='strokes small'>
-    {{strokes}}
-  </div>
+<main class="jukugo reading front">
+  {{#kanji}}
+  <h1 class="title {{Tags}}">{{kanji}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class="title {{Tags}}">{{kana}}</h1>
+  {{/kanji}}
   <h2>&equals; 熟語 &equals;</h2>
 </main>

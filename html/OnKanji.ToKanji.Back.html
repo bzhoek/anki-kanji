@@ -1,10 +1,10 @@
-<main>
-  {{FrontSide}}
-  <div>
-    {{notes}}
-  </div>
-  <div>
-    {{strokes}}
-  </div>
+<main class='tokanji'>
+  <h1>{{nederlands}}</h1>
+  {{notes}}
+  <h2>\️ 漢字 /️</h2>
+  <div>{{strokes}}</div>
   {{on}}
+  {{#context}}
+  <div class="context">{{context}}</div>
+  {{/context}}
 </main>

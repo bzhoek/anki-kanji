@@ -1,11 +1,16 @@
-<main>
-  {{FrontSide}}
-  <h1>{{nederlands}}</h1>
-  <div>
-    {{notes}}
-  </div>
+<main class='jukugo reading back'>
+  {{#kanji}}
+  <h1 class="title {{Tags}}">{{kanji}}</h1>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class="title {{Tags}}">{{kana}}</h1>
+  {{/kanji}}
+  <h1>{{nederlands}} {{speech}}</h1>
+  <h2>&equals; 熟語 &equals;</h2>
+  <div>{{notes}}</div>
   {{kana}}
-  <div>
-    {{speech}}
-  </div>
+  {{#context}}
+  <div class="context">{{context}}</div>
+  {{/context}}
+  <div class="strokes">{{strokes}}</div>
 </main>

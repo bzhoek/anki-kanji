@@ -1,20 +1,15 @@
 <main class='jukukana'>
-  <h1>{{nederlands}}</h1>
+  <h1 class="title {{Tags}}">{{kanji}}</h1>
+  <h1>{{nederlands}} {{speech}}</h1>
   <h2>&gt; 五段活用 &lt;</h2>
   {{kana}}
-  <br/>
-  {{kanji}}
   {{#notes}}
-  <div class='notes'>
-    {{notes}}
-  </div>
+  <div class='notes'>{{notes}}</div>
   {{/notes}}
+  {{#context}}
+  <div class="context">{{context}}</div>
+  {{/context}}
   {{#strokes}}
-  <div class='small strokes'>
-    {{strokes}}
-  </div>
+  <div class="strokes">{{strokes}}</div>
   {{/strokes}}
-  <div>
-    {{speech}}
-  </div>
 </main>

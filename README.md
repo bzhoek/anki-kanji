@@ -102,7 +102,7 @@ select
   *
 from revlog
 where
-  weeknr = cast(strftime('%Y%W', date('now')) as int) - 1 and
+  weeknr > cast(strftime('%Y%W', date('now')) as int) - 5 and
   type = 1 and
   ease = 2 and
   ivl > 14
@@ -116,5 +116,5 @@ where h.cid = c.id;
 ### Flag as yellow
 
 ```sqlite
-update cards  set flags = 2, usn = -1 from hard as h where cards.id = h.cid
+update cards set flags = 2, usn = -1 from hard as h where cards.id = h.cid
 ```

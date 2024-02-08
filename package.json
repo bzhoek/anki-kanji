@@ -10,10 +10,10 @@
     "clap": "^3.1.1",
     "natural": "^2.1.5",
     "node-fetch": "^2.6.7",
-    "node-sass": "^7.0.1",
+    "node-sass": "7.0.3",
     "sax": "^1.2.4",
-    "sqlite3": "^4.2.0",
-    "xml2js": "^0.4.23"
+    "sqlite3": "5.1.6",
+    "xml2js": "0.5.0"
   },
   "devDependencies": {
     "jest": "^26.0.1"

@@ -1,19 +1,20 @@
 <main class='jukukanji'>
-  {{FrontSide}}
+  <h1>{{nederlands}} {{speech}}</h1>
+  {{notes}}
+  {{#kanji}}
+  <h1 class="title {{Tags}}">{{kanji}}</h1>
+  <h2>\️ 熟語 /️</h2>
+  {{/kanji}}
+  {{^kanji}}
+  <h1 class="title {{Tags}}">{{kana}}</h1>
+  <h2>\️ じゅくご /️</h2>
+  {{/kanji}}
   {{kanji}}
-  <br/>
-  {{#notes}}
-  <div class='notes'>
-    {{notes}}
-  </div>
-  {{/notes}}
   {{#strokes}}
-  <div class='small strokes'>
-    {{strokes}}
-  </div>
+  <div class="strokes">{{strokes}}</div>
   {{/strokes}}
   {{kana}}
-  <div>
-    {{speech}}
-  </div>
+  {{#context}}
+  <div class="context">{{context}}</div>
+  {{/context}}
 </main>
