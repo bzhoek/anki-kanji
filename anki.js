@@ -6,7 +6,7 @@ const {exec} = require('child_process');
 const {
   move_cards, stroke_notes, emphasize_notes, update_styling, download_html_templates, upload_html_templates,
   configure_decks, lapse_cards,
-  add_kanji_with_reading_and_meaning, add_speech, convert_kana_field_to_onyomi, missing_kanji, move_related, lookup_kanji
+  add_kanji_with_reading_and_meaning, add_speech, convert_kana_field_to_onyomi, missing_kanji, move_related
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -46,7 +46,6 @@ cli.command('speech <query>')
 cli.command('lookup <kanji>')
   .description('Lookup kanji unicode meaning')
   .action(({_, args}) => {
-    lookup_kanji(args[0])
     exec(`open https://kanjivg.tagaini.net/viewer.html?kanji=${args[0]}`)
   })
   .end()

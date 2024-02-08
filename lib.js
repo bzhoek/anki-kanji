@@ -382,56 +382,46 @@ const configure_decks = async () => {
   }
 }
 
-let kanjidb = new sqlite3.Database('kanji.sqlite', (err) => {
+let kanjidb = new sqlite3.Database('kanjson.sqlite', (err) => {
   if (err) {
     console.error(err)
   }
 })
-
-let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
+new sqlite3.Database('kanjidic.sqlite', (err) => {
   if (err) {
     console.error(err)
   }
-})
-
-const lookup_kanji = (kanji) => {
-  kanjidb.get("select * from Kanji where literal=?", [kanji], function (err, row) {
-    delete row.drawing
-    console.log(row)
-    console.log(`subl /Users/bas/github/kanjivg/kanji/0${row.unicode}.svg`)
-  })
-}
+});
 
 const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
-  kanjidb.get("select meaning from Kanji where literal=?", [kanji], function (err, row) {
+  kanjidb.get("SELECT info FROM kanjidic WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
+    let json = JSON.parse(row.info)
+    console.log(json)
     let meaning = row.meaning
-    readingdb.get("select onyomi, kunyomi from Kanji where kanji=?", [kanji], function (err, row) {
-      let on = row ? row.onyomi : 'no'
-      colorize(unicode, style_color).then(async (svg) => {
-        let params = {
-          "note": {
-            "deckName": "Default",
-            "modelName": "OnKanji",
-            "fields": {
-              "nederlands": meaning,
-              "kanji": kanji,
-              "on": on,
-              "notes": "",
-              "strokes": css_style + svg
-            },
-            "options": {
-              "allowDuplicate": false
-            },
-            "tags": []
-          }
+    colorize(unicode, style_color).then(async (svg) => {
+      let params = {
+        "note": {
+          "deckName": "Default",
+          "modelName": "OnKanji",
+          "fields": {
+            "nederlands": json.meanings.join(', '),
+            "kanji": kanji,
+            "on": json.katakana.join(', '),
+            "notes": json.hiragana.join(', '),
+            "strokes": css_style + svg
+          },
+          "options": {
+            "allowDuplicate": false
+          },
+          "tags": [`jlpt${json.jlpt}`, `g${json.grade}`]
         }
+      }
 
-        post('addNote', params).then(json => {
-          console.log(meaning, json)
-        })
+      post('addNote', params).then(json => {
+        console.log(meaning, json)
       })
-    });
+    })
   })
 }
 
@@ -573,7 +563,6 @@ module.exports = {
   find_kanji,
   multiple_kanji,
   missing_kanji,
-  lookup_kanji,
   move_related,
   add_speech,
   lapse_cards,
