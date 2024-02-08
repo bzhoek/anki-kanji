@@ -4,6 +4,12 @@ Make beautiful kanji stroke diagrams in Anki with very distinct colors and conve
 
 ![cat](neko.png).
 
+## Requirements
+
+```sh
+git submodule add https://github.com/KanjiVG/kanjivg
+```
+
 ## Usage
 
 Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) add-on. Then run with

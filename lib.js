@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const fs = require("fs");
+const os = require("os");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
@@ -27,7 +28,8 @@ let colors = [
 const style_color = (i) => ` class="stroke-${i % 23}"`
 
 const colorize = async (unicode, color_fn) => {
-  let source = `/Users/bas/github/kanjivg/kanji/0${unicode.toString(16)}.svg`
+  let cwd = process.cwd();
+  let source = `${cwd}/kanjivg/kanji/0${unicode.toString(16)}.svg`
 
   if (!fs.existsSync(source)) {
     throw new Error(`File ${source} does not exist.`)
