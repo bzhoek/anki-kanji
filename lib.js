@@ -436,10 +436,8 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
 }
 
 const is_kanji = (char) => char >= '一' && char <= '龘'
-const is_hiragana = (ch) => {
-  let c = ch.charCodeAt(0);
-  return (c >= 0x3040 && c <= 0x309f)
-}
+const is_hiragana = (char) => char >= 'ぁ' && char <= 'わ' // 0x3041 to 0x308F
+const is_katakana = (char) => char >= 'ァ' && char <= 'ワ' // 0x30A1 to 0x30EF
 
 const is_kunyomi = (word) => {
   if (word.length === 1) { // single kanji is kun
@@ -529,8 +527,10 @@ module.exports = {
   upload_html_templates,
   configure_decks,
   add_kanji_with_reading_and_meaning,
-  is_kunyomi,
   is_jukugo,
+  is_kunyomi,
+  is_hiragana,
+  is_katakana,
   convert_kunyomi_to_onyomi,
   convert_kana_field_to_onyomi,
   find_kanji,
