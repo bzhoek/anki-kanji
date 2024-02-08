@@ -169,7 +169,7 @@ const convert_kana_field_to_onyomi = async (query) =>
     let json = await post("notesInfo", {notes: [id]});
     let entity = json.result[0];
 
-    if(!['OnYomi', 'Suru'].includes(entity.modelName)) {
+    if (!['OnYomi', 'Suru'].includes(entity.modelName)) {
       console.log("Skip", entity.modelName)
       return
     }
@@ -516,6 +516,43 @@ const missing_kanji = (list) => {
   return multiple_kanji(list).map(async kanji => await find_kanji(kanji) ? null : kanji)
 }
 
+const parse_kanjidic = (line) => {
+  try {
+    let meanings = line.split("{");
+    let tokens = meanings.shift().split(" ");
+    let result = {
+      kanji: tokens[0],
+      unicode: parseInt(tokens[2].substring(1), 16),
+      frequency: 0,
+      grade: 0,
+      jlpt: 0,
+      katakana: [],
+      hiragana: [],
+      meanings: meanings.map(str => str.replace('}', '').trim()),
+    }
+    tokens.forEach(str => {
+      if (str.startsWith('F')) {
+        result.frequency = parseInt(str.substring(1))
+      }
+      if (str.startsWith('G')) {
+        result.grade = parseInt(str.substring(1))
+      }
+      if (str.startsWith('J')) {
+        result.jlpt = parseInt(str.substring(1))
+      }
+      if (is_hiragana(str.charAt(0))) {
+        result.hiragana.push(str)
+      }
+      if (is_katakana(str.charAt(0))) {
+        result.katakana.push(str)
+      }
+    })
+    return result
+  } catch (error) {
+    console.error(line.length, error);
+  }
+}
+
 module.exports = {
   post,
   colorize,
@@ -539,5 +576,6 @@ module.exports = {
   lookup_kanji,
   move_related,
   add_speech,
-  lapse_cards
+  lapse_cards,
+  parse_kanjidic
 }
