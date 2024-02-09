@@ -1,7 +1,8 @@
 main(class=`${color} ${mode} back`)
   |
   h1(class=`${clazz} {{Tags}}`)= `{{${front}}}`
-  div= `{{${back}}} {{target}}`
+  div= `{{${back}}}`
+    span.target {{target}}
   h2!= grammar[1] || grammar[0]
   h1 {{nederlands}} {{speech}}
   | {{#notes}}
