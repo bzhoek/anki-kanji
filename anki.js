@@ -6,7 +6,7 @@ const {exec} = require('child_process');
 const {
   move_cards, stroke_notes, emphasize_notes, update_styling, download_html_templates, upload_html_templates,
   configure_decks, lapse_cards,
-  add_kanji_with_reading_and_meaning, add_speech, fix_kana, missing_kanji, move_related, lookup_kanji
+  add_kanji_with_reading_and_meaning, add_speech, convert_kana_field_to_onyomi, missing_kanji, move_related
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -20,8 +20,8 @@ cli.command('collect <query>')
   .action(({_, args}) => move_related(args[0]))
   .end()
 cli.command('kana <query>')
-  .description('Fix kana for jukugo words')
-  .action(({_, args}) => fix_kana(args[0]))
+  .description("Convert kana for jukugo words to on'yomi")
+  .action(({_, args}) => convert_kana_field_to_onyomi(args[0]))
   .end()
 cli.command('move <query> <deck>')
   .description('Move matching cards to a given deck')
@@ -46,7 +46,6 @@ cli.command('speech <query>')
 cli.command('lookup <kanji>')
   .description('Lookup kanji unicode meaning')
   .action(({_, args}) => {
-    lookup_kanji(args[0])
     exec(`open https://kanjivg.tagaini.net/viewer.html?kanji=${args[0]}`)
   })
   .end()
@@ -82,18 +81,6 @@ cli.command('restyle')
       file: 'anki.sass',
     }).css.toString()
     update_styling(css)
-  })
-  .end()
-cli.command('sort')
-  .description('Move different cards to different decks')
-  .action(() => {
-    move_cards('card:ToKanji note:OnKanji', '日本語::漢字')
-    move_cards('card:ToOnYomi note:OnKanji', '日本語::音読み')
-    move_cards('card:ToKunYomi note:OnKanji', '日本語::訓読み')
-    move_cards('card:KunKana note:Kunyomi', '日本語::かな')
-    move_cards('card:ToHiragana note:Hiragana', '日本語::かな')
-    move_cards('card:ToKatakana note:Katakana', '日本語::かな')
-    move_cards('card:Jukugo note:Kunyomi', '日本語::熟語')
   })
   .end()
 cli.run()

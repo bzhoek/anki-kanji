@@ -4,6 +4,16 @@ Make beautiful kanji stroke diagrams in Anki with very distinct colors and conve
 
 ![cat](neko.png).
 
+## Requirements
+
+```sh
+git submodule add https://github.com/KanjiVG/kanjivg
+wget http://www.edrdg.org/kanjidic/kanjidic.gz # 6355 kanji from JIS X 0208
+wget http://www.edrdg.org/kanjidic/kanjd212.gz # 5801 kanji from JIS X 0212
+
+http://ftp.edrdg.org/pub/Nihongo/edict2.gz
+```
+
 ## Usage
 
 Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) add-on. Then run with
@@ -71,6 +81,11 @@ Only 'Bounce fade' can be distinguished from the current strokes:
 1. Fade out はらい (はらう)
 2. Dead stop とめ (とめる)
 3. Bounce fade はれ (はれる)
+
+## Dictionaries
+
+JIS X 208 is the Japanese Industrial Standard character with 6355 kanji.
+http://www.edrdg.org/kanjidic/kanjidic.gz
 
 ## Database
 https://github.com/ankidroid/Anki-Android/wiki/Database-Structure

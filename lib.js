@@ -28,7 +28,8 @@ let colors = [
 const style_color = (i) => ` class="stroke-${i % 23}"`
 
 const colorize = async (unicode, color_fn) => {
-  let source = `/Users/bas/github/kanjivg/kanji/0${unicode.toString(16)}.svg`
+  let cwd = process.cwd();
+  let source = `${cwd}/kanjivg/kanji/0${unicode.toString(16)}.svg`
 
   if (!fs.existsSync(source)) {
     throw new Error(`File ${source} does not exist.`)
@@ -149,6 +150,7 @@ const stroke_note = async (id) => {
 
 const find_notes = async (query, fn) => {
   let json = await post('findNotes', {query: query});
+  console.log("Matches", json.result.length, "notes")
   for (const id of json.result) {
     await fn(id);
   }
@@ -162,7 +164,7 @@ const move_related = async (query) => {
   })
 }
 
-const fix_kana = async (query) =>
+const convert_kana_field_to_onyomi = async (query) =>
   find_notes(query, async (id) => {
     let json = await post("notesInfo", {notes: [id]});
     let entity = json.result[0];
@@ -179,12 +181,12 @@ const fix_kana = async (query) =>
     let kana = entity.fields['kana'].value;
     let kanji = entity.fields['kanji'].value;
     if (is_jukugo(kanji)) {
-      let onyomi = to_onyomi(kana);
+      let onyomi = convert_kunyomi_to_onyomi(kana);
       if (onyomi !== kana) {
         let params = {note: {id: id, fields: {}}};
         Object.defineProperty(params.note.fields, "kana", {value: onyomi, enumerable: true})
         await post('updateNoteFields', params)
-        console.log("fix_kana", kanji, kana, onyomi)
+        console.log("convert_kana_field_to_onyomi", kanji, kana, onyomi)
       }
     }
   })
@@ -203,6 +205,7 @@ const add_speech = async (query) => find_notes(query, async (id) => {
 
   let words = entity.fields['kanji'].value;
   words = words.replace(/<.+?>/g, '').trim()
+  words = words.replace(/\s/g, '').trim()
 
   let clean = words.split(".")[0].trim()
   if (clean.length === 0) {
@@ -277,7 +280,6 @@ const emphasize = async (id, field, prefix, suffix) => {
 const emphasize_first_sentence = async (id) => {
   let json = await post("notesInfo", {notes: [id]});
   let result = json.result[0];
-  // console.log('emphasizeFirstSentence', result);
   ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
     if (result.fields[field]) {
       let value = result.fields[field].value.trim();
@@ -335,7 +337,7 @@ const upload_html_template = (model, template, result) => {
   function updateCard(side) {
     let html = fs.readFileSync(`html/${model}.${template}.${side}.html`).toString()
     if (result[template][side] !== html) {
-      console.log(`${model}.${template} Update ${side}`)
+      console.log(`${template} Update ${side}`)
       post("updateModelTemplates", {model: {name: model, templates: {[template]: {[side]: html}}}}).then(json => {
         console.log(json)
       })
@@ -380,64 +382,52 @@ const configure_decks = async () => {
   }
 }
 
-let kanjidb = new sqlite3.Database('kanji.sqlite', (err) => {
+let kanjidb = new sqlite3.Database('kanjson.sqlite', (err) => {
   if (err) {
     console.error(err)
   }
 })
-
-let readingdb = new sqlite3.Database('kanjidic.sqlite', (err) => {
+new sqlite3.Database('kanjidic.sqlite', (err) => {
   if (err) {
     console.error(err)
   }
-})
-
-const lookup_kanji = (kanji) => {
-  kanjidb.get("select * from Kanji where literal=?", [kanji], function (err, row) {
-    delete row.drawing
-    console.log(row)
-    console.log(`subl /Users/bas/github/kanjivg/kanji/0${row.unicode}.svg`)
-  })
-}
+});
 
 const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
-  kanjidb.get("select meaning from Kanji where literal=?", [kanji], function (err, row) {
+  kanjidb.get("SELECT info FROM kanjidic WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
+    let json = JSON.parse(row.info)
+    console.log(json)
     let meaning = row.meaning
-    readingdb.get("select onyomi, kunyomi from Kanji where kanji=?", [kanji], function (err, row) {
-      let on = row ? row.onyomi : 'no'
-      colorize(unicode, style_color).then(async (svg) => {
-        let params = {
-          "note": {
-            "deckName": "Default",
-            "modelName": "OnKanji",
-            "fields": {
-              "nederlands": meaning,
-              "kanji": kanji,
-              "on": on,
-              "notes": "",
-              "strokes": css_style + svg
-            },
-            "options": {
-              "allowDuplicate": false
-            },
-            "tags": []
-          }
+    colorize(unicode, style_color).then(async (svg) => {
+      let params = {
+        "note": {
+          "deckName": "Default",
+          "modelName": "OnKanji",
+          "fields": {
+            "nederlands": json.meanings.join(', '),
+            "kanji": kanji,
+            "on": json.katakana.join(', '),
+            "notes": json.hiragana.join(', '),
+            "strokes": css_style + svg
+          },
+          "options": {
+            "allowDuplicate": false
+          },
+          "tags": [`jlpt${json.jlpt}`, `g${json.grade}`]
         }
+      }
 
-        post('addNote', params).then(json => {
-          console.log(meaning, json)
-        })
+      post('addNote', params).then(json => {
+        console.log(meaning, json)
       })
-    });
+    })
   })
 }
 
 const is_kanji = (char) => char >= '一' && char <= '龘'
-const is_hiragana = (ch) => {
-  let c = ch.charCodeAt(0);
-  return (c >= 0x3040 && c <= 0x309f)
-}
+const is_hiragana = (char) => char >= 'ぁ' && char <= 'わ' // 0x3041 to 0x308F
+const is_katakana = (char) => char >= 'ァ' && char <= 'ワ' // 0x30A1 to 0x30EF
 
 const is_kunyomi = (word) => {
   if (word.length === 1) { // single kanji is kun
@@ -491,7 +481,7 @@ const as_jukugo = (word) => {
   return []
 }
 
-const to_onyomi = (word) => {
+const convert_kunyomi_to_onyomi = (word) => {
   return Array.from(word)
     .map(ch => {
       let c = ch.charCodeAt(0);
@@ -529,6 +519,43 @@ const write_html = (cards, template, suffix) => {
   return compiledTemplate
 };
 
+const parse_kanjidic = (line) => {
+  try {
+    let meanings = line.split("{");
+    let tokens = meanings.shift().split(" ");
+    let result = {
+      kanji: tokens[0],
+      unicode: parseInt(tokens[2].substring(1), 16),
+      frequency: 0,
+      grade: 0,
+      jlpt: 0,
+      katakana: [],
+      hiragana: [],
+      meanings: meanings.map(str => str.replace('}', '').trim()),
+    }
+    tokens.forEach(str => {
+      if (str.startsWith('F')) {
+        result.frequency = parseInt(str.substring(1))
+      }
+      if (str.startsWith('G')) {
+        result.grade = parseInt(str.substring(1))
+      }
+      if (str.startsWith('J')) {
+        result.jlpt = parseInt(str.substring(1))
+      }
+      if (is_hiragana(str.charAt(0))) {
+        result.hiragana.push(str)
+      }
+      if (is_katakana(str.charAt(0))) {
+        result.katakana.push(str)
+      }
+    })
+    return result
+  } catch (error) {
+    console.error(line.length, error);
+  }
+}
+
 module.exports = {
   post,
   colorize,
@@ -540,10 +567,12 @@ module.exports = {
   upload_html_templates,
   configure_decks,
   add_kanji_with_reading_and_meaning,
-  is_kunyomi,
   is_jukugo,
-  to_onyomi,
-  fix_kana,
+  is_kunyomi,
+  is_hiragana,
+  is_katakana,
+  convert_kunyomi_to_onyomi,
+  convert_kana_field_to_onyomi,
   find_kanji,
   multiple_kanji,
   missing_kanji,
@@ -551,5 +580,6 @@ module.exports = {
   move_related,
   add_speech,
   lapse_cards,
+  parse_kanjidic,
   write_html
 }
