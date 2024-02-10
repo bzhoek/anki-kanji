@@ -387,11 +387,6 @@ let kanjidb = new sqlite3.Database('kanjson.sqlite', (err) => {
     console.error(err)
   }
 })
-new sqlite3.Database('kanjidic.sqlite', (err) => {
-  if (err) {
-    console.error(err)
-  }
-});
 
 const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
@@ -576,7 +571,6 @@ module.exports = {
   find_kanji,
   multiple_kanji,
   missing_kanji,
-  lookup_kanji,
   move_related,
   add_speech,
   lapse_cards,
