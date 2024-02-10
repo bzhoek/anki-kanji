@@ -11,7 +11,6 @@
     "clap": "^3.1.1",
     "encoding-japanese": "^2.0.0",
     "natural": "^2.1.5",
-    "node-fetch": "^2.6.7",
     "node-sass": "9.0.0",
     "sax": "^1.2.4",
     "sqlite3": "5.1.6",

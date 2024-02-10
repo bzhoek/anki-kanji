@@ -1,6 +1,4 @@
-const fetch = require('node-fetch');
 const fs = require("fs");
-const os = require("os");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
