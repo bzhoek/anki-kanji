@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const fs = require("fs");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
@@ -121,7 +120,13 @@ let svg_style = `
 
 let refresh = true
 
+// FIXME
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const stroke_note = async (id) => {
+  await delay(1000);
   let json = await post("notesInfo", {notes: [id]});
   let strokes = json.result[0].fields['strokes'];
   if (!refresh && strokes.value.includes('</svg>')) {

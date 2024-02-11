@@ -13,7 +13,7 @@
     "node-sass": "9.0.0",
     "pug": "^3.0.2",
     "sax": "^1.2.4",
-    "sqlite3": "5.1.6",
+    "sqlite3": "5.1.7",
     "xpath": "^0.0.34"
   },
   "devDependencies": {
