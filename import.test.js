@@ -78,8 +78,18 @@ function extract_element_from_kanji(unicode) {
 }
 
 describe('kanjivg', () => {
+  test('告 to unicode', () => {
+    let unicode = '告'.charCodeAt(0)
+    expect(21578).toEqual(unicode)
+  })
+  test('告 components', () => {
+    let unicode = '告'.charCodeAt(0)
+    let elements = extract_element_from_kanji(unicode);
+    expect(['単', '⺍', '甲', '戈']).toEqual(elements)
+  })
   test('戦 components', () => {
-    let elements = extract_element_from_kanji(25126);
+    let unicode = '戦'.charCodeAt(0)
+    let elements = extract_element_from_kanji(unicode);
     expect(['単', '⺍', '甲', '戈']).toEqual(elements)
   })
 })
