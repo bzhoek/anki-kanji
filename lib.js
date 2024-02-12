@@ -3,6 +3,8 @@ const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
 const pug = require("pug");
+const {DOMParser: parser} = require("@xmldom/xmldom");
+const xpath = require("xpath");
 
 const rate_limit = RateLimit(5);
 
@@ -556,6 +558,20 @@ const parse_kanjidic = (line) => {
     console.error(line.length, error);
   }
 }
+const extract_parts_from_kanji = unicode => {
+  let hex = unicode.toString(16).padStart(5, '0')
+  let svg = fs.readFileSync(`kanjivg/kanji/${hex}.svg`, 'utf8')
+
+  let doc = new parser().parseFromString(svg, 'text/xml');
+  let nodes = xpath.select("//*[@position]", doc);
+  return nodes.map(node => xpath.select1("@element", node).nodeValue);
+};
+
+const show_parts_of_kanji = char => {
+  let unicode = char.charCodeAt(0)
+  let parts = extract_parts_from_kanji(unicode);
+  console.log(parts)
+}
 
 module.exports = {
   post,
@@ -581,5 +597,7 @@ module.exports = {
   add_speech,
   lapse_cards,
   parse_kanjidic,
-  write_html
+  write_html,
+  extract_parts_from_kanji,
+  show_parts_of_kanji
 }

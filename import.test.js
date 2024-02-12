@@ -1,9 +1,7 @@
-const fs = require("fs");
-
 const {
   is_katakana,
   is_hiragana,
-  parse_kanjidic
+  parse_kanjidic, extract_parts_from_kanji
 } = require('./lib')
 
 describe('euc-jp encoding', () => {
@@ -65,18 +63,6 @@ describe('kanjidic', () => {
   });
 })
 
-const xpath = require('xpath');
-const parser = require('@xmldom/xmldom').DOMParser;
-
-function extract_element_from_kanji(unicode) {
-  let hex = unicode.toString(16).padStart(5, '0')
-  let svg = fs.readFileSync(`kanjivg/kanji/${hex}.svg`, 'utf8')
-
-  let doc = new parser().parseFromString(svg, 'text/xml');
-  let nodes = xpath.select("//*[@position]", doc);
-  return nodes.map(node => xpath.select1("@element", node).nodeValue);
-}
-
 describe('kanjivg', () => {
   test('告 to unicode', () => {
     let unicode = '告'.charCodeAt(0)
@@ -84,12 +70,12 @@ describe('kanjivg', () => {
   })
   test('告 components', () => {
     let unicode = '告'.charCodeAt(0)
-    let elements = extract_element_from_kanji(unicode);
-    expect(['単', '⺍', '甲', '戈']).toEqual(elements)
+    let elements = extract_parts_from_kanji(unicode);
+    expect(['牛', '口']).toEqual(elements)
   })
   test('戦 components', () => {
     let unicode = '戦'.charCodeAt(0)
-    let elements = extract_element_from_kanji(unicode);
+    let elements = extract_parts_from_kanji(unicode);
     expect(['単', '⺍', '甲', '戈']).toEqual(elements)
   })
 })
