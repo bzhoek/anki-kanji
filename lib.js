@@ -121,12 +121,11 @@ let svg_style = `
 let refresh = true
 
 // FIXME
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function delay() {
+  return new Promise(resolve => setTimeout(resolve, 500));
 }
 
 const stroke_note = async (id) => {
-  await delay(1000);
   let json = await post("notesInfo", {notes: [id]});
   let strokes = json.result[0].fields['strokes'];
   if (!refresh && strokes.value.includes('</svg>')) {
@@ -157,7 +156,8 @@ const find_notes = async (query, fn) => {
   let json = await post('findNotes', {query: query});
   console.log("Matches", json.result.length, "notes")
   for (const id of json.result) {
-    await fn(id);
+    await fn(id)
+    await delay()
   }
 }
 
@@ -172,6 +172,7 @@ const move_related = async (query) => {
 const convert_kana_field_to_onyomi = async (query) =>
   find_notes(query, async (id) => {
     let json = await post("notesInfo", {notes: [id]});
+    await delay()
     let entity = json.result[0];
 
     if (!['OnYomi', 'Suru'].includes(entity.modelName)) {
