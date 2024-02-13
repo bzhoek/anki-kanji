@@ -88,6 +88,13 @@ JIS X 208 is the Japanese Industrial Standard character with 6355 kanji.
 http://www.edrdg.org/kanjidic/kanjidic.gz
 
 ## Database
+
+SQLite database is in `/Users/bas/Library/Application Support/Anki2/User 1/collection.anki2`.
+
+```sqlite
+select count(*), factor from revlog group by factor
+```
+
 https://github.com/ankidroid/Anki-Android/wiki/Database-Structure
 https://kylerego.github.io/anki-schema
 `revlog.id` is timestamp van review.
