@@ -8,6 +8,10 @@ Make beautiful kanji stroke diagrams in Anki with very distinct colors and conve
 
 ```sh
 git submodule add https://github.com/KanjiVG/kanjivg
+
+git submodule init
+git submodule update
+
 wget http://www.edrdg.org/kanjidic/kanjidic.gz # 6355 kanji from JIS X 0208
 wget http://www.edrdg.org/kanjidic/kanjd212.gz # 5801 kanji from JIS X 0212
 
