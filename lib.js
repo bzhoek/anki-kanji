@@ -405,7 +405,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
     colorize(unicode, style_color).then(async (svg) => {
       let params = {
         "note": {
-          "deckName": "Default",
+          "deckName": "Inbox",
           "modelName": "OnKanji",
           "fields": {
             "nederlands": json.meanings.join(', '),
