@@ -7,7 +7,7 @@ const {
   move_cards, stroke_notes, emphasize_notes, update_styling, download_html_templates, upload_html_templates,
   configure_decks, lapse_cards,
   add_kanji_with_reading_and_meaning, add_speech, convert_kana_field_to_onyomi, missing_kanji, move_related,
-  show_parts_of_kanji
+  show_parts_of_kanji, target_word
 } = require('./lib')
 
 let cli = clap.command('anki ')
@@ -55,8 +55,12 @@ cli.command('kanji <kanji>')
   .action(({_, args}) => add_kanji_with_reading_and_meaning(args[0]))
   .end()
 cli.command('parts <kanji>')
-  .description('Show parts of kanji ')
+  .description('Show parts of kanji')
   .action(({_, args}) => show_parts_of_kanji(args[0]))
+  .end()
+cli.command('target <kanji> <word>')
+  .description('Target word for kanji')
+  .action(({_, args}) => target_word(args[0], args[1]))
   .end()
 cli.command('exist <kanji>')
   .description('Checks if kanji exist')

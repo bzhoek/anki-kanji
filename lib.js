@@ -128,13 +128,13 @@ function delay() {
 }
 
 const stroke_note = async (id) => {
-  let json = await post("notesInfo", {notes: [id]});
-  let strokes = json.result[0].fields['strokes'];
+  let note = await note_info(id)
+  let strokes = note.fields['strokes'];
   if (!refresh && strokes.value.includes('</svg>')) {
     console.log('skipping filled svg', id)
     return
   }
-  let kanji = json.result[0].fields['kanji'];
+  let kanji = note.fields['kanji'];
   if (kanji) {
     let svg = css_style
     for (let i = 0; i < kanji.value.length; i++) {
@@ -173,21 +173,19 @@ const move_related = async (query) => {
 
 const convert_kana_field_to_onyomi = async (query) =>
   find_notes(query, async (id) => {
-    let json = await post("notesInfo", {notes: [id]});
-    await delay()
-    let entity = json.result[0];
+    let note = await note_info(id)
 
-    if (!['OnYomi', 'Suru'].includes(entity.modelName)) {
-      console.log("Skip", entity.modelName)
+    if (!['OnYomi', 'Suru'].includes(note.modelName)) {
+      console.log("Skip", note.modelName)
       return
     }
 
-    if (entity.fields['kana'] === undefined) {
+    if (note.fields['kana'] === undefined) {
       return
     }
 
-    let kana = entity.fields['kana'].value;
-    let kanji = entity.fields['kanji'].value;
+    let kana = note.fields['kana'].value;
+    let kanji = note.fields['kanji'].value;
     if (is_jukugo(kanji)) {
       let onyomi = convert_kunyomi_to_onyomi(kana);
       if (onyomi !== kana) {
@@ -199,19 +197,41 @@ const convert_kana_field_to_onyomi = async (query) =>
     }
   })
 
+const target_word = async (char, word) => {
+  let kanji = await find_kanji(char);
+  let onyomi = await find_onyomi(word);
+  let fields = {}
+  let speech = onyomi.fields['speech'].value;
+  if (kanji.fields['speech'].value.length === 0 && speech.length !== 0) {
+    Object.assign(fields, {speech: speech})
+  }
+  if (kanji.fields['target'].value.length === 0) {
+    let kana = onyomi.fields['kana'].value.replace(/<.+?>/g, '').trim()
+    let nl = onyomi.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
+    let target = `${word} <i>(${kana} ${nl})</i> `
+    Object.assign(fields, {target: target})
+  }
+  let note = {note: {id: kanji.noteId, fields: fields}};
+  let update = await post('updateNoteFields', note)
+  if (update.error) {
+    console.error(update.error, note)
+  } else {
+    console.log("Update", fields)
+  }
+}
+
 const add_speech = async (query) => find_notes(query, async (id) => {
-  let note = await post("notesInfo", {notes: [id]});
-  let entity = note.result[0];
-  if (entity.fields['speech'] === undefined) {
+  let note = await note_info(id)
+  if (note.fields['speech'] === undefined) {
     return
   }
 
-  let speech = entity.fields['speech'].value;
+  let speech = note.fields['speech'].value;
   if (speech.startsWith("[")) {
     return
   }
 
-  let words = entity.fields['kanji'].value;
+  let words = note.fields['kanji'].value;
   words = words.replace(/<.+?>/g, '').trim()
   words = words.replace(/\s/g, '').trim()
 
@@ -264,8 +284,8 @@ const move_cards = async (query, deck) => {
 
 const lapse_cards = async (count) =>
   find_notes(`prop:lapses=${count} note:OnKanji`, async (id) => {
-    let json = await post("notesInfo", {notes: [id]});
-    let kanji = json.result[0].fields.kanji.value.replace(/<.+?>/g, '').trim()
+    let note = await note_info(id)
+    let kanji = note.fields.kanji.value.replace(/<.+?>/g, '').trim()
     let yomi = await post('findNotes', {query: `kanji:*${kanji}* card:ToKanji (note:OnYomi or note:Suru)`});
     console.log(kanji, yomi.result.length)
     if (yomi.result.length < 1) {
@@ -286,11 +306,10 @@ const emphasize = async (id, field, prefix, suffix) => {
 }
 
 const emphasize_first_sentence = async (id) => {
-  let json = await post("notesInfo", {notes: [id]});
-  let result = json.result[0];
-  ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
-    if (result.fields[field]) {
-      let value = result.fields[field].value.trim();
+  let note = await note_info(id)
+    ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
+    if (note.fields[field]) {
+      let value = note.fields[field].value.trim();
       let match = value.match(/(.+?)\.(.*)/);
       if (match) {
         emphasize(id, field, match[1], match[2])
@@ -496,9 +515,26 @@ const convert_kunyomi_to_onyomi = (word) => {
     }).join('')
 }
 
+const has_kanji = async (kanji) => {
+  return find_kanji(kanji).result.length === 1
+}
+
+async function note_info(id) {
+  let notes = await post("notesInfo", {notes: [id]});
+  await delay()
+  return notes.result[0];
+}
+
 const find_kanji = async (kanji) => {
-  let json = await post('findNotes', {query: `note:OnKanji kanji:*${kanji}*`});
-  return json.result.length === 1
+  let ids = await post('findNotes', {query: `note:OnKanji kanji:*${kanji}*`});
+  let id = ids.result[0];
+  return await note_info(id);
+}
+
+const find_onyomi = async (kanji) => {
+  let ids = await post('findNotes', {query: `note:OnYomi kanji:*${kanji}*`});
+  let id = ids.result[0];
+  return await note_info(id);
 }
 
 const multiple_kanji = (list) => {
@@ -506,7 +542,7 @@ const multiple_kanji = (list) => {
 }
 
 const missing_kanji = (list) => {
-  return multiple_kanji(list).map(async kanji => await find_kanji(kanji) ? null : kanji)
+  return multiple_kanji(list).map(async kanji => await has_kanji(kanji) ? null : kanji)
 }
 
 const write_html = (cards, template, suffix) => {
@@ -591,6 +627,8 @@ module.exports = {
   convert_kunyomi_to_onyomi,
   convert_kana_field_to_onyomi,
   find_kanji,
+  find_onyomi,
+  has_kanji,
   multiple_kanji,
   missing_kanji,
   move_related,
@@ -599,5 +637,6 @@ module.exports = {
   parse_kanjidic,
   write_html,
   extract_parts_from_kanji,
-  show_parts_of_kanji
+  show_parts_of_kanji,
+  target_word
 }

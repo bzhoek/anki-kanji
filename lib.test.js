@@ -2,9 +2,10 @@ const {
   is_jukugo,
   is_kunyomi,
   convert_kunyomi_to_onyomi,
+  has_kanji,
   find_kanji,
   multiple_kanji,
-  missing_kanji
+  missing_kanji, find_onyomi, target_word
 } = require('./lib')
 
 describe('jukugo', () => {
@@ -64,13 +65,18 @@ describe('convert kunyomi to onyomi', () => {
 let n5_sample = `
 一\t二\t三\t四\t五\t六\t七\t八\t九\t十\t人\t今\t日
 `
-
 describe('multiple kanji', () => {
-  test('has kanji', () => {
-    expect(find_kanji("食")).toBeTruthy()
+  test('find kanji', async () => {
+    await target_word("格", "格好")
+    let kanji = await find_kanji("格");
+    let onyomi = await find_onyomi("格好");
+    expect(kanji).toEqual([1551038144631])
   });
-  test('missing kanji', async () => {
-    expect(await find_kanji("叫")).toBeFalsy()
+  test('has kanji', () => {
+    expect(has_kanji("食")).toBeTruthy()
+  });
+  test('missing kanji', () => {
+    expect(has_kanji("叫")).toBeFalsy()
   });
   test('multiple kanji', () => {
     expect(multiple_kanji(n5_sample)).toStrictEqual(["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "人", "今", "日"])
