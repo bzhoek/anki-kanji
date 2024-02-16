@@ -1,34 +1,36 @@
 const {
   is_katakana,
   is_hiragana,
-  parse_kanjidic, extract_parts_from_kanji
+  parse_kanjidic,
+  extract_parts_from_kanji
 } = require('./lib')
 
 describe('euc-jp encoding', () => {
   test('import file', () => {
     const fs = require('fs');
     const Encoding = require('encoding-japanese');
-    const buffer = fs.readFileSync('/Users/bvanderhoek/Downloads/kanjidic');
+    const buffer = fs.readFileSync('kanjidic');
     const unicodeArray = Encoding.convert(buffer, {
       to: 'UNICODE', from: 'EUCJP'
     });
 
-    const sqlite3 = require('sqlite3').verbose();
-    const db = new sqlite3.Database('kanjson.sqlite');
-    // db.run('CREATE TABLE kanjidic (info JSON)');
-    let insert = db.prepare('INSERT INTO kanjidic VALUES(json(?))');
 
     let decoded = Encoding.codeToString(unicodeArray);
-    // fs.writeFileSync("kanjidic.txt", decoded)
+    fs.writeFileSync("kanjidic.txt", decoded)
     // console.log(decoded)
-    decoded
-      .split('\n')
-      .filter(line => line.length > 0 && !line.startsWith('#'))
-      .forEach(line => {
-        insert.run(JSON.stringify(parse_kanjidic(line)));
-      });
 
-    insert.finalize();
+    // const sqlite3 = require('sqlite3').verbose();
+    // const db = new sqlite3.Database('kanjson.sqlite');
+    // let insert = db.prepare('INSERT INTO kanjidic VALUES(json(?))');
+    //
+    // decoded
+    //   .split('\n')
+    //   .filter(line => line.length > 0 && !line.startsWith('#'))
+    //   .forEach(line => {
+    //     insert.run(JSON.stringify(parse_kanjidic(line)));
+    //   });
+    //
+    // insert.finalize();
   });
 })
 describe('sqlite json', () => {
