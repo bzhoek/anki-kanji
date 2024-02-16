@@ -420,7 +420,17 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
   kanjidb.get("SELECT info FROM kanjidic WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
     let json = JSON.parse(row.info)
     console.log(json)
+
     let meaning = row.meaning
+
+    let tags = []
+    if (json.jlpt > 0) {
+      tags.push(`jlpt${json.jlpt}`)
+    }
+    if (json.grade > 0) {
+      tags.push(`g${json.grade}`)
+    }
+
     colorize(unicode, style_color).then(async (svg) => {
       let params = {
         "note": {
@@ -436,7 +446,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
           "options": {
             "allowDuplicate": false
           },
-          "tags": [`jlpt${json.jlpt}`, `g${json.grade}`]
+          "tags": tags
         }
       }
 
