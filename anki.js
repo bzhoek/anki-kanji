@@ -11,10 +11,12 @@ const {
 } = require('./lib')
 
 let cli = clap.command('anki ')
-  .description(`Manipulate Anki decks, notes, cards. Queries https://docs.ankiweb.net/searching.html, like
-   - note:OnKanj for all notes of types
-   - deck:Karate for all notes in deck
-   - nid:1656500001715 note with id`)
+  .description(`
+  Manipulate Anki decks, notes, and cards with queries; like https://docs.ankiweb.net/searching.html:
+  
+   - 'note:OnKanj' match all notes of type 'OnKanj'
+   - 'deck:Karate' match everything in deck 'Karate'
+   - 'nid:1656500001715' pick note with identifier '1656500001715'`)
   .action(() => cli.outputHelp())
 cli.command('collect <query>')
   .description('Move all related cards to the Default deck')
