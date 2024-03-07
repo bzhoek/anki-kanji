@@ -1,90 +1,116 @@
 #!/usr/bin/env node
-const clap = require('clap');
+const {Command} = require('commander');
 const sass = require('node-sass');
 const {exec} = require('child_process');
 
 const {
-  move_cards, stroke_notes, emphasize_notes, update_styling, download_html_templates, upload_html_templates,
+  move_cards, stroke_notes,
+  emphasize_notes,
+  update_styling,
+  download_html_templates,
+  upload_html_templates,
   configure_decks, lapse_cards,
-  add_kanji_with_reading_and_meaning, add_speech, convert_kana_field_to_onyomi, missing_kanji, move_related,
-  show_parts_of_kanji, target_word
+  add_kanji_with_reading_and_meaning,
+  add_speech,
+  convert_kana_field_to_onyomi,
+  missing_kanji,
+  move_related,
+  show_parts_of_kanji,
+  target_word
 } = require('./lib')
+const {
+  html_from_templates
+} = require("./templates");
 
-let cli = clap.command('anki ')
-  .description(`
-  Manipulate Anki decks, notes, and cards with queries; like https://docs.ankiweb.net/searching.html:
-  
+let cli = new Command()
+cli.name('anki')
+  .description(`  Manipulate Anki decks, notes, and cards with queries; like https://docs.ankiweb.net/searching.html:
+
    - 'note:OnKanj' match all notes of type 'OnKanj'
    - 'deck:Karate' match everything in deck 'Karate'
    - 'nid:1656500001715' pick note with identifier '1656500001715'`)
-  .action(() => cli.outputHelp())
-cli.command('collect <query>')
+
+cli.command('collect')
+  .argument('<query>', 'query')
   .description('Move all related cards to the Default deck')
-  .action(({_, args}) => move_related(args[0]))
-  .end()
-cli.command('kana <query>')
+  .action((query) => move_related(query))
+
+cli.command('kana')
+  .argument('<query>', 'query')
   .description("Convert kana for jukugo words to on'yomi")
-  .action(({_, args}) => convert_kana_field_to_onyomi(args[0]))
-  .end()
-cli.command('move <query> <deck>')
+  .action((query) => convert_kana_field_to_onyomi(query))
+
+cli.command('move')
+  .argument('<query>', 'query')
+  .argument('<deck>', 'deck')
   .description('Move matching cards to a given deck')
-  .action(({_, args}) => move_cards(args[0], args[1]))
-  .end()
-cli.command('lapse <count>')
+  .action((query, deck) => move_cards(query, deck))
+
+cli.command('lapse')
+  .argument('<count>', 'count')
   .description('Find lapsed kanji without vocab')
-  .action(({_, args}) => lapse_cards(args[0]))
-  .end()
-cli.command('emphasize <query>')
+  .action((count) => lapse_cards(count))
+
+cli.command('emphasize')
+  .argument('<query>', 'query')
   .description('Emphasize first sentence of field, delimited by period')
-  .action(({_, args}) => emphasize_notes(args[0]))
-  .end()
-cli.command('stroke <query>')
+  .action((query) => emphasize_notes(query))
+
+cli.command('stroke')
+  .argument('<query>', 'query')
   .description('Add SVG strokes for all kanji of matched notes')
-  .action(({_, args}) => stroke_notes(args[0]))
-  .end()
-cli.command('speech <query>')
+  .action((query) => stroke_notes(query))
+
+cli.command('speech')
+  .argument('<query>', 'query')
   .description('Add speech for matched notes')
-  .action(({_, args}) => add_speech(args[0]))
-  .end()
-cli.command('lookup <kanji>')
+  .action((query) => add_speech(query))
+
+cli.command('lookup')
+  .argument('<kanji>', 'kanji')
   .description('Lookup kanji unicode meaning')
-  .action(({_, args}) => {
-    exec(`open https://kanjivg.tagaini.net/viewer.html?kanji=${args[0]}`)
-  })
-  .end()
-cli.command('kanji <kanji>')
+  .action((kanji) =>
+    exec(`open https://kanjivg.tagaini.net/viewer.html?kanji=${kanji}`))
+
+cli.command('kanji')
+  .argument('<kanji>', 'kanji')
   .description('Create a new note with reading and meaning')
-  .action(({_, args}) => add_kanji_with_reading_and_meaning(args[0]))
-  .end()
-cli.command('parts <kanji>')
+  .action((kanji) =>
+    add_kanji_with_reading_and_meaning(kanji))
+
+cli.command('parts')
+  .argument('<kanji>', 'kanji')
   .description('Show parts of kanji')
-  .action(({_, args}) => show_parts_of_kanji(args[0]))
-  .end()
-cli.command('target <kanji> <word>')
+  .action((kanji) => show_parts_of_kanji(kanji))
+
+cli.command('target')
+  .argument('<kanji>', 'kanji')
+  .argument('<word>', 'word')
   .description('Target word for kanji')
-  .action(({_, args}) => target_word(args[0], args[1]))
-  .end()
-cli.command('exist <kanji>')
+  .action((kanji, word) => target_word(kanji, word))
+
+cli.command('exist')
+  .argument('<kanji>', 'kanji')
   .description('Checks if kanji exist')
-  .action(async ({_, args}) => {
-    let result = await Promise.all(missing_kanji(args[0]))
+  .action(async (kanji) => {
+    let result = await Promise.all(missing_kanji(kanji))
     for (const kanji of result.filter(v => v)) {
       add_kanji_with_reading_and_meaning(kanji)
     }
   })
-  .end()
+
 cli.command('configure')
   .description('Create separate configuration for each deck')
   .action(() => configure_decks())
-  .end()
+
 cli.command('download')
   .description('Download card templates to html folder')
   .action(() => download_html_templates())
-  .end()
+
 cli.command('upload')
   .description('Update card templates from html folder')
   .action(() => upload_html_templates())
-  .end()
+
 cli.command('restyle')
   .description('Reapply anki.css stylesheet to all notes')
   .action(() => {
@@ -93,5 +119,11 @@ cli.command('restyle')
     }).css.toString()
     update_styling(css)
   })
-  .end()
-cli.run()
+
+cli.command('template')
+  .description('Generate card templates from pug files')
+  .action(() => {
+    html_from_templates()
+  })
+
+cli.parse()

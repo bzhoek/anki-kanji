@@ -566,19 +566,6 @@ const missing_kanji = (list) => {
   return multiple_kanji(list).map(async kanji => await has_kanji(kanji) ? null : kanji)
 }
 
-const write_html = (cards, template, suffix) => {
-  const compiledTemplate = pug.compileFile(`template/${template}`);
-
-  cards.forEach(card => {
-      let result = compiledTemplate(card)
-      let filename = `html/${card.name}.${suffix}.html`;
-      fs.writeFileSync(filename, result, 'utf8')
-      console.log(`Wrote ${filename}`)
-    }
-  )
-  return compiledTemplate
-};
-
 const parse_kanjidic = (line) => {
   try {
     let meanings = line.split("{");
@@ -656,7 +643,6 @@ module.exports = {
   add_speech,
   lapse_cards,
   parse_kanjidic,
-  write_html,
   extract_parts_from_kanji,
   show_parts_of_kanji,
   target_word
