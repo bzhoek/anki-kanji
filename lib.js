@@ -432,7 +432,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
     }
 
     colorize(unicode, style_color).then(async (svg) => {
-      let params = {
+      let add = {
         "note": {
           "deckName": "Inbox",
           "modelName": "OnKanji",
@@ -450,9 +450,20 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
         }
       }
 
-      post('addNote', params).then(json => {
-        console.log(meaning, json)
-      })
+      let update = false
+
+      if (update) {
+        let found = await find_kanji(kanji);
+        // found.fields['notes'].value.length === 0
+        let update = {note: {id: found.noteId, fields: add.note.fields, tags: tags}};
+        console.log(update)
+        await post('updateNote', update)
+        console.log("updated", json)
+      } else {
+        post('addNote', add).then(json => {
+          console.log("added", meaning, json)
+        })/**/
+      }
     })
   })
 }
