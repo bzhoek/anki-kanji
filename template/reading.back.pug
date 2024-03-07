@@ -2,12 +2,17 @@ main(class=`${color} ${mode} back`)
   |
   | {{#kanji}}
   h1.title {{kanji}}
-  h1 {{nederlands}} {{speech}}
+  | {{#target}}
+  div {{target}}
+  | {{/target}}
+  h1 {{nederlands}}
+    span.speech {{speech}}
   h2!= grammar[0]
   | {{/kanji}}
   | {{^kanji}}
   h1.title {{kana}}
-  h1 {{nederlands}} {{speech}}
+  h1 {{nederlands}}
+    span.speech {{speech}}
   h2!= grammar[1] || grammar[0]
   | {{/kanji}}
   | {{#notes}}
