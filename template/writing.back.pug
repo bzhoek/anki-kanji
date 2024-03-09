@@ -2,11 +2,11 @@ doctype html
 main(class=`${color} ${mode} back`)
   |
   h1 {{nederlands}}
-    span.speech {{speech}}
   | {{#target}}
   div {{target}}
   | {{/target}}
   h2!= grammar[1] || grammar[0]
+    span.speech {{speech}}
   div {{kanji}}
   | {{#notes}}
   div {{notes}}
