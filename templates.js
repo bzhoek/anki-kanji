@@ -2,7 +2,7 @@ const pug = require("pug");
 const fs = require("fs");
 
 const write_html = (cards, template, suffix) => {
-  const compiledTemplate = pug.compileFile(`template/${template}`);
+  const compiledTemplate = pug.compileFile(`template/${template}`, {pretty: true});
 
   cards.forEach(card => {
       let result = compiledTemplate(card)

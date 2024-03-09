@@ -1,6 +1,14 @@
+<!DOCTYPE html>
 <main class="magenta reading front">
-{{#kanji}}<h1 class="title {{Tags}}">{{kanji}}</h1>{{/kanji}}
-{{^kanji}}<h1 class="title {{Tags}}">{{kana}}</h1>{{/kanji}}
-{{#target}}<div>{{target}}</div>{{/target}}
-{{#kanji}}<h2>&equals; 熟語 &equals;</h2>{{/kanji}}
-{{^kanji}}<h2>&equals; じゅくご &equals;</h2>{{/kanji}}</main>
+  
+  {{#kanji}}
+  <h1 class="title {{Tags}}">{{kanji}}</h1>{{/kanji}}
+  {{^kanji}}
+  <h1 class="title {{Tags}}">{{kana}}</h1>{{/kanji}}
+  {{#target}}
+  <div>{{target}}</div>{{/target}}
+  {{#kanji}}
+  <h2>&equals; 熟語 &equals;</h2>{{/kanji}}
+  {{^kanji}}
+  <h2>&equals; じゅくご &equals;</h2>{{/kanji}}
+</main>

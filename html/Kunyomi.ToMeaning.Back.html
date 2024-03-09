@@ -1,5 +1,17 @@
-<main class="magenta reading back">
-{{#kanji}}<h1 class="title">{{kanji}}</h1>{{#target}}<div>{{target}}</div>{{/target}}<h1>{{nederlands}}<span class="speech">{{speech}}</span></h1><h2>&equals; 熟語 &equals;</h2>{{/kanji}}
-{{^kanji}}<h1 class="title">{{kana}}</h1><h1>{{nederlands}}<span class="speech">{{speech}}</span></h1><h2>&equals; じゅくご &equals;</h2>{{/kanji}}
-{{#notes}}<div>{{notes}}</div>{{/notes}}<div>{{kana}}</div>{{#context}}<div class="context">{{context}}</div>{{/context}}
-{{#strokes}}<div class="strokes">{{strokes}}</div>{{/strokes}}</main>
+<!DOCTYPE html>
+<main class="magenta reading back">{{#kanji}}
+  <h1 class="title">{{kanji}}</h1>{{#target}}
+  <div>{{target}}</div>{{/target}}
+  <h1>{{nederlands}}<span class="speech">{{speech}}</span></h1>
+  <h2>&equals; 熟語 &equals;</h2>{{/kanji}}
+  {{^kanji}}
+  <h1 class="title">{{kana}}</h1>
+  <h1>{{nederlands}}<span class="speech">{{speech}}</span></h1>
+  <h2>&equals; じゅくご &equals;</h2>{{/kanji}}
+  {{#notes}}
+  <div>{{notes}}</div>{{/notes}}
+  <div>{{kana}}</div>{{#context}}
+  <div class="context">{{context}}</div>{{/context}}
+  {{#strokes}}
+  <div class="strokes">{{strokes}}</div>{{/strokes}}
+</main>
