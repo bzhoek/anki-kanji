@@ -29,6 +29,17 @@
     width: 40vh
     height: 40vh
 
+h1, h2
+  font-size: 20pt
+  font-weight: normal
+  margin: 8pt 0
+
+h2
+  color: white
+
+h3
+  font-size: 16pt
+
 main
   &.jukukanji h2, &.violet h2
     background-color: #6c71c4
@@ -57,6 +68,83 @@ main
   em
     font-size: 110%
     font-style: normal
+
+.card.night_mode
+  svg
+    text
+      fill: #93a1a1
+
+.card
+  font-family: Helvetica, sans-serif
+  font-size: 14pt
+  text-align: center
+  color: black
+  background-color: #fdf6e3
+
+div
+  margin: 8pt 0
+
+.notes, .border
+  border-top: 1px solid grey
+  padding-top: 8pt
+  margin: 8pt 0
+
+.front
+  svg
+    text
+      fill: transparent
+
+  .target
+    font-size: 16pt
+
+    i
+      display: none
+
+.back
+  .target
+    i
+      display: inline-block
+
+.speech
+  position: absolute
+  right: 16px
+  height: 20pt
+
+.tomeaning, .toonyomi, .jukukana, .reading, .speaking
+  .title, .title em
+    font-size: 48pt
+    font-family: 'Hiragino Sans', sans-serif
+
+    &.lookalike, &.leech
+      border: 1px solid red
+
+  .strokes
+    border: none
+
+    &.lookalike, &.leech
+      border: 1px solid red
+
+.onkanji
+  div.strokes
+    display: none
+
+.jukukana
+  svg
+    text
+      fill: transparent
+
+.extra
+  font-size: 10pt
+  margin: 8pt 0
+
+.kana
+  color: #268bd2
+
+.cloze
+  color: #268bd2
+
+b
+  font-size: 1.2rem
 
 svg
   text
@@ -138,88 +226,3 @@ svg
   .stroke-23
     stroke: #42150A
 
-
-.card.night_mode
-  svg
-    text
-      fill: #93a1a1
-
-.card
-  font-family: Helvetica, sans-serif
-  font-size: 14pt
-  text-align: center
-  color: black
-  background-color: #fdf6e3
-
-h1, h2
-  font-size: 20pt
-  font-weight: normal
-  margin: 8pt 0
-
-h2
-  color: white
-
-h3
-  font-size: 16pt
-
-div
-  margin: 8pt 0
-
-.notes, .border
-  border-top: 1px solid grey
-  padding-top: 8pt
-  margin: 8pt 0
-
-.front
-  svg
-    text
-      fill: transparent
-
-  .target
-    font-size: 16pt
-
-    i
-      display: none
-
-.back
-  .target
-    i
-      display: inline-block
-
-.speech
-  position: absolute
-  //bottom: 8px
-  right: 16px
-  height: 20pt
-
-.tomeaning, .toonyomi, .jukukana, .reading, .speaking
-  .title, .title em
-    font-size: 48pt
-    font-family: 'Hiragino Sans', sans-serif
-
-    &.lookalike, &.leech
-      border: 1px solid red
-
-  .strokes
-    border: none
-
-    &.lookalike, &.leech
-      border: 1px solid red
-
-.jukukana
-  svg
-    text
-      fill: transparent
-
-.extra
-  font-size: 10pt
-  margin: 8pt 0
-
-.kana
-  color: #268bd2
-
-.cloze
-  color: #268bd2
-
-b
-  font-size: 1.2rem

@@ -42,7 +42,7 @@ function to_on_yomi_html() {
 
   let cards = [
     {
-      name: 'OnKanji', grammar: onyomi, color: 'yellow', mode: 'speaking',
+      name: 'OnKanji', grammar: onyomi, color: 'yellow', mode: 'speaking onkanji',
       notempty: 'on', clazz: 'strokes', front: 'strokes', back: 'on'
     },
     {
