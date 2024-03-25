@@ -167,7 +167,7 @@ const stroke_notes = async (query) => find_notes(query, stroke_note)
 
 const move_related = async (query) => {
   await find_notes(query, (nid) => {
-    move_cards(`nid:${nid}`, 'Default')
+    move_cards(`nid:${nid}`, 'Inbox')
   })
 }
 
@@ -450,7 +450,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
         }
       }
 
-      let update = false
+      let update = true
 
       if (update) {
         let found = await find_kanji(kanji);

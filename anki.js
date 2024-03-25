@@ -32,7 +32,7 @@ cli.name('anki')
 
 cli.command('collect')
   .argument('<query>', 'query')
-  .description('Move all related cards to the Default deck')
+  .description('Move all related cards to the Inbox deck')
   .action((query) => move_related(query))
 
 cli.command('kana')
