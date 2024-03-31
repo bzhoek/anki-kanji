@@ -200,17 +200,28 @@ const convert_kana_field_to_onyomi = async (query) =>
 const target_word = async (char, word) => {
   let kanji = await find_kanji(char);
   let onyomi = await find_onyomi(word);
+
   let fields = {}
   let speech = onyomi.fields['speech'].value;
   if (kanji.fields['speech'].value.length === 0 && speech.length !== 0) {
     Object.assign(fields, {speech: speech})
+  } else {
+    console.error("Speech not empty", char)
   }
+
   if (kanji.fields['target'].value.length === 0) {
     let kana = onyomi.fields['kana'].value.replace(/<.+?>/g, '').trim()
     let nl = onyomi.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
     let target = `${word} <i>(${kana} ${nl})</i> `
     Object.assign(fields, {target: target})
+  } else {
+    console.error("Target not empty", char)
   }
+
+  if (Object.keys(fields).length === 0) {
+    return
+  }
+
   let note = {note: {id: kanji.noteId, fields: fields}};
   let update = await post('updateNoteFields', note)
   if (update.error) {
@@ -450,7 +461,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
         }
       }
 
-      let update = true
+      let update = false
 
       if (update) {
         let found = await find_kanji(kanji);
