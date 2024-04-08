@@ -5,7 +5,8 @@
   <h1>{{nederlands}}</h1>
   <h2>&equals; V &equals;<span class="speech">{{speech}}</span></h2>{{/kanji}}
   {{^kanji}}
-  <h1 class="title">{{kana}}</h1>
+  <h1 class="title">{{kana}}</h1>{{#target}}
+  <div>{{target}}</div>{{/target}}
   <h1>{{nederlands}}<span class="speech">{{speech}}</span></h1>
   <h2>&equals; V &equals;</h2>{{/kanji}}
   {{#notes}}
