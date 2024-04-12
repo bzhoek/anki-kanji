@@ -461,11 +461,8 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
         }
       }
 
-      let update = false
-
-      if (update) {
-        let found = await find_kanji(kanji);
-        // found.fields['notes'].value.length === 0
+      let found = await find_kanji(kanji);
+      if (Object.keys(found).length > 0) {
         let update = {note: {id: found.noteId, fields: add.note.fields, tags: tags}};
         console.log(update)
         await post('updateNote', update)
@@ -473,7 +470,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
       } else {
         post('addNote', add).then(json => {
           console.log("added", meaning, json)
-        })/**/
+        })
       }
     })
   })
