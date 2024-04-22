@@ -2,9 +2,9 @@ doctype html
 main(class=`${color} ${mode} back`)
   |
   h1 {{nederlands}}
+  div {{kana}}
   h2!= grammar[1] || grammar[0]
     span.speech {{speech}}
-  div {{kana}}
   | {{#notes}}
   div {{notes}}
   | {{/notes}}
