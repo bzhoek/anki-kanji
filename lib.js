@@ -451,7 +451,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
             "nederlands": json.meanings.join(', '),
             "kanji": kanji,
             "on": json.katakana.join(', '),
-            "notes": json.hiragana.join(', '),
+            "dictionary": json.meanings.join(', ') + '\n' + json.hiragana.join(', '),
             "strokes": css_style + svg
           },
           "options": {
