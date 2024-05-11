@@ -1,10 +1,11 @@
 <main class='tokanji'>
   <h1>{{nederlands}}</h1>
-  {{#target}}<div>{{target}}</div>{{/target}}
-  {{notes}}
+  {{#on}}{{on}}{{/on}}
+  {{#kun}}{{kun}}{{/kun}}
+  {{#target}}<div><span class="target">{{target}}</span></div>{{/target}}
+  {{#notes}}<div>{{notes}}</div>{{/notes}}
   <h2>\️ 漢字 /️</h2>
   <div>{{strokes}}</div>
-  {{on}}
   {{#context}}
   <div class="context">{{context}}</div>
   {{/context}}
