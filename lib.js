@@ -304,6 +304,7 @@ const lapse_cards = async (count) =>
     }
   })
 
+
 const emphasize = async (id, field, prefix, suffix) => {
   let tags_removed = prefix.replace(/<.+?>/g, '').trim()
   if (!tags_removed.length) {
@@ -314,6 +315,24 @@ const emphasize = async (id, field, prefix, suffix) => {
   let params = {note: {id: id, fields: {}}};
   Object.defineProperty(params.note.fields, field, {value: emphasized, enumerable: true})
   await post('updateNoteFields', params)
+}
+
+const tags_removed = (str) => str.replace(/<.+?>/g, '').trim()
+const note_field = (note, field) => note.fields[field].value.trim()
+
+const hint_note = async (id) => {
+  let note = await note_info(id);
+  let kanji = tags_removed(note_field(note, 'kanji'));
+  let target = note_field(note, 'target');
+  let hint = note_field(note, 'hint');
+  if (target.length > 0 && hint.length === 0) {
+    let placeholder = '・'.repeat(kanji.length);
+    let hint = target.replace(kanji, placeholder).replace(/<i>.*/g, '').trim();
+    console.log(kanji, hint);
+    let update = {note: {id: id, fields: {hint: hint}}};
+    console.log(update)
+    await post('updateNote', update)
+  }
 }
 
 const emphasize_first_sentence = async (id) => {
@@ -331,6 +350,8 @@ const emphasize_first_sentence = async (id) => {
   })
 }
 
+const clean_notes = async (query) => find_notes(query, clean_note)
+const hint_notes = async (query) => find_notes(query, hint_note)
 const emphasize_notes = async (query) => find_notes(query, emphasize_first_sentence)
 
 const update_model_styling = (model, css) => {
@@ -629,6 +650,7 @@ module.exports = {
   post,
   colorize,
   emphasize_notes,
+  hint_notes,
   move_cards,
   stroke_notes,
   update_styling,

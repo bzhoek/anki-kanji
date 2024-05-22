@@ -16,7 +16,7 @@ const {
   missing_kanji,
   move_related,
   show_parts_of_kanji,
-  target_word
+  target_word, hint_notes
 } = require('./lib')
 const {
   html_from_templates
@@ -55,6 +55,12 @@ cli.command('emphasize')
   .argument('<query>', 'query')
   .description('Emphasize first sentence of field, delimited by period')
   .action((query) => emphasize_notes(query))
+
+cli.command('hint')
+  .argument('<query>', 'query')
+  .description('Add hints based on target')
+  .action((query) => hint_notes(query))
+
 
 cli.command('stroke')
   .argument('<query>', 'query')
