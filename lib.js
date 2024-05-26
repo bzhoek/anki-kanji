@@ -129,8 +129,7 @@ function delay() {
   return new Promise(resolve => setTimeout(resolve, 500));
 }
 
-const stroke_note = async (id) => {
-  let note = await note_info(id)
+const stroke_note = async (id, note) => {
   let strokes = note.fields['strokes'];
   if (!refresh && strokes.value.includes('</svg>')) {
     console.log('skipping filled svg', id)
@@ -156,27 +155,32 @@ const stroke_note = async (id) => {
   }
 }
 
-const find_notes = async (query, fn) => {
+const iterate_notes = async (query, fn) => {
   let json = await post('findNotes', {query: query});
   console.log("Matches", json.result.length, "notes")
   for (const id of json.result) {
-    await fn(id)
+    let note = await note_info(id);
+    await fn(id, note)
     await delay()
   }
 }
 
-const stroke_notes = async (query) => find_notes(query, stroke_note)
+const clean_notes = async (query) => iterate_notes(query, clean_note)
+const emphasize_notes = async (query) => iterate_notes(query, emphasize_first_sentence)
+const hint_notes = async (query) => iterate_notes(query, hint_note)
+const stroke_notes = async (query) => iterate_notes(query, stroke_note)
 
 const move_related = async (query) => {
-  await find_notes(query, (nid) => {
-    move_cards(`nid:${nid}`, 'Inbox')
-  })
+  let json = await post('findNotes', {query: query});
+  console.log("Matches", json.result.length, "notes")
+  for (const id of json.result) {
+    await move_cards(`nid:${id}`, 'Inbox')
+    await delay()
+  }
 }
 
 const convert_kana_field_to_onyomi = async (query) =>
-  find_notes(query, async (id) => {
-    let note = await note_info(id)
-
+  iterate_notes(query, async (id, note) => {
     if (!['OnYomi', 'Suru'].includes(note.modelName)) {
       console.log("Skip", note.modelName)
       return
@@ -233,8 +237,7 @@ const target_word = async (char, word) => {
   }
 }
 
-const add_speech = async (query) => find_notes(query, async (id) => {
-  let note = await note_info(id)
+const add_speech = async (query) => iterate_notes(query, async (id, note) => {
   if (note.fields['speech'] === undefined) {
     return
   }
@@ -296,8 +299,7 @@ const move_cards = async (query, deck) => {
 }
 
 const lapse_cards = async (count) =>
-  find_notes(`prop:lapses=${count} note:OnKanji`, async (id) => {
-    let note = await note_info(id)
+  iterate_notes(`prop:lapses=${count} note:OnKanji`, async (id, note) => {
     let kanji = note.fields.kanji.value.replace(/<.+?>/g, '').trim()
     let yomi = await post('findNotes', {query: `kanji:*${kanji}* card:ToKanji (note:OnYomi or note:Suru)`});
     console.log(kanji, yomi.result.length)
@@ -323,8 +325,7 @@ const nbsp_removed = (str) => str.replace(/&nbsp;/g, ' ')
 const tags_removed = (str) => str.replace(/<.+?>/g, '').trim()
 const note_field = (note, field) => note.fields[field].value.trim()
 
-const clean_note = async (id) => {
-  let note = await note_info(id);
+const clean_note = async (id, note) => {
   let updates = {};
   config.clean_fields.forEach(name => {
     let field = note.fields[name];
@@ -341,8 +342,7 @@ const clean_note = async (id) => {
   }
 }
 
-const hint_note = async (id) => {
-  let note = await note_info(id);
+const hint_note = async (id, note) => {
   let kanji = tags_removed(note_field(note, 'kanji'));
   let target = note_field(note, 'target');
   let hint = note_field(note, 'hint');
@@ -356,8 +356,7 @@ const hint_note = async (id) => {
   }
 }
 
-const emphasize_first_sentence = async (id) => {
-  let note = await note_info(id);
+const emphasize_first_sentence = async (id, note) => {
   ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
     if (note.fields[field]) {
       let value = note.fields[field].value.trim();
@@ -370,10 +369,6 @@ const emphasize_first_sentence = async (id) => {
     }
   })
 }
-
-const clean_notes = async (query) => find_notes(query, clean_note)
-const hint_notes = async (query) => find_notes(query, hint_note)
-const emphasize_notes = async (query) => find_notes(query, emphasize_first_sentence)
 
 const update_model_styling = (model, css) => {
   post("updateModelStyling", {
