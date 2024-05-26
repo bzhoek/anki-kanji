@@ -2,9 +2,11 @@ const fs = require("fs");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
-const pug = require("pug");
 const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
+
+let data = fs.readFileSync("config.json", "utf8")
+const config = JSON.parse(data);
 
 const rate_limit = RateLimit(5);
 
@@ -323,9 +325,8 @@ const note_field = (note, field) => note.fields[field].value.trim()
 
 const clean_note = async (id) => {
   let note = await note_info(id);
-  let names = ['Expression', 'Meaning', 'dictionary', 'kana', 'kanji', 'on', 'kun', 'masu', 'teta', 'notes', 'nederlands', 'speech', 'context', 'target', 'hint'];
   let updates = {};
-  names.forEach(name => {
+  config.clean_fields.forEach(name => {
     let field = note.fields[name];
     if (field !== undefined) {
       let cleaned = nbsp_removed(field.value);
@@ -356,8 +357,8 @@ const hint_note = async (id) => {
 }
 
 const emphasize_first_sentence = async (id) => {
-  let note = await note_info(id)
-    ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
+  let note = await note_info(id);
+  ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
     if (note.fields[field]) {
       let value = note.fields[field].value.trim();
       let match = value.match(/(.+?)\.(.*)/);

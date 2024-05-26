@@ -1,0 +1,19 @@
+{
+  "clean_fields": [
+    "context",
+    "dictionary",
+    "hint",
+    "kana",
+    "kanji",
+    "kun",
+    "masu",
+    "nederlands",
+    "notes",
+    "on",
+    "speech",
+    "target",
+    "teta",
+    "Expression",
+    "Meaning"
+  ]
+}

@@ -33,7 +33,7 @@ cli.name('anki')
 cli.command('clean')
   .argument('<query>', 'query')
   .description('Remove &nbsp; from fields')
-  .action((query) => clean_notes(query))
+  .action((query) => clean_notes(query + " &nbsp;"))
 
 cli.command('collect')
   .argument('<query>', 'query')
