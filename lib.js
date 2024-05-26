@@ -317,8 +317,28 @@ const emphasize = async (id, field, prefix, suffix) => {
   await post('updateNoteFields', params)
 }
 
+const nbsp_removed = (str) => str.replace(/&nbsp;/g, ' ')
 const tags_removed = (str) => str.replace(/<.+?>/g, '').trim()
 const note_field = (note, field) => note.fields[field].value.trim()
+
+const clean_note = async (id) => {
+  let note = await note_info(id);
+  let names = ['Expression', 'Meaning', 'dictionary', 'kana', 'kanji', 'on', 'kun', 'masu', 'teta', 'notes', 'nederlands', 'speech', 'context', 'target', 'hint'];
+  let updates = {};
+  names.forEach(name => {
+    let field = note.fields[name];
+    if (field !== undefined) {
+      let cleaned = nbsp_removed(field.value);
+      if (cleaned.length !== field.value.length) {
+        Object.defineProperty(updates, name, {value: cleaned, enumerable: true})
+      }
+    }
+  })
+  if (Object.keys(updates).length > 0) {
+    console.log(updates)
+    await post('updateNoteFields', {note: {id: id, fields: updates}})
+  }
+}
 
 const hint_note = async (id) => {
   let note = await note_info(id);
@@ -649,6 +669,7 @@ const show_parts_of_kanji = char => {
 module.exports = {
   post,
   colorize,
+  clean_notes,
   emphasize_notes,
   hint_notes,
   move_cards,

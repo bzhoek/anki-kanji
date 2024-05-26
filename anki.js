@@ -16,7 +16,7 @@ const {
   missing_kanji,
   move_related,
   show_parts_of_kanji,
-  target_word, hint_notes
+  target_word, hint_notes, clean_notes
 } = require('./lib')
 const {
   html_from_templates
@@ -29,6 +29,11 @@ cli.name('anki')
    - 'note:OnKanj' match all notes of type 'OnKanj'
    - 'deck:Karate' match everything in deck 'Karate'
    - 'nid:1656500001715' pick note with identifier '1656500001715'`)
+
+cli.command('clean')
+  .argument('<query>', 'query')
+  .description('Remove &nbsp; from fields')
+  .action((query) => clean_notes(query))
 
 cli.command('collect')
   .argument('<query>', 'query')
