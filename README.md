@@ -60,7 +60,14 @@ There is still a lot of regression, probably because there is too little context
 - reading the meaning
 - speaking by pronouncing
 
-For writing, I'm adding a `hint` that leaves out the kanji or word. 
+For writing, I'm adding a `hint` that leaves out the kanji or word.
+
+### Hints
+
+| field   | writing | speaking | reading | listening |
+|---------|---------|----------|---------|-----------|
+| zintuig | hand    | mond     | oog     | oor       |
+| hint    | 
 
 ## Background
 

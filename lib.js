@@ -129,6 +129,18 @@ function delay() {
   return new Promise(resolve => setTimeout(resolve, 500));
 }
 
+async function kanji_svg(kanji) {
+  let svg = css_style
+  for (let i = 0; i < kanji.length; i++) {
+    let unicode = kanji.charCodeAt(i);
+    if (unicode >= 0x4E00 && unicode <= 0x9fbf) {
+      console.log(unicode)
+      svg += await colorize(unicode, style_color)
+    }
+  }
+  return svg;
+}
+
 const stroke_note = async (id, note) => {
   let strokes = note.fields['strokes'];
   if (!refresh && strokes.value.includes('</svg>')) {
@@ -137,14 +149,7 @@ const stroke_note = async (id, note) => {
   }
   let kanji = note.fields['kanji'];
   if (kanji) {
-    let svg = css_style
-    for (let i = 0; i < kanji.value.length; i++) {
-      let unicode = kanji.value.charCodeAt(i);
-      if (unicode >= 0x4E00 && unicode <= 0x9fbf) {
-        console.log(unicode)
-        svg += await colorize(unicode, style_color)
-      }
-    }
+    let svg = await kanji_svg(kanji.value);
 
     let strokes = {note: {id: id, fields: {strokes: svg}}};
     let update = await post('updateNoteFields', strokes)
@@ -168,6 +173,7 @@ const iterate_notes = async (query, fn) => {
 const clean_notes = async (query) => iterate_notes(query, clean_note)
 const emphasize_notes = async (query) => iterate_notes(query, emphasize_first_sentence)
 const hint_notes = async (query) => iterate_notes(query, hint_note)
+const mirror_notes = async (query) => iterate_notes(query, mirror_note)
 const stroke_notes = async (query) => iterate_notes(query, stroke_note)
 
 const move_related = async (query) => {
@@ -341,6 +347,38 @@ const clean_note = async (id, note) => {
     await post('updateNoteFields', {note: {id: id, fields: updates}})
   }
 }
+
+async function find_note(query) {
+  let ids = await post('findNotes', {query: query});
+  let id = ids.result[0];
+  return await note_info(id);
+}
+
+const mirror_note = async (id, note) => {
+  let updates = {};
+  Object.assign(updates, await mirror_note_side(note, '1'));
+  Object.assign(updates, await mirror_note_side(note, '2'));
+  if (Object.keys(updates).length > 0) {
+    console.log(updates)
+    await post('updateNoteFields', {note: {id: id, fields: updates}})
+  }
+}
+
+async function mirror_note_side(note, side) {
+  let kanji = note.fields[`${side}reading`].value;
+  let updates = {};
+
+  let svg = await kanji_svg(kanji);
+  Object.defineProperty(updates, `${side}writing`, {value: svg, enumerable: true})
+
+  let speech = await try_media(kanji);
+  if (speech !== undefined) {
+    Object.defineProperty(updates, `${side}listening`, {value: `[sound:${speech}]`, enumerable: true})
+  }
+
+  return updates
+}
+
 
 const hint_note = async (id, note) => {
   let kanji = tags_removed(note_field(note, 'kanji'));
@@ -668,6 +706,7 @@ module.exports = {
   clean_notes,
   emphasize_notes,
   hint_notes,
+  mirror_notes,
   move_cards,
   stroke_notes,
   update_styling,

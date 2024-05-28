@@ -16,7 +16,7 @@ const {
   missing_kanji,
   move_related,
   show_parts_of_kanji,
-  target_word, hint_notes, clean_notes
+  target_word, hint_notes, clean_notes, mirror_notes
 } = require('./lib')
 const {
   html_from_templates
@@ -45,6 +45,11 @@ cli.command('kana')
   .description("Convert kana for jukugo words to on'yomi")
   .action((query) => convert_kana_field_to_onyomi(query))
 
+cli.command('mirror')
+  .argument('<query>', 'query')
+  .description('Mirror matching notes')
+  .action((query) => mirror_notes(query))
+
 cli.command('move')
   .argument('<query>', 'query')
   .argument('<deck>', 'deck')
@@ -65,7 +70,6 @@ cli.command('hint')
   .argument('<query>', 'query')
   .description('Add hints based on target')
   .action((query) => hint_notes(query))
-
 
 cli.command('stroke')
   .argument('<query>', 'query')
