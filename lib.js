@@ -418,20 +418,8 @@ const update_model_styling = (model, css) => {
   ).then(json => console.log(model, json.result));
 }
 
-let model_names = [
-  'Suru',
-  'Ichidan',
-  'Godan',
-  'Hiragana',
-  'Katakana',
-  'OnKanji',
-  'Onyomi',
-  'Kunyomi',
-  'Immersion'
-]
-
 const update_styling = (css) => {
-  model_names.forEach((model) => {
+  config.model_names.forEach((model) => {
     post("modelStyling", {"modelName": model})
       .then(json => {
         if (json.result.css !== css) {
@@ -462,7 +450,7 @@ const upload_html_template = (model, template, result) => {
 }
 
 const model_templates = (fn) => {
-  model_names.forEach((model) => {
+  config.model_names.forEach((model) => {
     post("modelTemplates", {"modelName": model})
       .then(json => {
         for (const [key, _] of Object.entries(json.result)) {

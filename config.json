@@ -15,5 +15,17 @@
     "teta",
     "Expression",
     "Meaning"
+  ],
+  "model_names": [
+    "Godan",
+    "Hiragana",
+    "Ichidan",
+    "Immersion",
+    "Katakana",
+    "Kunyomi",
+    "OnKanji",
+    "Onyomi",
+    "Opposite",
+    "Suru"
   ]
 }
