@@ -27,5 +27,5 @@ anki_process() {
 }
 
 anki_default() {
-  anki_process deck:Inbox
+  anki_process deck:0-Inbox
 }

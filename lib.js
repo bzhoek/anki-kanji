@@ -180,7 +180,7 @@ const move_related = async (query) => {
   let json = await post('findNotes', {query: query});
   console.log("Matches", json.result.length, "notes")
   for (const id of json.result) {
-    await move_cards(`nid:${id}`, 'Inbox')
+    await move_cards(`nid:${id}`, '0-Inbox')
     await delay()
   }
 }
@@ -508,7 +508,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
     colorize(unicode, style_color).then(async (svg) => {
       let add = {
         "note": {
-          "deckName": "Inbox",
+          "deckName": "0-Inbox",
           "modelName": "OnKanji",
           "fields": {
             "nederlands": json.meanings.join(', '),
