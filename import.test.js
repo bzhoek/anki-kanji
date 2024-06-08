@@ -9,14 +9,14 @@ describe('euc-jp encoding', () => {
   test('import file', () => {
     const fs = require('fs');
     const Encoding = require('encoding-japanese');
-    const buffer = fs.readFileSync('kanjidic');
+    const buffer = fs.readFileSync('tmp/kanjidic');
     const unicodeArray = Encoding.convert(buffer, {
       to: 'UNICODE', from: 'EUCJP'
     });
 
 
     let decoded = Encoding.codeToString(unicodeArray);
-    fs.writeFileSync("kanjidic.txt", decoded)
+    fs.writeFileSync("tmp/kanjidic.txt", decoded)
     // console.log(decoded)
 
     // const sqlite3 = require('sqlite3').verbose();
