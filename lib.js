@@ -348,12 +348,6 @@ const clean_note = async (id, note) => {
   }
 }
 
-async function find_note(query) {
-  let ids = await post('findNotes', {query: query});
-  let id = ids.result[0];
-  return await note_info(id);
-}
-
 const mirror_note = async (id, note) => {
   let updates = {};
   Object.assign(updates, await mirror_note_side(note, '1'));
