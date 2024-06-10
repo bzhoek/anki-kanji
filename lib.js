@@ -343,7 +343,7 @@ const clean_note = async (id, note) => {
     }
   })
   if (Object.keys(updates).length > 0) {
-    console.log(updates)
+    // console.log(updates)
     await post('updateNoteFields', {note: {id: id, fields: updates}})
   }
 }
@@ -353,7 +353,7 @@ const mirror_note = async (id, note) => {
   Object.assign(updates, await mirror_note_side(note, '1'));
   Object.assign(updates, await mirror_note_side(note, '2'));
   if (Object.keys(updates).length > 0) {
-    console.log(updates)
+    // console.log(updates)
     await post('updateNoteFields', {note: {id: id, fields: updates}})
   }
 }
