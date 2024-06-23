@@ -37,6 +37,25 @@ function to_kanji_html() {
   return compiledTemplate(cards[0]);
 }
 
+function to_hearing_html() {
+  const hearing_titles = (ary) => ary.map(text => `&lt; ${text} &gt;`)
+  let godan = hearing_titles(['辞書形', '五段活用']);
+  let ichidan = hearing_titles(['辞書形', '一段活用']);
+  let jukugo = hearing_titles(['熟語', 'じゅくご']);
+  let suru = hearing_titles(['辞書形', 'するV']);
+  let onyomi = hearing_titles(['オンヨミ']);
+
+  let cards = [
+    {name: 'Kunyomi', grammar: jukugo, color: 'violet'},
+    {name: 'OnYomi', grammar: onyomi, color: 'yellow'},
+  ].map(card => Object.assign(card, {mode: 'listening'}));
+
+  let compiledTemplate = write_html(cards, 'listening.front.pug', 'ToHearing.Front');
+  write_html(cards, 'listening.back.pug', 'ToHearing.Back');
+
+  return compiledTemplate(cards[0]);
+}
+
 function to_on_yomi_html() {
   let onyomi = speaking_title(['オンヨミ']);
 
@@ -127,9 +146,11 @@ function to_meaning_html() {
 
 function to_express_html() {
   let godan = speaking_title(['V', '五段活用']);
+  let ichidan = speaking_title(['V', '一段活用']);
 
   let cards = [
     {name: 'Godan', grammar: godan, color: 'cyan'},
+    {name: 'Ichidan', grammar: ichidan, color: 'cyan'},
   ].map(card => Object.assign(card, {mode: 'saying'}));
 
   let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToExpress.Front');
@@ -145,6 +166,7 @@ const html_from_templates = () => {
   to_kan_yomi_html()
   to_kun_yomi_html()
   to_on_yomi_html()
+  to_hearing_html()
 }
 
 module.exports = {

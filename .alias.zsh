@@ -15,6 +15,7 @@ anki_sort() {
   ./anki.js move "$1 card:ToMeaning" Japans::4-Lezen
   ./anki.js move "$1 note:Opposite card:Listen*" Japans::5-Luisteren::Opposite
   ./anki.js move "$1 card:Listening" Japans::5-Luisteren
+  ./anki.js move "$1 card:ToHearing" Japans::5-Luisteren
 }
 
 anki_process() {

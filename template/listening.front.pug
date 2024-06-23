@@ -1,0 +1,15 @@
+= '{{#speech}}\n'
+doctype html
+main(class=`${color} ${mode} front`)
+  |
+  h1(class=`title {{Tags}}`) {{speech}}
+  | {{#hint}}
+  div {{hint}}
+  | {{/hint}}
+  | {{#kanji}}
+  h2!= grammar[0]
+  | {{/kanji}}
+  | {{^kanji}}
+  h2!= grammar[1] || grammar[0]
+  | {{/kanji}}
+= '\n{{/speech}}'

@@ -373,7 +373,6 @@ async function mirror_note_side(note, side) {
   return updates
 }
 
-
 const hint_note = async (id, note) => {
   let kanji = tags_removed(note_field(note, 'kanji'));
   let target = note_field(note, 'target');

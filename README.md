@@ -67,7 +67,6 @@ For writing, I'm adding a `hint` that leaves out the kanji or word.
 | field   | writing | speaking | reading | listening |
 |---------|---------|----------|---------|-----------|
 | zintuig | hand    | mond     | oog     | oor       |
-| hint    | 
 
 ## Background
 
