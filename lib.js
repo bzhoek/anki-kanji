@@ -225,7 +225,8 @@ const target_word = async (char, word) => {
     let kana = onyomi.fields['kana'].value.replace(/<.+?>/g, '').trim()
     let nl = onyomi.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
     let target = `${word} <i>(${kana} ${nl})</i> `
-    Object.assign(fields, {target: target})
+    let hint = word.replace(char, '・')
+    Object.assign(fields, {target: target, hint: hint})
   } else {
     console.error("Target not empty", char)
   }
