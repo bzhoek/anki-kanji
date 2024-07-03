@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <main class="magenta speaking back">
-  <h1 class="strokes {{Tags}}">{{strokes}}</h1>
-  <div class="target">{{target}}</div>
+  <h1 class="strokes {{Tags}}">{{strokes}}</h1>{{#picture}}
+  <div>{{picture}}</div>{{/picture}}
+  {{#target}}
+  <div class="target">{{target}}</div>{{/target}}
   <div>{{kun}}</div>
   <h2>&gt; くんよみ &lt;<span class="speech">{{speech}}</span></h2>
   <h1>{{nederlands}}</h1>{{#notes}}

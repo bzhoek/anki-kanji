@@ -2,6 +2,9 @@ doctype html
 main(class=`${color} ${mode} back`)
   | {{#kanji}}
   h1.title {{kanji}}
+  | {{#picture}}
+  div {{picture}}
+  | {{/picture}}
   | {{#target}}
   div {{target}}
   | {{/target}}
@@ -14,6 +17,9 @@ main(class=`${color} ${mode} back`)
   | {{/kanji}}
   | {{^kanji}}
   h1.title {{kana}}
+  | {{#picture}}
+  div {{picture}}
+  | {{/picture}}
   | {{#target}}
   div {{target}}
   | {{/target}}

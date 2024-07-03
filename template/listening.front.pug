@@ -3,6 +3,9 @@ doctype html
 main(class=`${color} ${mode} front`)
   |
   h1(class=`title {{Tags}}`) {{speech}}
+  | {{#picture}}
+  div {{picture}}
+  | {{/picture}}
   | {{#hint}}
   div {{hint}}
   | {{/hint}}

@@ -1,8 +1,10 @@
 {{#kanji}}
 
 <main class="magenta speaking front">
-  <h1 class="title {{Tags}}">{{kanji}}</h1>
-  <div class="target">{{target}}</div>
+  <h1 class="title {{Tags}}">{{kanji}}</h1>{{#picture}}
+  <div>{{picture}}</div>{{/picture}}
+  {{#target}}
+  <div class="target">{{target}}</div>{{/target}}
   <h2>&gt; 熟語 &lt;</h2>
 </main>
 {{/kanji}}

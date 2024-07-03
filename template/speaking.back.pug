@@ -2,7 +2,12 @@ doctype html
 main(class=`${color} ${mode} back`)
   |
   h1(class=`${clazz} {{Tags}}`)= `{{${front}}}`
+  | {{#picture}}
+  div {{picture}}
+  | {{/picture}}
+  | {{#target}}
   div.target {{target}}
+  | {{/target}}
   div= `{{${back}}}`
   h2!= grammar[1] || grammar[0]
     span.speech {{speech}}

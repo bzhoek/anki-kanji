@@ -3,7 +3,12 @@
 main(class=`${color} ${mode} front`)
   |
   h1(class=`${clazz} {{Tags}}`)= `{{${front}}}`
+  | {{#picture}}
+  div {{picture}}
+  | {{/picture}}
+  | {{#target}}
   div.target {{target}}
+  | {{/target}}
   h2!= grammar[0]
 |
 = notempty && `\n{{/${notempty}}}`

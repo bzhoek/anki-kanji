@@ -48,6 +48,8 @@ function to_hearing_html() {
   let cards = [
     {name: 'Kunyomi', grammar: jukugo, color: 'violet'},
     {name: 'OnYomi', grammar: onyomi, color: 'yellow'},
+    {name: 'Godan', grammar: godan, color: 'magenta'},
+    {name: 'Ichidan', grammar: ichidan, color: 'magenta'},
   ].map(card => Object.assign(card, {mode: 'listening'}));
 
   let compiledTemplate = write_html(cards, 'listening.front.pug', 'ToHearing.Front');

@@ -1,8 +1,10 @@
 {{#on}}
 
 <main class="yellow speaking onkanji front">
-  <h1 class="strokes {{Tags}}">{{strokes}}</h1>
-  <div class="target">{{target}}</div>
+  <h1 class="strokes {{Tags}}">{{strokes}}</h1>{{#picture}}
+  <div>{{picture}}</div>{{/picture}}
+  {{#target}}
+  <div class="target">{{target}}</div>{{/target}}
   <h2>&gt; オンヨミ &lt;</h2>
 </main>
 {{/on}}

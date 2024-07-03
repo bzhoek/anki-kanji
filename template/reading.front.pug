@@ -7,6 +7,9 @@ main(class=`${color} ${mode} front`)
   | {{^kanji}}
   h1(class=`title {{Tags}}`) {{kana}}
   | {{/kanji}}
+  | {{#picture}}
+  div {{picture}}
+  | {{/picture}}
   | {{#target}}
   div {{target}}
   | {{/target}}
