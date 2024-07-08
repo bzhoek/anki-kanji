@@ -4,11 +4,10 @@
   <div>{{picture}}</div>{{/picture}}
   {{#target}}
   <div>{{target}}</div>{{/target}}
-  <h2>\ じゅくご /<span class="speech">{{speech}}</span></h2>
-  <div>{{kanji}}</div>{{#notes}}
-  <div>{{notes}}</div>{{/notes}}
-  {{#strokes}}
+  <h2>\ じゅくご /<span class="speech">{{speech}}</span></h2>{{#strokes}}
   <div class="strokes">{{strokes}}</div>{{/strokes}}
-  <div>{{kana}}</div>{{#context}}
+  {{#notes}}
+  <div>{{notes}}</div>{{/notes}}
+  <div>{{kanji}} {{kana}}</div>{{#context}}
   <div class="context">{{context}}</div>{{/context}}
 </main>

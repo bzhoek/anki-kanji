@@ -8,12 +8,12 @@ main(class=`${color} ${mode} back`)
   | {{#target}}
   div {{target}}
   | {{/target}}
+  h2!= grammar[0]
+    span.speech {{speech}}
   h1 {{nederlands}}
   | {{#kana}}
   div {{kana}}
   | {{/kana}}
-  h2!= grammar[0]
-    span.speech {{speech}}
   | {{/kanji}}
   | {{^kanji}}
   h1.title {{kana}}
@@ -23,9 +23,9 @@ main(class=`${color} ${mode} back`)
   | {{#target}}
   div {{target}}
   | {{/target}}
+  h2!= grammar[1] || grammar[0]
   h1 {{nederlands}}
     span.speech {{speech}}
-  h2!= grammar[1] || grammar[0]
   | {{/kanji}}
   | {{#notes}}
   div {{notes}}

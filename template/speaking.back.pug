@@ -8,12 +8,12 @@ main(class=`${color} ${mode} back`)
   | {{#target}}
   div.target {{target}}
   | {{/target}}
-  div= `{{${back}}}`
   h2!= grammar[1] || grammar[0]
     span.speech {{speech}}
+  div= `{{${back}}}`
   h1 {{nederlands}}
   | {{#notes}}
-  div {{notes}}
+  div {{kanji}} {{notes}}
   | {{/notes}}
   | {{#context}}
   div.context {{context}}

@@ -4,16 +4,17 @@
   <div>{{picture}}</div>{{/picture}}
   {{#target}}
   <div>{{target}}</div>{{/target}}
+  <h2>&equals; 一段活用 &equals;<span class="speech">{{speech}}</span></h2>
   <h1>{{nederlands}}</h1>{{#kana}}
   <div>{{kana}}</div>{{/kana}}
-  <h2>&equals; 一段活用 &equals;<span class="speech">{{speech}}</span></h2>{{/kanji}}
+  {{/kanji}}
   {{^kanji}}
   <h1 class="title">{{kana}}</h1>{{#picture}}
   <div>{{picture}}</div>{{/picture}}
   {{#target}}
   <div>{{target}}</div>{{/target}}
-  <h1>{{nederlands}}<span class="speech">{{speech}}</span></h1>
-  <h2>&equals; 一段活用 &equals;</h2>{{/kanji}}
+  <h2>&equals; 一段活用 &equals;</h2>
+  <h1>{{nederlands}}<span class="speech">{{speech}}</span></h1>{{/kanji}}
   {{#notes}}
   <div>{{notes}}</div>{{/notes}}
   {{#context}}
