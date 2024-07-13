@@ -1,10 +1,15 @@
 {{#kun}}
 
 <main class="magenta speaking front">
-  <h1 class="strokes {{Tags}}">{{strokes}}</h1>{{#picture}}
-  <div>{{picture}}</div>{{/picture}}
-  {{#target}}
-  <div class="target">{{target}}</div>{{/target}}
+  <div class="top">
+    
+    {{#picture}}
+    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="text">
+      <h1 class="strokes {{Tags}}">{{strokes}}</h1>{{#target}}
+      <div class="target">{{target}}</div>{{/target}}
+    </div>
+  </div>
   <h2>&gt; くんよみ &lt;</h2>
 </main>
 {{/kun}}

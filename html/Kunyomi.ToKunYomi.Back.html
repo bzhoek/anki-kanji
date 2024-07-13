@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <main class="magenta speaking back">
-  <h1 class="title {{Tags}}">{{kanji}}</h1>{{#picture}}
-  <div>{{picture}}</div>{{/picture}}
-  {{#target}}
-  <div class="target">{{target}}</div>{{/target}}
+  <div class="top">
+    
+    {{#picture}}
+    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="text">
+      <h1 class="title {{Tags}}">{{kanji}}</h1>{{#target}}
+      <div class="target">{{target}}</div>{{/target}}
+    </div>
+  </div>
   <h2>&gt; じゅくご &lt;<span class="speech">{{speech}}</span></h2>
   <div>{{kana}}</div>
   <h1>{{nederlands}}</h1>{{#notes}}

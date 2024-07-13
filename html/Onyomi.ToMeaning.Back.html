@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<main class="magenta reading back">{{#kanji}}
-  <h1 class="title">{{kanji}}</h1>{{#picture}}
-  <div>{{picture}}</div>{{/picture}}
-  {{#target}}
-  <div>{{target}}</div>{{/target}}
+<main class="magenta reading back">
+  <div class="top">
+    
+    {{#picture}}
+    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="text">{{#kanji}}
+      <h1 class="title {{Tags}}">{{kanji}}</h1>{{/kanji}}
+      {{^kanji}}
+      <h1 class="title {{Tags}}">{{kana}}</h1>{{/kanji}}
+      {{#target}}
+      <div class="target">{{target}}</div>{{/target}}
+    </div>
+  </div>{{#kanji}}
   <h2>&equals; 熟語 &equals;<span class="speech">{{speech}}</span></h2>
   <h1>{{nederlands}}</h1>{{#kana}}
   <div>{{kana}}</div>{{/kana}}
   {{/kanji}}
   {{^kanji}}
-  <h1 class="title">{{kana}}</h1>{{#picture}}
-  <div>{{picture}}</div>{{/picture}}
-  {{#target}}
-  <div>{{target}}</div>{{/target}}
   <h2>&equals; じゅくご &equals;</h2>
   <h1>{{nederlands}}<span class="speech">{{speech}}</span></h1>{{/kanji}}
   {{#notes}}

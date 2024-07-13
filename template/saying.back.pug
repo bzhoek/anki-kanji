@@ -1,14 +1,16 @@
 doctype html
 main(class=`${color} ${mode} back`)
-  |
-  h1 {{nederlands}}
-  | {{#picture}}
-  div {{picture}}
-  | {{/picture}}
-  | {{#target}}
-  div {{target}}
-  | {{/target}}
-  div {{kana}}
+  .top
+    |
+    | {{#picture}}
+    .picture {{picture}}
+    | {{/picture}}
+    .text
+      h1(class=`title {{Tags}}`) {{nederlands}}
+      | {{#target}}
+      .target {{target}}
+      | {{/target}}
+      div {{kana}}
   h2!= grammar[1] || grammar[0]
     span.speech {{speech}}
   | {{#notes}}

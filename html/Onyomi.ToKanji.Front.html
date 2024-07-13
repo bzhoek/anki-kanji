@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <main class="magenta writing front">
-  <h1 class="title {{Tags}}">{{nederlands}}</h1>{{#picture}}
-  <div>{{picture}}</div>{{/picture}}
-  {{#hint}}
-  <div>{{hint}}</div>{{/hint}}
-  {{#kanji}}
+  <div class="top">
+    
+    {{#picture}}
+    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="text">
+      <h1 class="title {{Tags}}">{{nederlands}}</h1>{{#hint}}
+      <div class="hint">{{hint}}</div>{{/hint}}
+    </div>
+  </div>{{#kanji}}
   <h2>\ 熟語 /</h2>{{/kanji}}
   {{^kanji}}
   <h2>\ じゅくご /</h2>{{/kanji}}

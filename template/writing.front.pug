@@ -1,13 +1,15 @@
 doctype html
 main(class=`${color} ${mode} front`)
-  |
-  h1(class=`title {{Tags}}`) {{nederlands}}
-  | {{#picture}}
-  div {{picture}}
-  | {{/picture}}
-  | {{#hint}}
-  div {{hint}}
-  | {{/hint}}
+  .top
+    |
+    | {{#picture}}
+    .picture {{picture}}
+    | {{/picture}}
+    .text
+      h1(class=`title {{Tags}}`) {{nederlands}}
+      | {{#hint}}
+      .hint {{hint}}
+      | {{/hint}}
   | {{#kanji}}
   h2!= grammar[0]
   | {{/kanji}}

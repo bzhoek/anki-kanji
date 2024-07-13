@@ -1,14 +1,16 @@
 = notempty && `{{#${notempty}}}\n`
 |
 main(class=`${color} ${mode} front`)
-  |
-  h1(class=`${clazz} {{Tags}}`)= `{{${front}}}`
-  | {{#picture}}
-  div {{picture}}
-  | {{/picture}}
-  | {{#target}}
-  div.target {{target}}
-  | {{/target}}
+  .top
+    |
+    | {{#picture}}
+    .picture {{picture}}
+    | {{/picture}}
+    .text
+      h1(class=`${clazz} {{Tags}}`)= `{{${front}}}`
+      | {{#target}}
+      .target {{target}}
+      | {{/target}}
   h2!= grammar[0]
 |
 = notempty && `\n{{/${notempty}}}`

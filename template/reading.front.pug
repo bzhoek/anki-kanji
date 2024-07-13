@@ -1,18 +1,20 @@
 doctype html
 main(class=`${color} ${mode} front`)
-  |
-  | {{#kanji}}
-  h1(class=`title {{Tags}}`) {{kanji}}
-  | {{/kanji}}
-  | {{^kanji}}
-  h1(class=`title {{Tags}}`) {{kana}}
-  | {{/kanji}}
-  | {{#picture}}
-  div {{picture}}
-  | {{/picture}}
-  | {{#target}}
-  div {{target}}
-  | {{/target}}
+  .top
+    |
+    | {{#picture}}
+    .picture {{picture}}
+    | {{/picture}}
+    .text
+      | {{#kanji}}
+      h1(class=`title {{Tags}}`) {{kanji}}
+      | {{/kanji}}
+      | {{^kanji}}
+      h1(class=`title {{Tags}}`) {{kana}}
+      | {{/kanji}}
+      | {{#target}}
+      .target {{target}}
+      | {{/target}}
   | {{#kanji}}
   h2!= grammar[0]
   | {{/kanji}}

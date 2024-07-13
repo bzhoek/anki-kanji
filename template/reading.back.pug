@@ -1,13 +1,21 @@
 doctype html
 main(class=`${color} ${mode} back`)
+  .top
+    |
+    | {{#picture}}
+    .picture {{picture}}
+    | {{/picture}}
+    .text
+      | {{#kanji}}
+      h1(class=`title {{Tags}}`) {{kanji}}
+      | {{/kanji}}
+      | {{^kanji}}
+      h1(class=`title {{Tags}}`) {{kana}}
+      | {{/kanji}}
+      | {{#target}}
+      .target {{target}}
+      | {{/target}}
   | {{#kanji}}
-  h1.title {{kanji}}
-  | {{#picture}}
-  div {{picture}}
-  | {{/picture}}
-  | {{#target}}
-  div {{target}}
-  | {{/target}}
   h2!= grammar[0]
     span.speech {{speech}}
   h1 {{nederlands}}
@@ -16,13 +24,6 @@ main(class=`${color} ${mode} back`)
   | {{/kana}}
   | {{/kanji}}
   | {{^kanji}}
-  h1.title {{kana}}
-  | {{#picture}}
-  div {{picture}}
-  | {{/picture}}
-  | {{#target}}
-  div {{target}}
-  | {{/target}}
   h2!= grammar[1] || grammar[0]
   h1 {{nederlands}}
     span.speech {{speech}}

@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <main class="yellow listening back">
-  <h1 class="title {{Tags}}">{{speech}}</h1>{{#picture}}
-  <div>{{picture}}</div>{{/picture}}
-  {{#target}}
-  <div>{{target}}</div>{{/target}}
+  <div class="top">
+    
+    {{#picture}}
+    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="text">
+      <h1 class="title {{Tags}}">{{speech}}</h1>{{#target}}
+      <div class="target">{{target}}</div>{{/target}}
+    </div>
+  </div>
   <h2>&lt; オンヨミ &gt;</h2>
   <h1>{{nederlands}}</h1>
   <div>{{kanji}}</div>{{#notes}}
