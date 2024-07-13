@@ -12,5 +12,11 @@ main(class=`${color} ${mode} front`)
       .target {{target}}
       | {{/target}}
   h2!= grammar[0]
+script.
+  let title = document.getElementsByClassName('title')[0];
+  let width = title.getBoundingClientRect().width - 16;
+  let text = title.textContent
+  let fontSize = `${Math.min(64, width / text.length)}px`
+  document.styleSheets[0].insertRule(`.text .title {font-size: ${fontSize} !important}`, 0)
 |
 = notempty && `\n{{/${notempty}}}`
