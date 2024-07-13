@@ -70,6 +70,17 @@ For writing, I'm adding a `hint` that leaves out the kanji or word.
 
 ## Background
 
+## JMdict 
+
+Heeft zo'n 1000 antoniemen, dus 500 paren.
+
+http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
+wget http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz # 10Mb > 60Mb
+
+k_ele kanji element/keb
+r_ele kana reading element/reb
+ant verwijst naar keb of reb
+
 ### Readings
 
 Kanji followed by hiragana is called 'おくりかな', and is used to conjugate verbs and adjectives.
@@ -101,8 +112,12 @@ http://www.edrdg.org/kanjidic/kanjidic.gz
 
 SQLite database is in `/Users/bas/Library/Application Support/Anki2/User 1/collection.anki2`.
 
+### Ease factor
+
 ```sqlite
-select count(*), factor from revlog group by factor
+select count(*), factor from revlog group by factor;
+select count(*), factor from cards group by factor;
+update cards set factor = 1500 where factor >= 1300;
 ```
 
 https://github.com/ankidroid/Anki-Android/wiki/Database-Structure
