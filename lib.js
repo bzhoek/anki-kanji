@@ -350,6 +350,9 @@ const clean_note = async (id, note) => {
 }
 
 const mirror_note = async (id, note) => {
+  if (note.modelName !== 'Opposite')
+    return
+
   let updates = {};
   Object.assign(updates, await mirror_note_side(note, '1'));
   Object.assign(updates, await mirror_note_side(note, '2'));
