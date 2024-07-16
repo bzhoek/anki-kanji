@@ -676,13 +676,15 @@ const extract_parts_from_kanji = unicode => {
 
   let doc = new parser().parseFromString(svg, 'text/xml');
   let nodes = xpath.select("//*[@position]", doc);
-  return nodes.map(node => xpath.select1("@element", node).nodeValue);
+  let elements = nodes.map(node => xpath.select1("@element", node));
+  let filtered = elements.filter(Boolean);
+  return filtered.map(node => node.nodeValue);
 };
 
 const show_parts_of_kanji = char => {
   let unicode = char.charCodeAt(0)
   let parts = extract_parts_from_kanji(unicode);
-  console.log(parts)
+  console.log(char, unicode.toString(16), parts)
 }
 
 module.exports = {
