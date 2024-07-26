@@ -4,6 +4,14 @@ Make beautiful kanji stroke diagrams in Anki with very distinct colors and conve
 
 ![cat](neko.png).
 
+## Radicals
+https://kanjialive.com/214-traditional-kanji-radicals/
+
+| radical         | mnemonic |
+|-----------------|----------|
+| ![](⌜-hoek.svg) | hoek     |
+| ![](⌜-klif.svg) | klif     |
+
 ## Requirements
 
 ```sh
