@@ -5,9 +5,11 @@ const {
   extract_parts_from_kanji
 } = require('./lib')
 
+const fs = require('fs');
+const sqlite3 = require('sqlite3').verbose();
+
 describe('euc-jp encoding', () => {
   test('import file', () => {
-    const fs = require('fs');
     const Encoding = require('encoding-japanese');
     const buffer = fs.readFileSync('tmp/kanjidic');
     const unicodeArray = Encoding.convert(buffer, {
@@ -33,6 +35,7 @@ describe('euc-jp encoding', () => {
     // insert.finalize();
   });
 })
+
 describe('sqlite json', () => {
   test('create database', () => {
     const sqlite3 = require('sqlite3').verbose();
