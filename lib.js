@@ -4,6 +4,7 @@ const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
 const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
+const {un_furigana, furigana_html} = require("./furigana");
 
 let data = fs.readFileSync("config.json", "utf8")
 const config = JSON.parse(data);
@@ -172,6 +173,7 @@ const iterate_notes = async (query, fn) => {
 
 const clean_notes = async (query) => iterate_notes(query, clean_note)
 const emphasize_notes = async (query) => iterate_notes(query, emphasize_first_sentence)
+const furigana_notes = async (query) => iterate_notes(query, furigana_note)
 const hint_notes = async (query) => iterate_notes(query, hint_note)
 const mirror_notes = async (query) => iterate_notes(query, mirror_note)
 const stroke_notes = async (query) => iterate_notes(query, stroke_note)
@@ -377,6 +379,22 @@ async function mirror_note_side(note, side) {
   return updates
 }
 
+const furigana_note = async (id, note) => {
+  if (!['KunYomi', 'OnYomi'].includes(note.modelName)) {
+    console.log("Skip", note.modelName)
+    return
+  }
+
+  let kanji = un_furigana(note_field(note, 'kanji'));
+  let furigana = await furigana_html(kanji);
+  if (note.modelName === 'OnYomi') {
+    furigana = convert_kunyomi_to_onyomi(furigana);
+  }
+  let update = {note: {id: id, fields: {furigana: furigana}}};
+  console.log(update)
+  await post('updateNote', update)
+}
+
 const hint_note = async (id, note) => {
   let kanji = tags_removed(note_field(note, 'kanji'));
   let target = note_field(note, 'target');
@@ -392,7 +410,7 @@ const hint_note = async (id, note) => {
 }
 
 const emphasize_first_sentence = async (id, note) => {
-  ['kana', 'kanji', 'on', 'kun', 'masu', 'teta'].forEach(field => {
+  ['kana', 'on', 'kun', 'masu', 'teta'].forEach(field => {
     if (note.fields[field]) {
       let value = note.fields[field].value.trim();
       let match = value.match(/(.+?)\.(.*)/);
@@ -717,5 +735,6 @@ module.exports = {
   parse_kanjidic,
   extract_parts_from_kanji,
   show_parts_of_kanji,
-  target_word
+  target_word,
+  furigana_notes
 }

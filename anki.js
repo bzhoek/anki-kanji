@@ -16,7 +16,7 @@ const {
   missing_kanji,
   move_related,
   show_parts_of_kanji,
-  target_word, hint_notes, clean_notes, mirror_notes
+  target_word, hint_notes, clean_notes, mirror_notes, furigana_notes
 } = require('./lib')
 const {
   html_from_templates
@@ -29,6 +29,11 @@ cli.name('anki')
    - 'note:OnKanj' match all notes of type 'OnKanj'
    - 'deck:Karate' match everything in deck 'Karate'
    - 'nid:1656500001715' pick note with identifier '1656500001715'`)
+
+cli.command('furigana')
+  .argument('<query>', 'query')
+  .description('Add furigana to kanji')
+  .action((query) => furigana_notes(query))
 
 cli.command('clean')
   .argument('<query>', 'query')
