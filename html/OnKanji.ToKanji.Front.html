@@ -1,6 +1,11 @@
-<main class='tokanji'>
-  <h1>{{nederlands}}</h1>
-  {{#picture}}<div class="picture">{{picture}}</div>{{/picture}}
-  {{#hint}}<div class="hint">{{hint}}</div>{{/hint}}
+<main class='tokanji front'>
+  <div class="top">
+    {{#picture}}
+    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="text">
+      <h1 class="title {{Tags}}">{{nederlands}}</h1>{{#hint}}
+      <div class="hint">{{hint}}</div>{{/hint}}
+    </div>
+  </div>
   <h2>\️ 漢字 /️</h2>
 </main>

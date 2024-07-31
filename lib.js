@@ -380,13 +380,13 @@ async function mirror_note_side(note, side) {
 }
 
 const furigana_note = async (id, note) => {
-  if (!['KunYomi', 'OnYomi'].includes(note.modelName)) {
-    console.log("Skip", note.modelName)
+  if (!['Godan', 'Ichidan', 'KunYomi', 'OnYomi'].includes(note.modelName)) {
+    console.log("Skip", note.modelName, id)
     return
   }
-
-  let kanji = un_furigana(note_field(note, 'kanji'));
-  let furigana = await furigana_html(kanji);
+  let kanji = note_field(note, 'kanji');
+  let plain = un_furigana(kanji);
+  let furigana = await furigana_html(plain);
   if (note.modelName === 'OnYomi') {
     furigana = convert_kunyomi_to_onyomi(furigana);
   }

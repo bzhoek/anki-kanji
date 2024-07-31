@@ -64,11 +64,11 @@ function to_on_yomi_html() {
   let cards = [
     {
       name: 'OnKanji', grammar: onyomi, color: 'yellow', mode: 'speaking onkanji',
-      notempty: 'on', clazz: 'strokes', front: 'strokes', back: 'on'
+      notempty: 'on', clazz: 'strokes', fmain: 'strokes', bmain: 'strokes', back: 'on', kanji: 'kanji'
     },
     {
       name: 'OnYomi', grammar: onyomi, color: 'yellow', mode: 'speaking',
-      notempty: 'kanji', clazz: 'title', front: 'kanji', back: 'kana'
+      notempty: 'kanji', clazz: 'title', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
     },
   ]
 
@@ -82,7 +82,7 @@ function to_kan_yomi_html() {
   let cards = [
     {
       name: 'OnKanji', grammar: kunyomi, color: 'magenta', mode: 'speaking',
-      notempty: 'kun', clazz: 'strokes', front: 'strokes', back: 'kun'
+      notempty: 'kun', clazz: 'strokes', fmain: 'strokes', bmain: 'strokes', back: 'kun', kanji: 'kanji'
     },
   ]
 
@@ -103,7 +103,7 @@ function to_kun_yomi_html() {
     {name: 'Suru', grammar: suru},
   ].map(card => Object.assign(card, {
     mode: 'speaking', color: 'magenta',
-    notempty: 'kanji', clazz: 'title', front: 'kanji', back: 'kana'
+    notempty: 'kanji', clazz: 'title', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
   }));
 
   let compiledTemplate = write_html(cards, 'speaking.front.pug', 'ToKunYomi.Front');

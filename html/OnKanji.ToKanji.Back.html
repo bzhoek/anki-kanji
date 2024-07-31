@@ -1,7 +1,12 @@
 <main class='tokanji'>
-  <h1>{{nederlands}}</h1>
-  {{#picture}}<div class="picture">{{picture}}</div>{{/picture}}
-  {{#target}}<div><span class="target">{{target}}</span></div>{{/target}}
+  <div class="top">
+    {{#picture}}
+    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="text">
+      <h1 class="title {{Tags}}">{{nederlands}}</h1>
+      {{#target}}<div class="target">{{target}}</div>{{/target}}
+    </div>
+  </div>
   <h2>\️ 漢字 /️<span class="speech">{{speech}}</span></h2>
   <div class="strokes">{{strokes}}</div>
   {{#notes}}<div>{{notes}}</div>{{/notes}}

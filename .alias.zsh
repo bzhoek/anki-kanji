@@ -28,6 +28,7 @@ anki_process() {
   ./anki.js kana $1
   ./anki.js stroke $1
   ./anki.js speech $1
+  ./anki.js mirror $1
 }
 
 anki_stroke() {
