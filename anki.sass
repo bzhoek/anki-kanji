@@ -82,6 +82,30 @@ main
   &.jukugo h2
     background-color: #d33682
 
+  &.hearing h2::before
+    content: '< '
+
+  &.hearing h2::after
+    content: ' >'
+
+  &.reading h2::before
+    content: '= '
+
+  &.reading h2::after
+    content: ' ='
+
+  &.speaking h2::before
+    content: '> '
+
+  &.speaking h2::after
+    content: ' <'
+
+  &.writing h2::before
+    content: '\\ '
+
+  &.writing h2::after
+    content: ' /'
+
   b
     font-size: 110%
 

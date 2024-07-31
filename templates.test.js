@@ -12,8 +12,8 @@ describe('templates', () => {
       '{{#kanji}}<h1 class="title {{Tags}}">{{kanji}}</h1>{{/kanji}}\n' +
       '{{^kanji}}<h1 class="title {{Tags}}">{{kana}}</h1>{{/kanji}}\n' +
       '{{#target}}<div>{{target}}</div>{{/target}}\n' +
-      '{{#kanji}}<h2>&equals; 終止形 &equals;</h2>{{/kanji}}\n' +
-      '{{^kanji}}<h2>&equals; しゅうしけい &equals;</h2>{{/kanji}}' +
+      '{{#kanji}}<h2>終止形</h2>{{/kanji}}\n' +
+      '{{^kanji}}<h2>しゅうしけい</h2>{{/kanji}}' +
       '</main>')
   })
 

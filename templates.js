@@ -14,14 +14,11 @@ const write_html = (cards, template, suffix) => {
   return compiledTemplate
 };
 
-const speaking_title = (ary) => ary.map(text => `&gt; ${text} &lt;`)
-
 function to_kanji_html() {
-  const writing_titles = (ary) => ary.map(text => `\\ ${text} /`)
-  let godan = writing_titles(['辞書形', '五段活用']);
-  let ichidan = writing_titles(['辞書形', '一段活用']);
-  let jukugo = writing_titles(['熟語', 'じゅくご']);
-  let suru = writing_titles(['辞書形', 'するV']);
+  let godan = ['辞書形', '五段活用'];
+  let ichidan = ['辞書形', '一段活用'];
+  let jukugo = ['熟語', 'じゅくご'];
+  let suru = ['辞書形', 'するV'];
 
   let cards = [
     {name: 'Godan', grammar: godan, color: 'violet'},
@@ -38,19 +35,17 @@ function to_kanji_html() {
 }
 
 function to_hearing_html() {
-  const hearing_titles = (ary) => ary.map(text => `&lt; ${text} &gt;`)
-  let godan = hearing_titles(['辞書形', '五段活用']);
-  let ichidan = hearing_titles(['辞書形', '一段活用']);
-  let jukugo = hearing_titles(['熟語', 'じゅくご']);
-  let suru = hearing_titles(['辞書形', 'するV']);
-  let onyomi = hearing_titles(['オンヨミ']);
+  let godan = ['辞書形', '五段活用'];
+  let ichidan = ['辞書形', '一段活用'];
+  let jukugo = ['熟語', 'じゅくご'];
+  let onyomi = ['オンヨミ'];
 
   let cards = [
     {name: 'Kunyomi', grammar: jukugo, color: 'violet'},
     {name: 'OnYomi', grammar: onyomi, color: 'yellow'},
     {name: 'Godan', grammar: godan, color: 'magenta'},
     {name: 'Ichidan', grammar: ichidan, color: 'magenta'},
-  ].map(card => Object.assign(card, {mode: 'listening'}));
+  ].map(card => Object.assign(card, {mode: 'hearing'}));
 
   let compiledTemplate = write_html(cards, 'listening.front.pug', 'ToHearing.Front');
   write_html(cards, 'listening.back.pug', 'ToHearing.Back');
@@ -59,7 +54,7 @@ function to_hearing_html() {
 }
 
 function to_on_yomi_html() {
-  let onyomi = speaking_title(['オンヨミ']);
+  let onyomi = ['オンヨミ'];
 
   let cards = [
     {
@@ -77,7 +72,7 @@ function to_on_yomi_html() {
 }
 
 function to_kan_yomi_html() {
-  let kunyomi = speaking_title(['くんよみ']);
+  let kunyomi = ['くんよみ'];
 
   let cards = [
     {
@@ -91,10 +86,10 @@ function to_kan_yomi_html() {
 }
 
 function to_kun_yomi_html() {
-  let godan = speaking_title(['V', '五段活用']);
-  let ichidan = speaking_title(['V', '一段活用']);
-  let jukugo = speaking_title(['熟語', 'じゅくご']);
-  let suru = speaking_title(['V', 'するV']);
+  let godan = ['V', '五段活用'];
+  let ichidan = ['V', '一段活用'];
+  let jukugo = ['熟語', 'じゅくご'];
+  let suru = ['V', 'するV'];
 
   let cards = [
     {name: 'Godan', grammar: godan},
@@ -113,11 +108,10 @@ function to_kun_yomi_html() {
 }
 
 function to_meaning_html() {
-  const meanings = (ary) => ary.map(text => `&equals; ${text} &equals;`)
-  let jukugo = meanings(['熟語', 'じゅくご']);
-  let suru = meanings(['V']);
+  let jukugo = ['熟語', 'じゅくご'];
+  let suru = ['V'];
 
-  let dictionary = meanings(['終止形', 'しゅうしけい']);
+  let dictionary = ['終止形', 'しゅうしけい'];
   let fronts = [
     {name: 'Godan', grammar: dictionary},
     {name: 'Ichidan', grammar: dictionary},
@@ -130,8 +124,8 @@ function to_meaning_html() {
   }))
 
   let backs = [
-    {name: 'Godan', grammar: meanings(['五段活用']),},
-    {name: 'Ichidan', grammar: meanings(['一段活用']),},
+    {name: 'Godan', grammar: ['五段活用'],},
+    {name: 'Ichidan', grammar: ['一段活用'],},
     {name: 'Onyomi', grammar: jukugo},
     {name: 'Kunyomi', grammar: jukugo},
     {name: 'Suru', grammar: suru,},
@@ -147,8 +141,8 @@ function to_meaning_html() {
 }
 
 function to_express_html() {
-  let godan = speaking_title(['V', '五段活用']);
-  let ichidan = speaking_title(['V', '一段活用']);
+  let godan = ['V', '五段活用'];
+  let ichidan = ['V', '一段活用'];
 
   let cards = [
     {name: 'Godan', grammar: godan, color: 'cyan'},
