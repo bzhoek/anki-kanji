@@ -32,14 +32,15 @@ function get_furigana(kanji) {
 function furigana_html(kanji) {
   return get_furigana(kanji)
     .then(json => {
-      let html = '<ruby>'
+      let html = ''
       json.forEach(element => {
-        html += `${element.ruby}`
+        html += `<ruby>${element.ruby}`
         if (element.rt !== undefined) {
           html += `<rt>${element.rt}</rt>`
         }
+        html += '</ruby>'
       });
-      return html + '</ruby>'
+      return html
     })
 }
 

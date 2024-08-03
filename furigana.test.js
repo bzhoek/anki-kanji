@@ -3,16 +3,18 @@ const {get_furigana, furigana_html, un_furigana} = require("./furigana");
 
 const db = new sqlite3.Database('jmdictfurigana.sqlite');
 
+
+
 describe('furigana', () => {
 
   test('html', async () => {
     let result = await furigana_html('正直')
-    expect(result).toEqual("<ruby>正<rt>しょう</rt>直<rt>じき</rt></ruby>")
+    expect(result).toEqual("<ruby>正<rt>しょう</rt></ruby><ruby>直<rt>じき</rt></ruby>")
   })
 
   test('html 楽しい', async () => {
     let result = await furigana_html('楽しい')
-    expect(result).toEqual("<ruby>楽<rt>たの</rt>しい</ruby>")
+    expect(result).toEqual("<ruby>楽<rt>たの</rt></ruby><ruby>しい</ruby>")
   })
 
   test('plain', async () => {
@@ -23,6 +25,16 @@ describe('furigana', () => {
   test('query', async () => {
     let result = await get_furigana('正直')
     expect(result).toStrictEqual([{ruby: '正', rt: 'しょう'}, {ruby: '直', rt: 'じき'}])
+  })
+
+  test('katakana', async () => {
+    let result = await get_furigana('ゴミ箱')
+    expect(result).toStrictEqual([{ruby: 'ゴミ'}, {ruby: '箱', rt: 'ばこ'}])
+  })
+
+  test('katakana html', async () => {
+    let result = await furigana_html('ゴミ箱')
+    expect(result).toEqual("<ruby>ゴミ</ruby><ruby>箱<rt>ばこ</rt></ruby>")
   })
 
   test('query 楽しい', async () => {
