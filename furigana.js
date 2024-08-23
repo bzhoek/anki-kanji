@@ -59,4 +59,36 @@ function un_furigana(html) {
   }
 }
 
-module.exports = {get_furigana, furigana_html, un_furigana}
+async function ruby_target(markup) {
+  let regex = /([一-龘ぁ-わァ-ワ\s]+)<i>\([一-龘ぁ-わァ-ワ]+\s(.+?)\)/
+  let result = markup.match(regex)
+
+  if (result !== null) {
+    let kanji = result[1].trim()
+    let furigana = await furigana_html(kanji)
+    return furigana + '<i>' + result[2].trim() + '</i>'
+  } else {
+    return markup
+  }
+}
+
+function markup_ruby_html(markup) {
+  let rubyre = /(\[.+?](\(.+?\))?)/g
+  let detailre = /\[(.+?)](?:\((.+?)\))?/
+  let rubies = markup.match(rubyre)
+  if (rubies !== null) {
+    let result = ''
+    for (let ruby of rubies) {
+      let details = ruby.match(detailre)
+      result += `<ruby>${details[1]}`
+      if (details[2] !== undefined) {
+        result += `<rt>${details[2]}</rt>`
+      }
+      result += '</ruby>'
+    }
+    return result
+  }
+  return markup
+}
+
+module.exports = {get_furigana, furigana_html, un_furigana, ruby_target, markup_ruby_html}
