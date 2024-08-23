@@ -5,6 +5,7 @@ const {RateLimit} = require('async-sema')
 const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
 const {un_furigana, furigana_html} = require("./furigana");
+const {strip_kana} = require('./util')
 
 let data = fs.readFileSync("config.json", "utf8")
 const config = JSON.parse(data);
@@ -223,15 +224,11 @@ const target_word = async (char, word) => {
     console.error("Speech not empty", char)
   }
 
-  if (kanji.fields['target'].value.length === 0) {
-    let kana = onyomi.fields['kana'].value.replace(/<.+?>/g, '').trim()
-    let nl = onyomi.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
-    let target = `${word} <i>(${kana} ${nl})</i> `
-    let hint = word.replace(char, '・')
-    Object.assign(fields, {target: target, hint: hint})
-  } else {
-    console.error("Target not empty", char)
-  }
+  let kana = strip_kana(onyomi.fields['kana'].value)
+  let nl = onyomi.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
+  let target = `${word} <i>(${kana} ${nl})</i> `
+  let hint = word.replace(char, '・')
+  Object.assign(fields, {target: target, hint: hint})
 
   if (Object.keys(fields).length === 0) {
     return
@@ -638,7 +635,7 @@ const find_kanji = async (kanji) => {
 }
 
 const find_onyomi = async (kanji) => {
-  let ids = await post('findNotes', {query: `(note:OnYomi or note:Suru) kanji:*${kanji}*`});
+  let ids = await post('findNotes', {query: `(note:OnYomi or note:KunYomi) kanji:*${kanji}*`});
   let id = ids.result[0];
   return await note_info(id);
 }
