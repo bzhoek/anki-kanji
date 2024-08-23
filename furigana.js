@@ -59,8 +59,9 @@ function un_furigana(html) {
   }
 }
 
+// http://www.rikai.com/library/kanjitables/kanji_codes.unicode.shtml
 async function ruby_target_result(markup) {
-  let regex = /([一-龘ぁ-ゖ゛-ゟ゠-ヿ\s]+)<i>\([一-龘ぁ-ゖ゛-ゟ゠-ヿ]+\s(.+?)\)/
+  let regex = /([\u{4e00}-\u{9faf}\s]+)<i>\([\u{3040}-\u{30ff}]+\s(.+?)\)/u
   let result = markup.match(regex)
 
   if (result !== null) {
