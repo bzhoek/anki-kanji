@@ -31,6 +31,14 @@ describe('furigana/', () => {
       let result = await ruby_target_result(jest_test_name())
       expect(result).toEqual(["伝染", "<ruby>伝<rt>でん</rt></ruby><ruby>染<rt>せん</rt></ruby>", "besmetting"])
     })
+    test('告白<i> (コクハク bekentenis)</i>', async () => {
+      let result = await ruby_target_result(jest_test_name())
+      expect(result).toEqual(["告白", "<ruby>告<rt>こく</rt></ruby><ruby>白<rt>はく</rt></ruby>", "bekentenis"])
+    })
+    test('地下鉄 <i>(チカテツ. metro)</i>', async () => {
+      let result = await ruby_target_result(jest_test_name())
+      expect(result).toEqual(["地下鉄", "<ruby>地<rt>ち</rt></ruby><ruby>下<rt>か</rt></ruby><ruby>鉄<rt>てつ</rt></ruby>", "metro"])
+    })
   })
 
   describe('html/', () => {

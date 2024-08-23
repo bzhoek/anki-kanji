@@ -4,7 +4,7 @@ const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
 const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
-const {un_furigana, furigana_html} = require("./furigana");
+const {un_furigana, furigana_html, ruby_target, ruby_target_result} = require("./furigana");
 const {strip_kana} = require('./util')
 
 let data = fs.readFileSync("config.json", "utf8")
@@ -175,6 +175,7 @@ const iterate_notes = async (query, fn) => {
 const clean_notes = async (query) => iterate_notes(query, clean_note)
 const emphasize_notes = async (query) => iterate_notes(query, emphasize_first_sentence)
 const furigana_notes = async (query) => iterate_notes(query, furigana_note)
+const retarget_notes = async (query) => iterate_notes(query, retarget_note)
 const hint_notes = async (query) => iterate_notes(query, hint_note)
 const mirror_notes = async (query) => iterate_notes(query, mirror_note)
 const stroke_notes = async (query) => iterate_notes(query, stroke_note)
@@ -389,6 +390,31 @@ const furigana_note = async (id, note) => {
   }
   let update = {note: {id: id, fields: {furigana: furigana}}};
   console.log(update)
+  await post('updateNote', update)
+}
+
+const retarget_note = async (id, note) => {
+  let field_value = note_field(note, 'target');
+  let kanji = note_field(note, 'target');
+  if (field_value.length === 0) {
+    return
+  }
+
+  let rubied = await ruby_target_result(field_value);
+  if (rubied === null) {
+    console.error("Failed ", kanji, field_value)
+    return
+  }
+
+  let target_note = await find_onyomi(rubied[0]);
+  if (target_note.modelName === 'OnYomi') {
+    rubied[1] = convert_kunyomi_to_onyomi(rubied[1]);
+  }
+
+  let target = `${rubied[1]} <i>${rubied[2]}</i>`;
+  let update = {note: {id: id, fields: {target: target}}};
+  console.log("Update ", kanji, rubied[0], rubied[2])
+  // console.log(update)
   await post('updateNote', update)
 }
 
@@ -733,5 +759,6 @@ module.exports = {
   extract_parts_from_kanji,
   show_parts_of_kanji,
   target_word,
-  furigana_notes
+  furigana_notes,
+  retarget_notes
 }

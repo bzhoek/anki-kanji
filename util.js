@@ -1,5 +1,5 @@
 function strip_kana(text) {
-  return text.replace(/[^ぁ-んァ-ン]/g, '')
+  return text.replace(/[^ぁ-んァ-ン]/g, '') // https://gist.github.com/terrancesnyder/1345094
 }
 
 function jest_test_name() {
