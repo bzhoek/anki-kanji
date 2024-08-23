@@ -128,7 +128,7 @@ let refresh = true
 
 // FIXME
 function delay() {
-  return new Promise(resolve => setTimeout(resolve, 500));
+  return new Promise(resolve => setTimeout(resolve, 300));
 }
 
 async function kanji_svg(kanji) {
@@ -176,7 +176,8 @@ const clean_notes = async (query) => iterate_notes(query, clean_note)
 const emphasize_notes = async (query) => iterate_notes(query, emphasize_first_sentence)
 const furigana_notes = async (query) => iterate_notes(query, furigana_note)
 const retarget_notes = async (query) => iterate_notes(query, retarget_note)
-const hint_notes = async (query) => iterate_notes(query, hint_note)
+const hint6k_notes = async (query) => iterate_notes(query, kanji_to_hint6k)
+const notes_target_to_hint = async (query) => iterate_notes(query, target_to_hint)
 const mirror_notes = async (query) => iterate_notes(query, mirror_note)
 const stroke_notes = async (query) => iterate_notes(query, stroke_note)
 
@@ -214,8 +215,8 @@ const convert_kana_field_to_onyomi = async (query) =>
   })
 
 const target_word = async (char, word) => {
-  let kanji = await find_kanji(char);
-  let onyomi = await find_onyomi(word);
+  let kanji = await find_onkanji(char);
+  let onyomi = await find_yomi(word);
 
   let fields = {}
   let speech = onyomi.fields['speech'].value;
@@ -317,19 +318,19 @@ const lapse_cards = async (count) =>
 
 
 const emphasize = async (id, field, prefix, suffix) => {
-  let tags_removed = prefix.replace(/<.+?>/g, '').trim()
-  if (!tags_removed.length) {
+  let remove_tags = prefix.replace(/<.+?>/g, '').trim()
+  if (!remove_tags.length) {
     return
   }
   let trimmed_suffix = suffix.trim()
-  let emphasized = `<em>${tags_removed}</em>` + (trimmed_suffix.length ? `. ${trimmed_suffix}` : '');
+  let emphasized = `<em>${remove_tags}</em>` + (trimmed_suffix.length ? `. ${trimmed_suffix}` : '');
   let params = {note: {id: id, fields: {}}};
   Object.defineProperty(params.note.fields, field, {value: emphasized, enumerable: true})
   await post('updateNoteFields', params)
 }
 
 const nbsp_removed = (str) => str.replace(/&nbsp;/g, ' ')
-const tags_removed = (str) => str.replace(/<.+?>/g, '').trim()
+const remove_tags = (str) => str.replace(/<.+?>/g, '').trim()
 const note_field = (note, field) => note.fields[field].value.trim()
 
 const clean_note = async (id, note) => {
@@ -393,9 +394,25 @@ const furigana_note = async (id, note) => {
   await post('updateNote', update)
 }
 
+const kanji_to_hint6k = async (id, note) => {
+  let kanji = note_field(note, 'kanji');
+  let note6k = await find_6k(kanji);
+  if (note6k.fields === undefined) {
+    console.error("No 6k note", kanji, note6k)
+    return
+  }
+  let target = remove_tags(note_field(note6k, 'Sentence')).replace('。', '');
+  let placeholder = '・'.repeat(kanji.length);
+  let hint = target.replace(kanji, placeholder);
+  let fields = {target: target, hint: hint};
+  let update = {note: {id: id, fields: fields}};
+  console.log(kanji, fields)
+  await post('updateNote', update)
+}
+
 const retarget_note = async (id, note) => {
   let field_value = note_field(note, 'target');
-  let kanji = note_field(note, 'target');
+  let kanji = note_field(note, 'kanji');
   if (field_value.length === 0) {
     return
   }
@@ -406,7 +423,7 @@ const retarget_note = async (id, note) => {
     return
   }
 
-  let target_note = await find_onyomi(rubied[0]);
+  let target_note = await find_yomi(rubied[0]);
   if (target_note.modelName === 'OnYomi') {
     rubied[1] = convert_kunyomi_to_onyomi(rubied[1]);
   }
@@ -414,12 +431,11 @@ const retarget_note = async (id, note) => {
   let target = `${rubied[1]} <i>${rubied[2]}</i>`;
   let update = {note: {id: id, fields: {target: target}}};
   console.log("Update ", kanji, rubied[0], rubied[2])
-  // console.log(update)
   await post('updateNote', update)
 }
 
-const hint_note = async (id, note) => {
-  let kanji = tags_removed(note_field(note, 'kanji'));
+const target_to_hint = async (id, note) => {
+  let kanji = remove_tags(note_field(note, 'kanji'));
   let target = note_field(note, 'target');
   let hint = note_field(note, 'hint');
   if (target.length > 0 && hint.length === 0) {
@@ -562,7 +578,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
         }
       }
 
-      let found = await find_kanji(kanji);
+      let found = await find_onkanji(kanji);
       if (Object.keys(found).length > 0) {
         let update = {note: {id: found.noteId, fields: add.note.fields, tags: tags}};
         await post('updateNote', update)
@@ -645,7 +661,7 @@ const convert_kunyomi_to_onyomi = (word) => {
 }
 
 const has_kanji = async (kanji) => {
-  return find_kanji(kanji).result.length === 1
+  return find_onkanji(kanji).result.length === 1
 }
 
 async function note_info(id) {
@@ -654,13 +670,19 @@ async function note_info(id) {
   return notes.result[0];
 }
 
-const find_kanji = async (kanji) => {
+const find_6k = async (kanji) => {
+  let ids = await post('findNotes', {query: `"note:Japanese Vocab Dynamic" Expression:${kanji}`});
+  let id = ids.result[0];
+  return await note_info(id);
+}
+
+const find_onkanji = async (kanji) => {
   let ids = await post('findNotes', {query: `note:OnKanji kanji:*${kanji}*`});
   let id = ids.result[0];
   return await note_info(id);
 }
 
-const find_onyomi = async (kanji) => {
+const find_yomi = async (kanji) => {
   let ids = await post('findNotes', {query: `(note:OnYomi or note:KunYomi) kanji:*${kanji}*`});
   let id = ids.result[0];
   return await note_info(id);
@@ -732,7 +754,7 @@ module.exports = {
   colorize,
   clean_notes,
   emphasize_notes,
-  hint_notes,
+  notes_target_to_hint,
   mirror_notes,
   move_cards,
   stroke_notes,
@@ -747,8 +769,8 @@ module.exports = {
   is_katakana,
   convert_kunyomi_to_onyomi,
   convert_kana_field_to_onyomi,
-  find_kanji,
-  find_onyomi,
+  find_onkanji,
+  find_yomi,
   has_kanji,
   multiple_kanji,
   missing_kanji,
@@ -760,5 +782,6 @@ module.exports = {
   show_parts_of_kanji,
   target_word,
   furigana_notes,
-  retarget_notes
+  retarget_notes,
+  hint6k_notes
 }

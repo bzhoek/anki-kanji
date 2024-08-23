@@ -16,7 +16,7 @@ const {
   missing_kanji,
   move_related,
   show_parts_of_kanji,
-  target_word, hint_notes, clean_notes, mirror_notes, furigana_notes, retarget_notes
+  target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes
 } = require('./lib')
 const {
   html_from_templates
@@ -29,6 +29,11 @@ cli.name('anki')
    - 'note:OnKanj' match all notes of type 'OnKanj'
    - 'deck:Karate' match everything in deck 'Karate'
    - 'nid:1656500001715' pick note with identifier '1656500001715'`)
+
+cli.command('hint6k')
+  .argument('<query>', 'query')
+  .description('Add hints from 6K deck')
+  .action((query) => hint6k_notes(query))
 
 cli.command('retarget')
   .argument('<query>', 'query')
@@ -79,7 +84,7 @@ cli.command('emphasize')
 cli.command('hint')
   .argument('<query>', 'query')
   .description('Add hints based on target')
-  .action((query) => hint_notes(query))
+  .action((query) => notes_target_to_hint(query))
 
 cli.command('stroke')
   .argument('<query>', 'query')
