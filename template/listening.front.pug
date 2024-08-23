@@ -8,6 +8,7 @@ main(class=`${color} ${mode} front`)
     | {{/picture}}
     .text
       h1(class=`title {{Tags}}`) {{speech}}
+        span.type= type
       | {{#hint}}
       .hint {{hint:hint}}
       | {{/hint}}

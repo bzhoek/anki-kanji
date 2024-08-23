@@ -41,10 +41,10 @@ function to_hearing_html() {
   let onyomi = ['オンヨミ'];
 
   let cards = [
-    {name: 'Kunyomi', grammar: jukugo, color: 'violet'},
-    {name: 'OnYomi', grammar: onyomi, color: 'yellow'},
-    {name: 'Godan', grammar: godan, color: 'magenta'},
-    {name: 'Ichidan', grammar: ichidan, color: 'magenta'},
+    {name: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
+    {name: 'OnYomi', grammar: onyomi, color: 'yellow', type: ''},
+    {name: 'Godan', grammar: godan, color: 'magenta', type: '⬤'},
+    {name: 'Ichidan', grammar: ichidan, color: 'magenta', type: '⬤'},
   ].map(card => Object.assign(card, {mode: 'hearing'}));
 
   let compiledTemplate = write_html(cards, 'listening.front.pug', 'ToHearing.Front');
