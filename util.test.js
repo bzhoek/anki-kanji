@@ -1,11 +1,7 @@
-const {strip_kana} = require('./util')
-
-function test_name() {
-  return expect.getState().currentTestName
-}
+const {strip_kana, jest_test_name} = require('./util')
 
 describe('kana', () => {
-  const stripped = () => strip_kana(test_name())
+  const stripped = () => strip_kana(jest_test_name())
   test('まき ジャク. text', () => {
     expect(stripped()).toEqual('まきジャク')
   })

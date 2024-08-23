@@ -1,39 +1,36 @@
 const sqlite3 = require('sqlite3').verbose();
 const {get_furigana, furigana_html, un_furigana, target_clean, ruby_target, markup_ruby_html} = require("./furigana");
-
-function test_name() {
-  return expect.getState().currentTestName.split("/ ").slice(-1)[0]
-}
+const {jest_test_name} = require("./util");
 
 describe('furigana/', () => {
 
   test('[楽](たの)[しい]', async () => {
-    let result = await markup_ruby_html(test_name())
+    let result = await markup_ruby_html(jest_test_name())
     expect(result).toEqual("<ruby>楽<rt>たの</rt></ruby><ruby>しい</ruby>")
   })
 
   test('児童 <i>(ジドウ kinderen)</i>', async () => {
-    let result = await ruby_target(test_name())
+    let result = await ruby_target(jest_test_name())
     expect(result).toEqual(`<ruby>児<rt>じ</rt></ruby><ruby>童<rt>どう</rt></ruby><i>kinderen</i>`)
   })
 
   describe('html/', () => {
     test('正直', async () => {
-      let result = await furigana_html(test_name())
+      let result = await furigana_html(jest_test_name())
       expect(result).toEqual("<ruby>正<rt>しょう</rt></ruby><ruby>直<rt>じき</rt></ruby>")
     })
 
     test('楽しい', async () => {
-      let result = await furigana_html(test_name())
+      let result = await furigana_html(jest_test_name())
       expect(result).toEqual("<ruby>楽<rt>たの</rt></ruby><ruby>しい</ruby>")
     })
 
     test('plain', async () => {
-      let result = await furigana_html(test_name())
+      let result = await furigana_html(jest_test_name())
       expect(result).toEqual("<ruby>plain</ruby>")
     })
     test('ゴミ箱', async () => {
-      let result = await furigana_html(test_name())
+      let result = await furigana_html(jest_test_name())
       expect(result).toEqual("<ruby>ゴミ</ruby><ruby>箱<rt>ばこ</rt></ruby>")
     })
   })
