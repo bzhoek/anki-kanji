@@ -59,6 +59,18 @@ function un_furigana(html) {
   }
 }
 
+async function ruby_target_result(markup) {
+  let regex = /([一-龘ぁ-ゖ゛-ゟ゠-ヿ\s]+)<i>\([一-龘ぁ-ゖ゛-ゟ゠-ヿ]+\s(.+?)\)/
+  let result = markup.match(regex)
+
+  if (result !== null) {
+    let kanji = result[1].trim()
+    let furigana = await furigana_html(kanji)
+    return [kanji, furigana, result[2].trim()]
+  }
+  return null
+}
+
 async function ruby_target(markup) {
   let regex = /([一-龘ぁ-わァ-ワ\s]+)<i>\([一-龘ぁ-わァ-ワ]+\s(.+?)\)/
   let result = markup.match(regex)
@@ -91,4 +103,4 @@ function markup_ruby_html(markup) {
   return markup
 }
 
-module.exports = {get_furigana, furigana_html, un_furigana, ruby_target, markup_ruby_html}
+module.exports = {get_furigana, furigana_html, un_furigana, ruby_target, ruby_target_result, markup_ruby_html}

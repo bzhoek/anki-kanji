@@ -1,5 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
-const {get_furigana, furigana_html, un_furigana, target_clean, ruby_target, markup_ruby_html} = require("./furigana");
+const {
+  get_furigana,
+  furigana_html,
+  un_furigana,
+  target_clean,
+  ruby_target,
+  markup_ruby_html,
+  ruby_target_result
+} = require("./furigana");
 const {jest_test_name} = require("./util");
 
 describe('furigana/', () => {
@@ -12,6 +20,17 @@ describe('furigana/', () => {
   test('児童 <i>(ジドウ kinderen)</i>', async () => {
     let result = await ruby_target(jest_test_name())
     expect(result).toEqual(`<ruby>児<rt>じ</rt></ruby><ruby>童<rt>どう</rt></ruby><i>kinderen</i>`)
+  })
+
+  describe('target/', () => {
+    test('児童 <i>(ジドウ kinderen)</i>', async () => {
+      let result = await ruby_target_result(jest_test_name())
+      expect(result).toEqual(["児童", "<ruby>児<rt>じ</rt></ruby><ruby>童<rt>どう</rt></ruby>", "kinderen"])
+    })
+    test('伝染 <i>(デンセン besmetting)</i>', async () => {
+      let result = await ruby_target_result(jest_test_name())
+      expect(result).toEqual(["伝染", "<ruby>伝<rt>でん</rt></ruby><ruby>染<rt>せん</rt></ruby>", "besmetting"])
+    })
   })
 
   describe('html/', () => {
