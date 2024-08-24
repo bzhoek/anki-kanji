@@ -390,7 +390,7 @@ const furigana_note = async (id, note) => {
     furigana = convert_kunyomi_to_onyomi(furigana);
   }
   let update = {note: {id: id, fields: {furigana: furigana}}};
-  console.log(update)
+  console.log(kanji, furigana)
   await post('updateNote', update)
 }
 

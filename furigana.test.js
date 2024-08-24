@@ -42,6 +42,11 @@ describe('furigana/', () => {
   })
 
   describe('html/', () => {
+    test('景色', async () => {
+      let result = await furigana_html(jest_test_name())
+      expect(result).toEqual("<ruby>景色<rt>けしき</rt></ruby>")
+    })
+
     test('正直', async () => {
       let result = await furigana_html(jest_test_name())
       expect(result).toEqual("<ruby>正<rt>しょう</rt></ruby><ruby>直<rt>じき</rt></ruby>")
@@ -56,6 +61,7 @@ describe('furigana/', () => {
       let result = await furigana_html(jest_test_name())
       expect(result).toEqual("<ruby>plain</ruby>")
     })
+
     test('ゴミ箱', async () => {
       let result = await furigana_html(jest_test_name())
       expect(result).toEqual("<ruby>ゴミ</ruby><ruby>箱<rt>ばこ</rt></ruby>")
@@ -80,6 +86,27 @@ describe('furigana/', () => {
   })
 
   describe('query/', () => {
+    test('try', async () => {
+      let kanji = '前屈立'
+      let prefix = kanji
+      let suffix = ''
+      let prefix_result = []
+      let suffix_result = []
+      while (prefix_result.length === 0 && kanji.length > 0) {
+        suffix = kanji.slice(prefix.length)
+        prefix_result = await get_furigana(prefix)
+        suffix_result = await get_furigana(suffix)
+        prefix = prefix.slice(0, -1)
+      }
+
+      if (suffix_result.length === 0) {
+        suffix_result = [{ruby: suffix}]
+      }
+
+      expect(prefix_result).toStrictEqual([{ruby: '前', rt: 'ぜん'}, {ruby: '屈', rt: 'くつ'}])
+      expect(suffix_result).toStrictEqual([{ruby: '立'}])
+    })
+
     test('query', async () => {
       let result = await get_furigana('正直')
       expect(result).toStrictEqual([{ruby: '正', rt: 'しょう'}, {ruby: '直', rt: 'じき'}])

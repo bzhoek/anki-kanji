@@ -8,6 +8,10 @@ let furiganadb = new sqlite3.Database('jmdictfurigana.sqlite', (err) => {
   }
 })
 
+function try_furigana(kanji) {
+
+}
+
 function get_furigana(kanji) {
   return new Promise((resolve, reject) => {
       furiganadb.get(`SELECT info
@@ -19,7 +23,7 @@ function get_furigana(kanji) {
         }
 
         if (row === undefined) {
-          resolve([{ruby: kanji}])
+          resolve([])
         } else {
           let data = JSON.parse(row.info)
           resolve(data.furigana)
@@ -46,16 +50,21 @@ function furigana_html(kanji) {
 
 function un_furigana(html) {
   let doc = new parser().parseFromString(html, 'text/xml');
-  let texts = xpath.select("//rt", doc);
-  texts.forEach(node => {
-    node.parentNode.removeChild(node)
-  })
+  try {
+    let texts = xpath.select("//rt", doc);
+    texts.forEach(node => {
+      node.parentNode.removeChild(node)
+    })
 
-  let ruby = xpath.select1("//ruby", doc)
-  if (ruby === undefined) {
+    let ruby = xpath.select1("//ruby", doc)
+    if (ruby === undefined) {
+      return html
+    } else {
+      return ruby.textContent
+    }
+  } catch (error) {
+    console.error("Couldn't parse", html)
     return html
-  } else {
-    return ruby.textContent
   }
 }
 
@@ -104,4 +113,4 @@ function markup_ruby_html(markup) {
   return markup
 }
 
-module.exports = {get_furigana, furigana_html, un_furigana, ruby_target, ruby_target_result, markup_ruby_html}
+module.exports = {get_furigana, furigana_html, un_furigana, ruby_target, ruby_target_result, markup_ruby_html, try_furigana}
