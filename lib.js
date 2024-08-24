@@ -4,7 +4,7 @@ const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
 const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
-const {un_furigana, furigana_html, ruby_target, ruby_target_result} = require("./furigana");
+const {un_furigana, furigana_html, ruby_target_result} = require("./furigana");
 const {strip_kana} = require('./util')
 
 let data = fs.readFileSync("config.json", "utf8")

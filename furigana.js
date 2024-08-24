@@ -8,8 +8,27 @@ let furiganadb = new sqlite3.Database('jmdictfurigana.sqlite', (err) => {
   }
 })
 
-function try_furigana(kanji) {
+async function try_furigana(kanji) {
+  let prefix = kanji
+  let suffix = ''
+  let prefix_result = []
+  let suffix_result = []
+  while (prefix_result.length === 0 && prefix.length > 0) {
+    suffix = kanji.slice(prefix.length)
+    prefix_result = await get_furigana(prefix)
+    suffix_result = await get_furigana(suffix)
+    prefix = prefix.slice(0, -1)
+  }
 
+  if (suffix_result.length === 0 && suffix.length > 0) {
+    suffix_result = [{ruby: suffix}]
+  }
+
+  if (prefix_result.length === 0) {
+    return []
+  }
+
+  return prefix_result.concat(suffix_result)
 }
 
 function get_furigana(kanji) {
@@ -34,7 +53,7 @@ function get_furigana(kanji) {
 }
 
 function furigana_html(kanji) {
-  return get_furigana(kanji)
+  return try_furigana(kanji)
     .then(json => {
       let html = ''
       json.forEach(element => {
@@ -113,4 +132,12 @@ function markup_ruby_html(markup) {
   return markup
 }
 
-module.exports = {get_furigana, furigana_html, un_furigana, ruby_target, ruby_target_result, markup_ruby_html, try_furigana}
+module.exports = {
+  get_furigana,
+  furigana_html,
+  un_furigana,
+  ruby_target,
+  ruby_target_result,
+  markup_ruby_html,
+  try_furigana
+}
