@@ -1,10 +1,11 @@
 # anki-kanji
 
-Make beautiful kanji stroke diagrams in Anki with very distinct colors and convenient stroke order numbering based on [KanjiVG](https://github.com/KanjiVG/kanjivg). Stroke order is by [progressive](https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/) color and number. 
+Make beautiful kanji stroke diagrams in Anki with very distinct colors and convenient stroke order numbering based on [KanjiVG](https://github.com/KanjiVG/kanjivg). Stroke order is by [progressive](https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/) color and number.
 
 ![cat](neko.png).
 
 ## Radicals
+
 https://kanjialive.com/214-traditional-kanji-radicals/
 
 | radical         | mnemonic |
@@ -32,7 +33,7 @@ Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) 
 
 ```sh
 node anki.js -h
-node anki.js kanji 張 # create new `OnKanji` note
+node anki.js kanji å¼µ # create new `OnKanji` note
 node anki stroke nid:1661888566814 # add strokes for found kanji
 ```
 
@@ -47,7 +48,8 @@ Nested decks are named `<top level>::<next level>`
 
 ## Strategies
 
-My current strategy is to make all mnemonics personal: *I* do something *radical* with *radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
+My current strategy is to make all mnemonics personal: *I* do something *radical* with
+*radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
 
 1. ToMeaning for reading, from kanji
 2. ToKanji for writing, from native language
@@ -65,6 +67,7 @@ At first, I studied under the assumption that if I could write it, I could also 
 ### 2024
 
 There is still a lot of regression, probably because there is too little context. So this year, I'm adding 1T for a `target` word or sentence.
+
 - reading the meaning
 - speaking by pronouncing
 
@@ -78,16 +81,21 @@ For writing, I'm adding a `hint` that leaves out the kanji or word.
 
 ## Background
 
-## JMdict 
-
-Heeft zo'n 1000 antoniemen, dus 500 paren.
+## JMdict
 
 http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
-wget http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz # 10Mb > 60Mb
 
-k_ele kanji element/keb
-r_ele kana reading element/reb
-ant verwijst naar keb of reb
+Heeft zo'n 1000 antoniemen, dus 500 paren. In XML maar ook simpele EDICT met regels in EUC-JP.
+
+### XML
+
+```sh
+wget http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz # 10Mb > 60Mb
+xmllint --format - < JMdict_e > JMdict_e.xml
+# JMdict\entry\sense\ant
+```
+
+`ant` verwijst naar een `keb` of `reb`: *kanji* in `entry/k_ele/keb` en kana *reading* in `entry/r_ele/reb`.
 
 ### Readings
 
@@ -99,7 +107,7 @@ Kanji followed by hiragana is called 'おくりかな', and is used to conjugate
 
 [1]: Kanji from Zero #12
 
-Hiragana start with unicode ぁ (12353) and go for 
+Hiragana start with unicode ぁ (12353) and go for
 
 0x4e00 一 tot 0x9f98 龘 zijn kanji.
 
@@ -123,9 +131,15 @@ SQLite database is in `/Users/bas/Library/Application Support/Anki2/User 1/colle
 ### Ease factor
 
 ```sqlite
-select count(*), factor from revlog group by factor;
-select count(*), factor from cards group by factor;
-update cards set factor = 1500 where factor >= 1300;
+select count(*), factor
+from revlog
+group by factor;
+select count(*), factor
+from cards
+group by factor;
+update cards
+set factor = 1500
+where factor >= 1300;
 ```
 
 https://github.com/ankidroid/Anki-Android/wiki/Database-Structure
@@ -136,16 +150,16 @@ type = 0 learn, 1 review, 2 relearn, 3 cram
 
 ```sqlite
 with hard as (select datetime(id / 1000, 'unixepoch') as 'datetime', *
-from revlog
-where
-  id / 1000 > unixepoch(date('now', '-1 month')) and
-  type = 1 and
-  ease = 2 and
-  ivl > 21
-order by id desc)
+              from revlog
+              where id / 1000 > unixepoch(date('now', '-1 month'))
+                and type = 1
+                and ease = 2
+                and ivl > 21
+              order by id desc)
 -- update cards  set flags = 2, usn = -1 from hard as h where cards.id = h.cid;
 select *
-from cards as c, hard as h
+from cards as c,
+     hard as h
 where h.cid = c.id;
 
 
@@ -155,26 +169,28 @@ select unixepoch(date('now', '-1 month'))
 ### Hard answers last week
 
 ```sqlite
-with hard as (
-select
-  datetime(id / 1000, 'unixepoch') as 'datetime',
-  cast(strftime('%Y%W', datetime(id / 1000, 'unixepoch')) as int) as 'weeknr',
-  *
-from revlog
-where
-  weeknr > cast(strftime('%Y%W', date('now')) as int) - 5 and
-  type = 1 and
-  ease = 2 and
-  ivl > 14
-order by id desc)
+with hard as (select datetime(id / 1000, 'unixepoch')                                as 'datetime',
+                     cast(strftime('%Y%W', datetime(id / 1000, 'unixepoch')) as int) as 'weeknr',
+                     *
+              from revlog
+              where weeknr > cast(strftime('%Y%W', date('now')) as int) - 5
+                and type = 1
+                and ease = 2
+                and ivl > 14
+              order by id desc)
 
 select *
-from cards as c, hard as h
+from cards as c,
+     hard as h
 where h.cid = c.id;
 ```
 
 ### Flag as yellow
 
 ```sqlite
-update cards set flags = 2, usn = -1 from hard as h where cards.id = h.cid
+update cards
+set flags = 2,
+    usn   = -1
+from hard as h
+where cards.id = h.cid
 ```
