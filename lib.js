@@ -307,7 +307,7 @@ const move_cards = async (query, deck) => {
   console.log(move)
 }
 
-const move_fields = async (query, source, target) => {
+const move_field = async (query, source, target) => {
   await iterate_notes(query, async (id, note) => {
     let src_value = note_field(note, source);
     let tgt_value = note_field(note, target);
@@ -801,5 +801,5 @@ module.exports = {
   furigana_notes,
   retarget_notes,
   hint6k_notes,
-  move_fields
+  move_field
 }

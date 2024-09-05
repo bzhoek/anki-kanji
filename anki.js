@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_fields
+  move_field
 } = require('./lib')
 const {
   html_from_templates
@@ -77,7 +77,7 @@ cli.command('moveField')
   .argument('<source>', 'source field')
   .argument('<target>', 'target field')
   .description('Move contents of fields')
-  .action((query, source, target) => move_fields(query, source, target))
+  .action((query, source, target) => move_field(query, source, target))
 
 cli.command('lapse')
   .argument('<count>', 'count')
