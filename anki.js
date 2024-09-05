@@ -16,7 +16,8 @@ const {
   missing_kanji,
   move_related,
   show_parts_of_kanji,
-  target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes
+  target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
+  move_fields
 } = require('./lib')
 const {
   html_from_templates
@@ -70,6 +71,13 @@ cli.command('move')
   .argument('<deck>', 'deck')
   .description('Move matching cards to a given deck')
   .action((query, deck) => move_cards(query, deck))
+
+cli.command('moveField')
+  .argument('<query>', 'query')
+  .argument('<source>', 'source field')
+  .argument('<target>', 'target field')
+  .description('Move contents of fields')
+  .action((query, source, target) => move_fields(query, source, target))
 
 cli.command('lapse')
   .argument('<count>', 'count')

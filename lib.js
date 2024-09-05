@@ -306,6 +306,22 @@ const move_cards = async (query, deck) => {
   console.log(move)
 }
 
+const move_fields = async (query, source, target) => {
+  await iterate_notes(query, async (id, note) => {
+    let src_value = note_field(note, source);
+    let tgt_value = note_field(note, target);
+    if (tgt_value.length > 0) {
+      console.error("Skip", id, src_value, tgt_value)
+      return
+    }
+    let params = {note: {id: id, fields: {}}};
+    Object.defineProperty(params.note.fields, target, {value: src_value, enumerable: true})
+    Object.defineProperty(params.note.fields, source, {value: '', enumerable: true})
+    console.log("Move", id, src_value)
+    await post('updateNoteFields', params)
+  });
+}
+
 const lapse_cards = async (count) =>
   iterate_notes(`prop:lapses=${count} note:OnKanji`, async (id, note) => {
     let kanji = note.fields.kanji.value.replace(/<.+?>/g, '').trim()
@@ -783,5 +799,6 @@ module.exports = {
   target_word,
   furigana_notes,
   retarget_notes,
-  hint6k_notes
+  hint6k_notes,
+  move_fields
 }
