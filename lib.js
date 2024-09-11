@@ -224,7 +224,7 @@ const target_word = async (char, word) => {
   if (context.length === 0 && speech.length !== 0) {
     Object.assign(fields, {context: speech})
   } else {
-    console.error("Speech not empty", char)
+    console.error("Context not empty", char)
   }
 
   let kana = strip_kana(onyomi_note.fields['kana'].value)
