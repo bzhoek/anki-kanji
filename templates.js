@@ -6,7 +6,7 @@ const write_html = (cards, template, suffix) => {
 
   cards.forEach(card => {
       let result = compiledTemplate(card)
-      let filename = `html/${card.name}.${suffix}.html`;
+      let filename = `html/${card.note}.${suffix}.html`;
       fs.writeFileSync(filename, result, 'utf8')
       console.log(`Wrote ${filename}`)
     }
@@ -21,11 +21,11 @@ function to_kanji_html() {
   let suru = ['辞書形', 'するV'];
 
   let cards = [
-    {name: 'Godan', grammar: godan, color: 'violet'},
-    {name: 'Ichidan', grammar: ichidan, color: 'violet'},
-    {name: 'Kunyomi', grammar: jukugo, color: 'violet'},
-    {name: 'Onyomi', grammar: jukugo, color: 'magenta'},
-    {name: 'Suru', grammar: suru, color: 'violet'},
+    {note: 'Godan', grammar: godan, color: 'violet'},
+    {note: 'Ichidan', grammar: ichidan, color: 'violet'},
+    {note: 'Kunyomi', grammar: jukugo, color: 'violet'},
+    {note: 'Onyomi', grammar: jukugo, color: 'magenta'},
+    {note: 'Suru', grammar: suru, color: 'violet'},
   ].map(card => Object.assign(card, {mode: 'writing'}));
 
   let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToKanji.Front');
@@ -41,10 +41,10 @@ function to_hearing_html() {
   let onyomi = ['オンヨミ'];
 
   let cards = [
-    {name: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
-    {name: 'OnYomi', grammar: onyomi, color: 'yellow', type: ''},
-    {name: 'Godan', grammar: godan, color: 'magenta', type: '⬤'},
-    {name: 'Ichidan', grammar: ichidan, color: 'magenta', type: '⬤'},
+    {note: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
+    {note: 'OnYomi', grammar: onyomi, color: 'yellow', type: ''},
+    {note: 'Godan', grammar: godan, color: 'magenta', type: '⬤'},
+    {note: 'Ichidan', grammar: ichidan, color: 'magenta', type: '⬤'},
   ].map(card => Object.assign(card, {mode: 'hearing'}));
 
   let compiledTemplate = write_html(cards, 'listening.front.pug', 'ToHearing.Front');
@@ -58,11 +58,11 @@ function to_on_yomi_html() {
 
   let cards = [
     {
-      name: 'OnKanji', grammar: onyomi, color: 'yellow', mode: 'speaking onkanji',
+      note: 'OnKanji', grammar: onyomi, color: 'yellow', mode: 'speaking onkanji',
       notempty: 'on', clazz: 'strokes', fmain: 'strokes', bmain: 'strokes', back: 'on', kanji: 'kanji'
     },
     {
-      name: 'OnYomi', grammar: onyomi, color: 'yellow', mode: 'speaking',
+      note: 'OnYomi', grammar: onyomi, color: 'yellow', mode: 'speaking',
       notempty: 'kanji', clazz: 'title', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
     },
   ]
@@ -76,7 +76,7 @@ function to_kan_yomi_html() {
 
   let cards = [
     {
-      name: 'OnKanji', grammar: kunyomi, color: 'magenta', mode: 'speaking',
+      note: 'OnKanji', grammar: kunyomi, color: 'magenta', mode: 'speaking',
       notempty: 'kun', clazz: 'strokes', fmain: 'strokes', bmain: 'strokes', back: 'kun', kanji: 'kanji'
     },
   ]
@@ -92,10 +92,10 @@ function to_kun_yomi_html() {
   let suru = ['V', 'するV'];
 
   let cards = [
-    {name: 'Godan', grammar: godan},
-    {name: 'Ichidan', grammar: ichidan},
-    {name: 'Kunyomi', grammar: jukugo},
-    {name: 'Suru', grammar: suru},
+    {note: 'Godan', grammar: godan},
+    {note: 'Ichidan', grammar: ichidan},
+    {note: 'Kunyomi', grammar: jukugo},
+    {note: 'Suru', grammar: suru},
   ].map(card => Object.assign(card, {
     mode: 'speaking', color: 'magenta',
     notempty: 'kanji', clazz: 'title', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
@@ -113,22 +113,22 @@ function to_meaning_html() {
 
   let dictionary = ['終止形', 'しゅうしけい'];
   let fronts = [
-    {name: 'Godan', grammar: dictionary},
-    {name: 'Ichidan', grammar: dictionary},
-    {name: 'Onyomi', grammar: jukugo},
-    {name: 'Kunyomi', grammar: jukugo},
-    {name: 'Suru', grammar: suru}
+    {note: 'Godan', grammar: dictionary},
+    {note: 'Ichidan', grammar: dictionary},
+    {note: 'Onyomi', grammar: jukugo},
+    {note: 'Kunyomi', grammar: jukugo},
+    {note: 'Suru', grammar: suru}
   ].map(meaning => Object.assign(meaning, {
     color: 'magenta',
     mode: 'reading'
   }))
 
   let backs = [
-    {name: 'Godan', grammar: ['五段活用'],},
-    {name: 'Ichidan', grammar: ['一段活用'],},
-    {name: 'Onyomi', grammar: jukugo},
-    {name: 'Kunyomi', grammar: jukugo},
-    {name: 'Suru', grammar: suru,},
+    {note: 'Godan', grammar: ['五段活用'],},
+    {note: 'Ichidan', grammar: ['一段活用'],},
+    {note: 'Onyomi', grammar: jukugo},
+    {note: 'Kunyomi', grammar: jukugo},
+    {note: 'Suru', grammar: suru,},
   ].map(meaning => Object.assign(meaning, {
     color: 'magenta',
     mode: 'reading'
@@ -145,8 +145,8 @@ function to_express_html() {
   let ichidan = ['V', '一段活用'];
 
   let cards = [
-    {name: 'Godan', grammar: godan, color: 'cyan'},
-    {name: 'Ichidan', grammar: ichidan, color: 'cyan'},
+    {note: 'Godan', grammar: godan, color: 'cyan'},
+    {note: 'Ichidan', grammar: ichidan, color: 'cyan'},
   ].map(card => Object.assign(card, {mode: 'saying'}));
 
   let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToExpress.Front');
