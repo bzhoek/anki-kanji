@@ -1,0 +1,8 @@
+script.
+  let title = document.getElementsByClassName('title');
+  if (title.length > 0) {
+    let width = title[0].getBoundingClientRect().width - 16;
+    let text = title[0].textContent
+    let fontSize = `${Math.min(64, width / text.length)}px`
+    document.styleSheets[0].insertRule(`.text .title {font-size: ${fontSize} !important}`, 0)
+  }
