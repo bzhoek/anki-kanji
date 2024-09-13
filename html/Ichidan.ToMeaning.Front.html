@@ -3,13 +3,13 @@
   <div class="top">
     
     {{#picture}}
-    <div class="picture">{{picture}}</div>{{/picture}}
+    <div class="picture">{{hint:picture}}</div>{{/picture}}
     <div class="text">{{#kanji}}
       <h1 class="title {{Tags}}">{{kanji}}</h1>{{/kanji}}
       {{^kanji}}
       <h1 class="title {{Tags}}">{{kana}}</h1>{{/kanji}}
       {{#target}}
-      <div class="target">{{target}}</div>{{/target}}
+      <div class="target">{{hint:target}}</div>{{/target}}
     </div>
   </div>{{#kanji}}
   <h2>終止形</h2>{{/kanji}}
