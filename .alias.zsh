@@ -11,9 +11,7 @@ anki_sort() {
 
   ./anki.js move "$1 card:ToKanji" Japans::1-書く::漢字
   ./anki.js move "$1 note:Opposite card:Read*" Japans::1-書く::対義語
-  ./anki.js move "$1 note:OnKanji card:ToOnYomi" Japans::2-言う読む
-  ./anki.js move "$1 card:ToOnYomi" Japans::2-言う読む
-  ./anki.js move "$1 card:ToKunYomi" Japans::2-言う読む
+  ./anki.js move "$1 card:*Yomi" Japans::2-言う読む
   ./anki.js move "$1 card:Speaking" Japans::2-言う読む
   ./anki.js move "$1 card:ToExpress" Japans::2-言う読む
   ./anki.js move "$1 card:ToMeaning" Japans::2-言う読む
