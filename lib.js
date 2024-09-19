@@ -396,7 +396,7 @@ async function mirror_note_side(note, side) {
 }
 
 const furigana_note = async (id, note) => {
-  if (!['Godan', 'Ichidan', 'KunYomi', 'OnYomi'].includes(note.modelName)) {
+  if (!['Godan', 'Ichidan', 'KunYomi', 'OnYomi', 'Suru'].includes(note.modelName)) {
     console.log("Skip", note.modelName, id)
     return
   }
