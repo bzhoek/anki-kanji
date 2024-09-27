@@ -7,10 +7,10 @@ main(class=`${color} ${mode} back`)
     | {{/picture}}
     .text
       | {{#kanji}}
-      h1(class=`title {{Tags}}`) {{furigana}}
+      h1(class=`kanji {{Tags}}`) {{furigana}}
       | {{/kanji}}
       | {{^kanji}}
-      h1(class=`title {{Tags}}`) {{kana}}
+      h1(class=`kanji {{Tags}}`) {{kana}}
       | {{/kanji}}
       | {{#target}}
       .target {{target}}

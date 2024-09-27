@@ -82,7 +82,7 @@ main
   &.toonyomi h2, &.yellow h2
     background-color: #b58900
 
-  &.tokanji h2, &.kanji h2
+  &.tokanji h2
     background-color: #b58900
 
   &.jukugo h2
@@ -179,19 +179,16 @@ div
   right: 16px
   height: 20pt
 
-.tomeaning, .toonyomi, .jukukana, .reading, .speaking, .writing, .listening
-  .title, .title em
-    font-size: 48pt
-    font-family: 'Hiragino Sans', sans-serif
+.kanji, .kanji em
+  font-size: 48pt
+  font-family: 'Hiragino Sans', sans-serif
 
-    &.lookalike, &.leech
-      border: 1px solid red
+.strokes
+  border: none
 
-  .strokes
-    border: none
-
-    &.lookalike, &.leech
-      border: 1px solid red
+.kanji, .strokes
+  &.lookalike, &.leech
+    border: 1px solid red
 
 .onkanji
   div.strokes

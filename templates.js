@@ -63,7 +63,7 @@ function to_on_yomi_html() {
     },
     {
       note: 'OnYomi', grammar: onyomi, color: 'yellow', mode: 'speaking',
-      notempty: 'kanji', clazz: 'title', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
+      notempty: 'kanji', clazz: 'kanji', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
     },
   ]
 
