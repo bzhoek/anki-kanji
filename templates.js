@@ -98,7 +98,7 @@ function to_kun_yomi_html() {
     {note: 'Suru', grammar: suru},
   ].map(card => Object.assign(card, {
     mode: 'speaking', color: 'magenta',
-    notempty: 'kanji', clazz: 'title', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
+    notempty: 'kanji', clazz: 'kanji', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
   }));
 
   let compiledTemplate = write_html(cards, 'speaking.front.pug', 'ToKunYomi.Front');
