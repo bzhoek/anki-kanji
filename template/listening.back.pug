@@ -6,13 +6,13 @@ main(class=`${color} ${mode} back`)
     .picture {{picture}}
     | {{/picture}}
     .text
-      h1(class=`{{Tags}}`) {{speech}}
+      h1(class=`{{Tags}}`) {{nederlands}}
+      .furigana {{furigana}}
       | {{#target}}
       .target {{target}}
       | {{/target}}
   h2!= grammar[1] || grammar[0]
-  h1 {{nederlands}}
-  .furigana {{furigana}}
+    span.speech {{speech}} {{context}}
   | {{#notes}}
   div {{notes}}
   | {{/notes}}
@@ -20,6 +20,3 @@ main(class=`${color} ${mode} back`)
   div.strokes {{strokes}}
   | {{/strokes}}
   div {{kana}}
-  | {{#context}}
-  div.context {{context}}
-  | {{/context}}

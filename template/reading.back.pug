@@ -17,7 +17,7 @@ main(class=`${color} ${mode} back`)
       | {{/target}}
   | {{#kanji}}
   h2!= grammar[0]
-    span.speech {{speech}}
+    span.speech {{speech}} {{context}}
   h1 {{nederlands}}
   | {{#kana}}
   div {{kana}}
@@ -31,9 +31,6 @@ main(class=`${color} ${mode} back`)
   | {{#notes}}
   div {{notes}}
   | {{/notes}}
-  | {{#context}}
-  div.context {{context}}
-  | {{/context}}
   | {{#strokes}}
   div.strokes {{strokes}}
   | {{/strokes}}

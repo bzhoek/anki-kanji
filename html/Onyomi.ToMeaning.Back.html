@@ -12,7 +12,7 @@
       <div class="target">{{target}}</div>{{/target}}
     </div>
   </div>{{#kanji}}
-  <h2>熟語<span class="speech">{{speech}}</span></h2>
+  <h2>熟語<span class="speech">{{speech}} {{context}}</span></h2>
   <h1>{{nederlands}}</h1>{{#kana}}
   <div>{{kana}}</div>{{/kana}}
   {{/kanji}}
@@ -21,8 +21,6 @@
   <h1>{{nederlands}}<span class="speech">{{speech}}</span></h1>{{/kanji}}
   {{#notes}}
   <div>{{notes}}</div>{{/notes}}
-  {{#context}}
-  <div class="context">{{context}}</div>{{/context}}
   {{#strokes}}
   <div class="strokes">{{strokes}}</div>{{/strokes}}
 </main>

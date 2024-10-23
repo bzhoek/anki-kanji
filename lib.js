@@ -700,7 +700,7 @@ const find_onkanji = async (kanji) => {
 }
 
 const find_yomi = async (kanji) => {
-  let ids = await post('findNotes', {query: `(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:*${kanji}*`});
+  let ids = await post('findNotes', {query: `(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:${kanji}`});
   let id = ids.result[0];
   return await note_info(id);
 }

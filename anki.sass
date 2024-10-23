@@ -22,9 +22,6 @@ $base1: #93a1a1
 
 // ipad and desktop
 @media only screen and (min-device-width: 1024px)
-  .speech
-    top: 8px
-
   .strokes
     svg
       width: 20vh
@@ -51,7 +48,7 @@ $base1: #93a1a1
 h1, h2
   font-size: 20pt
   font-weight: normal
-  margin: 8pt 0
+  margin: 0
 
   b
     font-size: 100%
@@ -176,8 +173,15 @@ div
 
 .speech
   position: absolute
-  right: 16px
-  height: 20pt
+  right: 24px
+
+  .replay-button
+    margin: 0
+    padding: 0
+
+    svg
+      width: 24pt
+      height: 24pt
 
 .kanji, .kanji em
   font-size: 48pt

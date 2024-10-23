@@ -7,15 +7,17 @@ main(class=`${color} ${mode} front`)
     .picture {{hint:picture}}
     | {{/picture}}
     .text
-      h1(class=`{{Tags}}`) {{speech}}
+      h1(class=`{{Tags}}`)
         span.type= type
       | {{#hint}}
       .hint {{hint:hint}}
       | {{/hint}}
   | {{#kanji}}
   h2!= grammar[0]
+    span.speech {{speech}} {{context}}
   | {{/kanji}}
   | {{^kanji}}
   h2!= grammar[1] || grammar[0]
+    span.speech {{speech}} {{context}}
   | {{/kanji}}
 = '\n{{/speech}}'

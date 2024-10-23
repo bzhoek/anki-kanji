@@ -10,10 +10,8 @@
       <div>{{kana}}</div>
     </div>
   </div>
-  <h2>一段活用<span class="speech">{{speech}}</span></h2>{{#notes}}
+  <h2>一段活用<span class="speech">{{speech}} {{context}}</span></h2>{{#notes}}
   <div>{{notes}}</div>{{/notes}}
-  <div>{{furigana}}</div>{{#context}}
-  <div class="context">{{context}}</div>{{/context}}
-  {{#strokes}}
+  <div>{{furigana}}</div>{{#strokes}}
   <div class="strokes">{{strokes}}</div>{{/strokes}}
 </main>
