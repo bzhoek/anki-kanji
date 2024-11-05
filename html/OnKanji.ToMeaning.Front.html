@@ -1,8 +1,15 @@
 <main class="tokanji reading front">
-  <div class="strokes {{Tags}}">{{strokes}}</div>
-  {{#target}}
-  <div class="target">{{hint:target}}</div>
-  {{/target}}
+  <div class="top">
+    {{#picture}}
+    <div class="picture">{{picture}}</div>
+    {{/picture}}
+    <div class="text">
+      <div class="strokes {{Tags}}">{{strokes}}</div>
+      {{#target}}
+      <div class="target">{{hint:target}}</div>
+      {{/target}}
+    </div>
+  </div>
   <h2>漢字</h2>
   {{^on}}
   <div class="info">
