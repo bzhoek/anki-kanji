@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+      main {
+          box-sizing: border-box;
+      }
+
+      *,
+      *::before,
+      *::after {
+          box-sizing: inherit;
+      }
+
+      h1 {
+          margin: 0
+      }
+
+      .front {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: column;
+          border: 2px solid red;
+      }
+
+      .title, .picture, .hint {
+          width: 50%;
+          border: 2px solid blue;
+      }
+
+      .picture {
+          height: 100px;
+          order: 1;
+      }
+
+      .title {
+          order: 2;
+      }
+
+      .hint {
+          order: 3;
+      }
+  </style>
+</head>
+<main class="magenta writing">
+  <div class="front">
+    <h1 class="title {{Tags}}">聞こえる</h1>
+    <div class="picture">{{picture}}</div>
+    <div class="hint">{{hint}}</div>
+  </div>
+  <h2>\ 熟語 /</h2>{{/kanji}}
+  <h2>\ じゅくご /</h2>{{/kanji}}
+  <script>
+    let title = document.getElementsByClassName('title')[0];
+    let th = document.getElementsByClassName('title')[0].getBoundingClientRect().height;
+    let width = title.getBoundingClientRect().width - 4;
+    let text = title.textContent
+    title.style.fontSize = `${width / text.length}px`
+    let hh = document.getElementsByClassName('hint')[0].getBoundingClientRect().height;
+    document.getElementsByClassName('front')[0].style.height = `${th + hh + 20}px`
+  </script>
+</main>
