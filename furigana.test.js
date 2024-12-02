@@ -5,7 +5,7 @@ const {
   un_furigana,
   ruby_target,
   markup_ruby_html,
-  ruby_target_result, try_furigana
+  ruby_target_result, try_furigana, furiganadb
 } = require("./furigana");
 const {jest_test_name} = require("./util");
 
@@ -110,7 +110,7 @@ describe('furigana/', () => {
 
 describe('database', () => {
 
-  const db = new sqlite3.Database('jmdictfurigana.sqlite');
+  const db = furiganadb;
 
   test('create', () => {
     db.serialize(() => {
@@ -118,9 +118,10 @@ describe('database', () => {
     });
   });
 
+  // from https://github.com/Doublevil/JmdictFurigana/releases
   test('import file', () => {
     let insert = db.prepare('INSERT INTO furigana VALUES(json(?))');
-    const json = require('/Users/bas/Downloads/JmdictFurigana.json');
+    const json = require('database/JmdictFurigana.json');
     json.forEach(line => {
       insert.run(JSON.stringify(line));
     });

@@ -134,6 +134,7 @@ function markup_ruby_html(markup) {
 
 module.exports = {
   get_furigana,
+  furiganadb,
   furigana_html,
   un_furigana,
   ruby_target,
