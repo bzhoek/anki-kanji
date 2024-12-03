@@ -3,4 +3,5 @@ node_modules/
 *.css
 *.css.map
 .sass-cache/
+download/
 *.sqlite

@@ -112,22 +112,6 @@ describe('database', () => {
 
   const db = furiganadb;
 
-  test('create', () => {
-    db.serialize(() => {
-      db.run('CREATE TABLE furigana (info JSON)');
-    });
-  });
-
-  // from https://github.com/Doublevil/JmdictFurigana/releases
-  test('import file', () => {
-    let insert = db.prepare('INSERT INTO furigana VALUES(json(?))');
-    const json = require('database/JmdictFurigana.json');
-    json.forEach(line => {
-      insert.run(JSON.stringify(line));
-    });
-    insert.finalize();
-  });
-
   test('query', done => {
     db.get(`SELECT info
             FROM furigana
