@@ -128,6 +128,33 @@ http://www.edrdg.org/kanjidic/kanjidic.gz
 
 SQLite database is in `/Users/bas/Library/Application Support/Anki2/User 1/collection.anki2`.
 
+### Furigana json
+
+Get the JSON from https://github.com/Doublevil/JmdictFurigana/releases, format with `jq . ugly.json > pretty.json`
+
+```json
+{ "text": "可能性が高い",
+  "reading": "かのうせいがたかい",
+  "furigana": [ {
+      "ruby": "可",
+      "rt": "か"
+    }, {
+      "ruby": "能",
+      "rt": "のう"
+    }, {
+      "ruby": "性",
+      "rt": "せい"
+    }, {
+      "ruby": "が"
+    }, {
+      "ruby": "高",
+      "rt": "たか"
+    }, {
+      "ruby": "い"
+    } ]
+}
+```
+
 ### Ease factor
 
 ```sqlite
