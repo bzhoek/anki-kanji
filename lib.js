@@ -554,7 +554,7 @@ const configure_decks = async () => {
   }
 }
 
-let kanjidb = new sqlite3.Database('kanjson.sqlite', (err) => {
+let kanjidb = new sqlite3.Database('japanese.sqlite', (err) => {
   if (err) {
     console.error(err)
   }
@@ -562,7 +562,7 @@ let kanjidb = new sqlite3.Database('kanjson.sqlite', (err) => {
 
 const add_kanji_with_reading_and_meaning = (kanji) => {
   let unicode = kanji.charCodeAt(0)
-  kanjidb.get("SELECT info FROM kanjidic WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
+  kanjidb.get("SELECT info FROM kanji WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
     let json = JSON.parse(row.info)
     console.log(json)
 

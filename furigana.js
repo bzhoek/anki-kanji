@@ -2,7 +2,7 @@ const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
 const sqlite3 = require('sqlite3').verbose();
 
-let furiganadb = new sqlite3.Database('jmfurigana.sqlite', (err) => {
+let furiganadb = new sqlite3.Database('japanese.sqlite', (err) => {
   if (err) {
     console.error(err)
   }
