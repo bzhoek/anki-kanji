@@ -6,7 +6,7 @@ const {parse_kanjidic} = require('./lib')
 
 let cli = new Command()
 cli.name('make')
-cli.command('furijson')
+cli.command('furigana')
   .argument('<json>', 'Furigana JSON file')
   .argument('<sqlite>', 'SQLite file to create')
   .description('Import JSON to furigana SQLite')
@@ -24,47 +24,6 @@ cli.command('furijson')
       insert.run(JSON.stringify(line));
     });
     insert.finalize();
-  })
-
-cli.command('furiidx')
-  .argument('<json>', 'Furigana JSON file')
-  .argument('<sqlite>', 'SQLite file to create')
-  .description('Import JSON to furigana SQLite')
-  .action((file, sqlite) => {
-    let db = new sqlite3.Database(sqlite)
-    db.serialize(() => {
-      db.exec(`
-          CREATE TABLE words
-          (
-              word_id INTEGER PRIMARY KEY AUTOINCREMENT,
-              word    TEXT,
-              reading TEXT
-          );
-          CREATE TABLE rubies
-          (
-              word_id INTEGER,
-              ruby    TEXT,
-              rt      TEXT,
-              FOREIGN KEY (word_id) REFERENCES words (word_id) ON DELETE CASCADE ON UPDATE NO ACTION
-          );
-          CREATE INDEX idx_ruby_word_id ON rubies (word_id);
-          CREATE INDEX idx_words_word ON words (word);
-      `);
-      db.run('pragma synchronous = normal;');
-      db.run('pragma journal_mode = wal;');
-    });
-    let insert_furigana = db.prepare('INSERT INTO words VALUES(?, ?, ?)');
-    let insert_rubies = db.prepare('INSERT INTO rubies VALUES(?, ?, ?)');
-    let data = fs.readFileSync(file, "utf8")
-    const json = eval(data)
-    json.forEach((line, index) => {
-      // insert_furigana.run(line.text, JSON.stringify(line.furigana));
-      insert_furigana.run(index, line.text, line.reading);
-      line.furigana.forEach(ruby => {
-        insert_rubies.run(index, ruby.ruby, ruby.rt);
-      });
-    })
-    insert_furigana.finalize();
   })
 
 cli.command('kanji')

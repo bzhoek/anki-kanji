@@ -2,7 +2,7 @@ furijson = JmdictFurigana.json
 jmdict = JMdict_e
 
 japanese.sqlite: download/$(furijson) download/kanjidic download/$(jmdict)
-		time node make.js furijson download/$(furijson) japanese.sqlite
+		time node make.js furigana download/$(furijson) japanese.sqlite
 		time node make.js kanji download/kanjidic japanese.sqlite
 
 download/$(furijson):
