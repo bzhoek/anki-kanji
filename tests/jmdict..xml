@@ -1,0 +1,61 @@
+<entries>
+  <entry>
+    <ent_seq>1213280</ent_seq>
+    <k_ele>
+      <keb>環境</keb>
+      <ke_pri>ichi1</ke_pri>
+      <ke_pri>news1</ke_pri>
+      <ke_pri>nf01</ke_pri>
+    </k_ele>
+    <k_ele>
+      <keb>還境</keb>
+      <ke_inf>&sK;</ke_inf>
+    </k_ele>
+    <r_ele>
+      <reb>かんきょう</reb>
+      <re_pri>ichi1</re_pri>
+      <re_pri>news1</re_pri>
+      <re_pri>nf01</re_pri>
+    </r_ele>
+    <sense>
+      <pos>&n;</pos>
+      <gloss>environment</gloss>
+      <gloss>surroundings</gloss>
+      <gloss>circumstances</gloss>
+    </sense>
+  </entry>
+  <entry>
+    <ent_seq>1349820</ent_seq>
+    <k_ele>
+      <keb>昭和</keb>
+      <ke_pri>ichi1</ke_pri>
+      <ke_pri>news1</ke_pri>
+      <ke_pri>nf04</ke_pri>
+    </k_ele>
+    <k_ele>
+      <keb>㍼</keb>
+      <ke_inf>&sK;</ke_inf>
+    </k_ele>
+    <r_ele>
+      <reb>しょうわ</reb>
+      <re_pri>ichi1</re_pri>
+      <re_pri>news1</re_pri>
+      <re_pri>nf04</re_pri>
+    </r_ele>
+    <sense>
+      <pos>&n;</pos>
+      <misc>&hist;</misc>
+      <gloss>Shōwa era (1926.12.25-1989.1.7)</gloss>
+    </sense>
+    <sense>
+      <pos>&adj-na;</pos>
+      <misc>&col;</misc>
+      <gloss>reminiscent of the Shōwa era</gloss>
+      <gloss>Shōwa-nostalgic</gloss>
+      <gloss>old-fashioned</gloss>
+      <gloss>quaint</gloss>
+      <gloss>old-school</gloss>
+    </sense>
+  </entry>
+
+</entries>
