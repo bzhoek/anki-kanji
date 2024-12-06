@@ -5,7 +5,7 @@
       <keb>環境</keb>
       <ke_pri>ichi1</ke_pri>
       <ke_pri>news1</ke_pri>
-      <ke_pri>nf01</ke_pri>
+      <ke_pri>nf01</ke_pri> # nf01 is the frequency in batches of 500
     </k_ele>
     <k_ele>
       <keb>還境</keb>

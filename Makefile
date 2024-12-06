@@ -4,6 +4,7 @@ jmdict = JMdict_e
 japanese.sqlite: download/$(furijson) download/kanjidic download/$(jmdict)
 		time node make.js furigana download/$(furijson) japanese.sqlite
 		time node make.js kanji download/kanjidic japanese.sqlite
+		time node make.js dict download/$(jmdict) japanese.sqlite
 
 download/$(furijson):
 		wget -O download/$(furijson) https://github.com/Doublevil/JmdictFurigana/releases/download/2.3.1%2B2024-11-25/$(furijson)
@@ -23,4 +24,4 @@ download/$(jmdict):
 		gunzip download/$(jmdict).gz
 
 clean:
-		rm japanese.sqlite
+		rm japanese.sqlite*
