@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field
+  move_field, copy_context
 } = require('./lib')
 const {
   html_from_templates
@@ -55,6 +55,12 @@ cli.command('collect')
   .argument('<query>', 'query')
   .description('Move all related cards to the Inbox deck')
   .action((query) => move_related(query))
+
+cli.command('copy')
+  .argument('<source>', 'source note id')
+  .argument('<target>', 'target note id')
+  .description('Move all related cards to the Inbox deck')
+  .action((source, target) => copy_context(source, target))
 
 cli.command('kana')
   .argument('<query>', 'query')

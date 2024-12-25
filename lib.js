@@ -246,6 +246,31 @@ const target_word = async (char, word) => {
   }
 }
 
+const copy_context = async (source_id, target_id) => {
+  let source_note = await note_info(parseInt(source_id));
+  let target_note = await note_info(parseInt(target_id));
+  let kanji = note_field(source_note, 'kanji');
+  let picture = note_field(source_note, 'picture');
+  let context = note_field(source_note, 'context');
+  let target = note_field(source_note, 'target');
+  let hint = create_hint(kanji, target);
+
+  let fields = {
+    picture: picture,
+    context: context,
+    target: target,
+    hint: hint
+  }
+
+  let note = {note: {id: target_note.noteId, fields: fields}};
+  let update = await post('updateNoteFields', note)
+  if (update.error) {
+    console.error(update.error, note)
+  } else {
+    console.log("Update", fields)
+  }
+}
+
 const add_speech = async (query) => iterate_notes(query, async (id, note) => {
   if (note.fields['speech'] === undefined) {
     return
@@ -411,6 +436,11 @@ const furigana_note = async (id, note) => {
   await post('updateNote', update)
 }
 
+const create_hint = (kanji, target) => {
+  let placeholder = '・'.repeat(kanji.length);
+  return target.replace(kanji, placeholder);
+}
+
 const kanji_to_hint6k = async (id, note) => {
   let kanji = note_field(note, 'kanji');
   let note6k = await find_6k(kanji);
@@ -419,8 +449,7 @@ const kanji_to_hint6k = async (id, note) => {
     return
   }
   let target = remove_tags(note_field(note6k, 'Sentence')).replace('。', '');
-  let placeholder = '・'.repeat(kanji.length);
-  let hint = target.replace(kanji, placeholder);
+  let hint = create_hint(kanji, target);
   let fields = {target: target, hint: hint};
   let update = {note: {id: id, fields: fields}};
   console.log(kanji, fields)
@@ -801,5 +830,6 @@ module.exports = {
   furigana_notes,
   retarget_notes,
   hint6k_notes,
-  move_field
+  move_field,
+  copy_context
 }
