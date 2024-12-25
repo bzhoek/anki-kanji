@@ -25,8 +25,8 @@ main(class=`${color} ${mode} back`)
   | {{/kanji}}
   | {{^kanji}}
   h2!= grammar[1] || grammar[0]
+    span.speech {{speech}} {{context}}
   h1 {{nederlands}}
-    span.speech {{speech}}
   | {{/kanji}}
   | {{#notes}}
   div {{notes}}
