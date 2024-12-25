@@ -1,0 +1,7 @@
+script.
+  Array.from(document.getElementsByTagName("u")).forEach(tag => {
+    tag.style.background= `url(https://laplace.hoek.com/${tag.textContent}.svg) no-repeat center right`
+    tag.style.paddingRight = '1em'
+    tag.style.textDecoration = 'none'
+    tag.style.fontWeight = 'bold'
+  })
