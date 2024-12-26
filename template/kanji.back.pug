@@ -1,0 +1,18 @@
+doctype html
+main(class=`${color} ${mode} back`)
+  .top
+    include _picture
+    .text
+      h1(class=`title {{Tags}}`) {{nederlands}}
+      include _target
+  h2!= grammar[0]
+    include _audio
+  include _strokes
+  include _notes
+  | {{#on}}
+  div {{on}}
+  | {{/on}}
+  | {{#kun}}
+  div {{kun}}
+  | {{/kun}}
+include _radical

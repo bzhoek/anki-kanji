@@ -14,6 +14,14 @@ const write_html = (cards, template, suffix) => {
   return compiledTemplate
 };
 
+function kanji_html() {
+  let cards = [{
+    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'writing'
+  }]
+
+  write_html(cards, 'kanji.back.pug', 'ToKanji.Back');
+}
+
 function to_kanji_html() {
   let godan = ['辞書形', '五段活用'];
   let ichidan = ['辞書形', '一段活用'];
@@ -156,6 +164,7 @@ function to_express_html() {
 }
 
 const html_from_templates = () => {
+  kanji_html()
   to_express_html()
   to_meaning_html()
   to_kanji_html()
