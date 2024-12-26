@@ -1,10 +1,7 @@
 doctype html
 main(class=`${color} ${mode} back`)
   .top
-    |
-    | {{#picture}}
-    .picture {{picture}}
-    | {{/picture}}
+    include _picture
     .text
       | {{#kanji}}
       h1(class=`kanji {{Tags}}`) {{furigana}}
@@ -12,12 +9,10 @@ main(class=`${color} ${mode} back`)
       | {{^kanji}}
       h1(class=`kanji {{Tags}}`) {{kana}}
       | {{/kanji}}
-      | {{#target}}
-      .target {{target}}
-      | {{/target}}
+      include _target
   | {{#kanji}}
   h2!= grammar[0]
-    span.speech {{speech}} {{context}}
+    include _audio
   h1 {{nederlands}}
   | {{#kana}}
   div {{kana}}
@@ -25,13 +20,9 @@ main(class=`${color} ${mode} back`)
   | {{/kanji}}
   | {{^kanji}}
   h2!= grammar[1] || grammar[0]
-    span.speech {{speech}} {{context}}
+    include _audio
   h1 {{nederlands}}
   | {{/kanji}}
-  | {{#notes}}
-  div {{notes}}
-  | {{/notes}}
-  | {{#strokes}}
-  div.strokes {{strokes}}
-  | {{/strokes}}
-include _radical.pug
+  include _notes
+  include _strokes
+include _radical

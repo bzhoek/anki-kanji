@@ -2,15 +2,10 @@
 |
 main(class=`${color} ${mode} front`)
   .top
-    |
-    | {{#picture}}
-    .picture {{hint:picture}}
-    | {{/picture}}
+    include _picture_hint
     .text
       h1(class=`${clazz} {{Tags}}`)= `{{${fmain}}}`
-      | {{#target}}
-      .target {{hint:target}}
-      | {{/target}}
+      include _target
   h2!= grammar[0]
 include _scale.pug
 |

@@ -1,10 +1,7 @@
 doctype html
 main(class=`${color} ${mode} front`)
   .top
-    |
-    | {{#picture}}
-    .picture {{hint:picture}}
-    | {{/picture}}
+    include _picture_hint
     .text
       h1(class=`{{Tags}}`) {{nederlands}}
       | {{#hint}}

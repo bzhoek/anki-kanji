@@ -2,10 +2,7 @@
 doctype html
 main(class=`${color} ${mode} front`)
   .top
-    |
-    | {{#picture}}
-    .picture {{hint:picture}}
-    | {{/picture}}
+    include _picture_hint
     .text
       h1(class=`{{Tags}}`)
         span.type= type
@@ -14,10 +11,10 @@ main(class=`${color} ${mode} front`)
       | {{/hint}}
   | {{#kanji}}
   h2!= grammar[0]
-    span.speech {{speech}} {{context}}
+    include _audio
   | {{/kanji}}
   | {{^kanji}}
   h2!= grammar[1] || grammar[0]
-    span.speech {{speech}} {{context}}
+    include _audio
   | {{/kanji}}
 = '\n{{/speech}}'

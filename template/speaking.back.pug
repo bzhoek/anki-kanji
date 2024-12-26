@@ -1,23 +1,16 @@
 doctype html
 main(class=`${color} ${mode} back`)
   .top
-    |
-    | {{#picture}}
-    .picture {{picture}}
-    | {{/picture}}
+    include _picture
     .text
       h1(class=`${clazz} {{Tags}}`)= `{{${bmain}}}`
-      | {{#target}}
-      .target {{target}}
-      | {{/target}}
+      include _target
   h2!= grammar[1] || grammar[0]
-    span.speech {{speech}} {{context}}
+    include _audio
   div= `{{${back}}}`
   h1 {{nederlands}}
   | {{#notes}}
   div= `{{${kanji}}} {{notes}}`
   | {{/notes}}
-  | {{#strokes}}
-  div.strokes {{strokes}}
-  | {{/strokes}}
-include _radical.pug
+  include _strokes
+include _radical
