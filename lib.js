@@ -1,8 +1,9 @@
+const {exec} = require('child_process');
 const fs = require("fs");
 const sax = require("sax");
 const sqlite3 = require("sqlite3");
 const {RateLimit} = require('async-sema')
-const {DOMParser: parser} = require("@xmldom/xmldom");
+const {DOMParser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
 const {un_furigana, furigana_html, ruby_target_result} = require("./furigana");
 const {strip_kana} = require('./util')
@@ -31,6 +32,33 @@ let colors = [
   "F4A736", "EE8026", "E65518", "DC050C", "A5170E", "72190E", "42150A",]
 
 const style_color = (i) => ` class="stroke-${i % 23}"`
+
+const raw_svg = async (kanji, output) => {
+  let unicode = kanji.charCodeAt(0);
+  let cwd = process.cwd();
+  let source = `${cwd}/kanjivg/kanji/0${unicode.toString(16)}.svg`
+  console.log('From', source);
+
+  exec(`xsltproc -o ${output} radicals/radical.xslt ${source}`, (err, stdout, stderr) => {
+    if (err) {
+      console.error(err)
+      return;
+    }
+    console.log(stdout)
+  });
+  return
+
+  const parser = new DOMParser();
+  const xsltProcessor = new XSLTProcessor();
+  const xslResponse = await fetch("radicals/radical.xslt");
+  const xslText = await xslResponse.text();
+  const xslStylesheet = parser.parseFromString(xslText, "application/xml");
+  xsltProcessor.importStylesheet(xslStylesheet);
+  const xmlDoc = parser.parseFromString(source, "application/xml");
+  const fragment = xsltProcessor.transformToFragment(xmlDoc, document);
+  console.log(fragment)
+  return fs.readFileSync(source, 'utf8')
+}
 
 const colorize = async (unicode, color_fn) => {
   let cwd = process.cwd();
@@ -831,5 +859,6 @@ module.exports = {
   retarget_notes,
   hint6k_notes,
   move_field,
-  copy_context
+  copy_context,
+  raw_svg
 }

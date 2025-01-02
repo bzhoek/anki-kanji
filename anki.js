@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context
+  move_field, copy_context, raw_svg
 } = require('./lib')
 const {
   html_from_templates
@@ -104,6 +104,12 @@ cli.command('stroke')
   .argument('<query>', 'query')
   .description('Add SVG strokes for all kanji of matched notes')
   .action((query) => stroke_notes(query))
+
+cli.command('svg')
+  .argument('<kanji>', 'kanji')
+  .argument('<output>', 'kanji')
+  .description('Show SVG for kanji')
+  .action(async (kanji, output) => await raw_svg(kanji, output))
 
 cli.command('speech')
   .argument('<query>', 'query')

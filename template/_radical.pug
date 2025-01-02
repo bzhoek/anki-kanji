@@ -1,7 +1,9 @@
 script.
   Array.from(document.getElementsByTagName("u")).forEach(tag => {
-    tag.style.background= `url(https://laplace.hoek.com/${tag.textContent}.svg) no-repeat center right`
-    tag.style.paddingRight = '1em'
+    tag.style.background= `url(r${tag.textContent}.svg) no-repeat center right`
+    tag.style.backgroundSize = 'contain'
+    tag.style.paddingRight = '1.4em'
     tag.style.textDecoration = 'none'
     tag.style.fontWeight = 'bold'
+    tag.textContent = tag.textContent.replace(/[0-9]/g, '')
   })
