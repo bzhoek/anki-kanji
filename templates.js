@@ -14,25 +14,35 @@ const write_html = (cards, template, suffix) => {
   return compiledTemplate
 };
 
-function kanji_html() {
+let godan = ['辞書形', '五段活用'];
+let ichidan = ['辞書形', '一段活用'];
+let jukugo = ['熟語', 'じゅくご'];
+let kango = ['漢語', 'かんご'];
+
+function writing_kanji_html() {
   let cards = [{
     note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'writing'
   }]
 
-  write_html(cards, 'kanji.back.pug', 'ToKanji.Back');
+  write_html(cards, 'writing.kanji.back.pug', 'ToKanji.Back');
+}
+
+function reading_kanji_html() {
+  let cards = [{
+    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'reading'
+  }]
+
+  write_html(cards, 'reading.kanji.back.pug', 'ToMeaning.Back');
 }
 
 function to_kanji_html() {
-  let godan = ['辞書形', '五段活用'];
-  let ichidan = ['辞書形', '一段活用'];
-  let jukugo = ['熟語', 'じゅくご'];
   let suru = ['辞書形', 'するV'];
 
   let cards = [
     {note: 'Godan', grammar: godan, color: 'violet'},
     {note: 'Ichidan', grammar: ichidan, color: 'violet'},
+    {note: 'Onyomi', grammar: kango, color: 'magenta'},
     {note: 'Kunyomi', grammar: jukugo, color: 'violet'},
-    {note: 'Onyomi', grammar: jukugo, color: 'magenta'},
     {note: 'Suru', grammar: suru, color: 'violet'},
   ].map(card => Object.assign(card, {mode: 'writing'}));
 
@@ -43,14 +53,11 @@ function to_kanji_html() {
 }
 
 function to_hearing_html() {
-  let godan = ['辞書形', '五段活用'];
-  let ichidan = ['辞書形', '一段活用'];
-  let jukugo = ['熟語', 'じゅくご'];
   let onyomi = ['オンヨミ'];
 
   let cards = [
-    {note: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
     {note: 'OnYomi', grammar: onyomi, color: 'yellow', type: ''},
+    {note: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
     {note: 'Godan', grammar: godan, color: 'magenta', type: '⬤'},
     {note: 'Ichidan', grammar: ichidan, color: 'magenta', type: '⬤'},
   ].map(card => Object.assign(card, {mode: 'hearing'}));
@@ -96,7 +103,6 @@ function to_kan_yomi_html() {
 function to_kun_yomi_html() {
   let godan = ['V', '五段活用'];
   let ichidan = ['V', '一段活用'];
-  let jukugo = ['熟語', 'じゅくご'];
   let suru = ['V', 'するV'];
 
   let cards = [
@@ -116,14 +122,13 @@ function to_kun_yomi_html() {
 }
 
 function to_meaning_html() {
-  let jukugo = ['熟語', 'じゅくご'];
   let suru = ['V'];
 
   let dictionary = ['終止形', 'しゅうしけい'];
   let fronts = [
     {note: 'Godan', grammar: dictionary},
     {note: 'Ichidan', grammar: dictionary},
-    {note: 'Onyomi', grammar: jukugo},
+    {note: 'Onyomi', grammar: kango},
     {note: 'Kunyomi', grammar: jukugo},
     {note: 'Suru', grammar: suru}
   ].map(meaning => Object.assign(meaning, {
@@ -134,7 +139,7 @@ function to_meaning_html() {
   let backs = [
     {note: 'Godan', grammar: ['五段活用'],},
     {note: 'Ichidan', grammar: ['一段活用'],},
-    {note: 'Onyomi', grammar: jukugo},
+    {note: 'Onyomi', grammar: kango},
     {note: 'Kunyomi', grammar: jukugo},
     {note: 'Suru', grammar: suru,},
   ].map(meaning => Object.assign(meaning, {
@@ -164,7 +169,8 @@ function to_express_html() {
 }
 
 const html_from_templates = () => {
-  kanji_html()
+  reading_kanji_html()
+  writing_kanji_html()
   to_express_html()
   to_meaning_html()
   to_kanji_html()
