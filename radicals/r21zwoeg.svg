@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="109" height="109"
+     viewBox="0 0 109 109" preserveAspectRatio="xMidYMid meet" zoomAndPan="magnify" version="1.0">
+  <g xmlns:kvg="http://kanjivg.tagaini.net"
+     style="fill:none;stroke:red;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;">
+    <g>
+      <g>
+        <g>
+          <path d="M26.12,17.25c3.67,3.85,6.5,8.75,7.89,12.25"/>
+          <path d="M46.38,13.5c2.18,2.44,6.31,7.38,8.27,12.25"/>
+          <path d="M78.64,12.5c0.3,0.9,0.09,2.03-0.43,2.94C77,17.5,73.25,22.75,69.67,26.5"/>
+        </g>
+        <g>
+          <path d="M21.12,37.5c0,2.95-3.88,14.03-5.38,16"/>
+          <path d="M22.91,40.25c20.47-2.38,43.72-5.5,62.11-6.25c9.6-0.39,4.85,5,0.06,8.75"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

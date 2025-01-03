@@ -11,7 +11,7 @@
   <xsl:template match="comment()"/>
   <xsl:template match="@id"/>
   <xsl:template match="@style">
-    <xsl:attribute name="style">fill:none;stroke:#000000;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;</xsl:attribute>
+    <xsl:attribute name="style">fill:none;stroke:red;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;</xsl:attribute>
   </xsl:template>
   <xsl:template match="@contentScriptType|@contentStyleType"/>
   <xsl:template match="@kvg:*"/>
