@@ -59,7 +59,7 @@ cli.command('collect')
 cli.command('copy')
   .argument('<source>', 'source note id')
   .argument('<target>', 'target note id')
-  .description('Move all related cards to the Inbox deck')
+  .description('Copy context from source to target')
   .action((source, target) => copy_context(source, target))
 
 cli.command('kana')
