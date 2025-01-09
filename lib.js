@@ -281,13 +281,15 @@ const copy_context = async (source_id, target_id) => {
   let picture = note_field(source_note, 'picture');
   let context = note_field(source_note, 'context');
   let target = note_field(source_note, 'target');
+  let details = note_field(source_note, 'details');
   let hint = create_hint(kanji, target);
 
   let fields = {
     picture: picture,
     context: context,
     target: target,
-    hint: hint
+    hint: hint,
+    details: details
   }
 
   let note = {note: {id: target_note.noteId, fields: fields}};
@@ -642,7 +644,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
             "nederlands": json.meanings.join(', '),
             "kanji": kanji,
             "on": json.katakana.join(', '),
-            "dictionary": json.meanings.join(', ') + '\n' + json.hiragana.join(', '),
+            "details": json.meanings.join(', ') + '\n' + json.hiragana.join(', '),
             "strokes": css_style + svg
           },
           "options": {
