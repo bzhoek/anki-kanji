@@ -6,7 +6,7 @@ usage() {
   fi
 }
 
-anki_sort() {
+aksort() {
   usage $# || return
 
   ./anki.js move "$1 card:ToKanji" Japans::1-書く::漢字
@@ -20,7 +20,7 @@ anki_sort() {
   ./anki.js move "$1 card:ToHearing" Japans::3-聞く::単語
 }
 
-anki_process() {
+akprocess() {
   usage $# || return
 
   ./anki.js kana $1
@@ -30,10 +30,10 @@ anki_process() {
   ./anki.js mirror $1
 }
 
-anki_stroke() {
+akstroke() {
   ./anki.js stroke 'kanji:_* strokes:'
 }
 
-anki_default() {
-  anki_process deck:0-Inbox
+akdefault() {
+  akprocess deck:0-Inbox
 }
