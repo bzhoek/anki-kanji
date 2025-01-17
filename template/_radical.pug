@@ -1,5 +1,9 @@
 script.
   Array.from(document.getElementsByTagName("u")).forEach(tag => {
+    if(tag.textContent.length === 1) {
+      tag.className = 'part'
+      return
+    }
     tag.style.background= `url(r${tag.textContent}.svg) no-repeat center right`
     tag.style.backgroundSize = 'contain'
     tag.style.paddingRight = '1.4em'
