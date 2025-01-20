@@ -9,9 +9,7 @@ main(class=`${color} ${mode} back`)
     include _audio
   div= `{{${back}}}`
   h1 {{nederlands}}
-  | {{#notes}}
-  div= `{{${kanji}}} {{notes}}`
-  | {{/notes}}
+  include _notes
   include _strokes
   include _details
 include _radical
