@@ -90,3 +90,12 @@ describe('multiple kanji', () => {
     expect(result.filter(v => v)).toStrictEqual(["汗", "宇", "仮", "叫", "吸", "舟", "存", "灯"])
   });
 })
+
+describe('reformat notes', () => {
+  test('bold word followed by kanji', () => {
+    const regex = new RegExp("(<b>.+?</b>)\\s([一-龘])", 'gi')
+    const string = "Een behoorlijk <b>groot</b> 大 <b>deel</b> 分";
+    const result = string.replaceAll(regex, "$1 <u>$2</u>")
+    expect(result).toBe("Een behoorlijk <b>groot</b> <u>大</u> <b>deel</b> <u>分</u>")
+  })
+})

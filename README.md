@@ -79,6 +79,10 @@ For writing, I'm adding a `hint` that leaves out the kanji or word.
 |---------|---------|----------|---------|-----------|
 | zintuig | hand    | mond     | oog     | oor       |
 
+### Parts
+`Ik heb <b>ogen</b> 目 op <b>steeltjes</b> voor de <b>kipjes </b>`
+`(<b>.+?</b>)\s([一-龘])`
+
 ## Background
 
 ## JMdict
