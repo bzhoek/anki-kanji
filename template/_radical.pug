@@ -1,14 +1,16 @@
 script.
-  const regex = new RegExp("(<b>.+?</b>)\\s([一-龘])", 'gi')
-  Array.from(document.getElementsByTagName("u")).forEach(tag => {
-    tag.style.background= `url(r${tag.textContent}.svg) no-repeat center right`
-    tag.style.backgroundSize = 'contain'
-    tag.style.paddingRight = '1.4em'
-    tag.style.textDecoration = 'none'
-    tag.style.fontWeight = 'bold'
-    tag.textContent = tag.textContent.replace(/[0-9]/g, '')
-  })
-  Array.from(document.getElementsByClassName("notes")).forEach(tag => {
-    const replacement = tag.innerHTML.replaceAll(regex, "<b>$1</b> <span class='part'>$2</span>")
-    tag.innerHTML = replacement
+  onUpdateHook.push(function () {
+    const regex = new RegExp("(<b>\\w+</b>)\\s+([一-龘])", 'gi')
+    Array.from(document.getElementsByTagName("u")).forEach(tag => {
+      tag.style.background = `url(r${tag.textContent}.svg) no-repeat center right`
+      tag.style.backgroundSize = 'contain'
+      tag.style.paddingRight = '1.4em'
+      tag.style.textDecoration = 'none'
+      tag.style.fontWeight = 'bold'
+      tag.textContent = tag.textContent.replace(/[0-9]/g, '')
     })
+    Array.from(document.getElementsByClassName("notes")).forEach(tag => {
+      const replacement = tag.innerHTML.replaceAll(regex, "<b>$1</b> <span class='part'>$2</span>")
+      tag.innerHTML = replacement
+    })
+  })
