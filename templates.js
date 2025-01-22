@@ -86,20 +86,6 @@ function to_on_yomi_html() {
   write_html(cards, 'speaking.back.pug', 'ToOnYomi.Back');
 }
 
-function to_kan_yomi_html() {
-  let kunyomi = ['くんよみ'];
-
-  let cards = [
-    {
-      note: 'OnKanji', grammar: kunyomi, color: 'magenta', mode: 'speaking',
-      notempty: 'kun', clazz: 'strokes', fmain: 'strokes', bmain: 'strokes', back: 'kun', kanji: 'kanji'
-    },
-  ]
-
-  write_html(cards, 'speaking.front.pug', 'ToKunYomi.Front');
-  write_html(cards, 'speaking.back.pug', 'ToKunYomi.Back');
-}
-
 function to_kun_yomi_html() {
   let godan = ['V', '五段活用'];
   let ichidan = ['V', '一段活用'];
@@ -174,7 +160,6 @@ const html_from_templates = () => {
   to_express_html()
   to_meaning_html()
   to_kanji_html()
-  to_kan_yomi_html()
   to_kun_yomi_html()
   to_on_yomi_html()
   to_hearing_html()
