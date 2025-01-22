@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context, raw_svg
+  move_field, copy_context, raw_svg, kun_notes
 } = require('./lib')
 const {
   html_from_templates
@@ -66,6 +66,11 @@ cli.command('kana')
   .argument('<query>', 'query')
   .description("Convert kana for jukugo words to on'yomi")
   .action((query) => convert_kana_field_to_onyomi(query))
+
+cli.command('kun')
+  .argument('<query>', 'query')
+  .description("Extract kun from kanji to separate card")
+  .action((query) => kun_notes(query))
 
 cli.command('mirror')
   .argument('<query>', 'query')

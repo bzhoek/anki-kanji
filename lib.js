@@ -208,6 +208,7 @@ const hint6k_notes = async (query) => iterate_notes(query, kanji_to_hint6k)
 const notes_target_to_hint = async (query) => iterate_notes(query, target_to_hint)
 const mirror_notes = async (query) => iterate_notes(query, mirror_note)
 const stroke_notes = async (query) => iterate_notes(query, stroke_note)
+const kun_notes = async (query) => iterate_notes(query, kun_note)
 
 const move_related = async (query) => {
   let json = await post('findNotes', {query: query});
@@ -758,6 +759,12 @@ const find_onkanji = async (kanji) => {
   return await note_info(id);
 }
 
+const find_kun = async (kanji) => {
+  let ids = await post('findNotes', {query: `note:KunYomi kanji:${kanji}`});
+  let id = ids.result[0];
+  return await note_info(id);
+}
+
 const find_yomi = async (kanji) => {
   let ids = await post('findNotes', {query: `(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:${kanji}`});
   let id = ids.result[0];
@@ -825,6 +832,39 @@ const show_parts_of_kanji = char => {
   console.log(char, unicode.toString(16), parts)
 }
 
+const kun_note = async (id, note) => {
+  const kanji = note_field(note, 'kanji')
+  const kun = await find_kun(kanji)
+  if (kun.fields !== undefined) {
+    return
+  }
+  let add = {
+    "note": {
+      "deckName": "0-Inbox",
+      "modelName": "KunYomi",
+      "fields": {
+        "nederlands": note_field(note, 'nederlands'),
+        "kanji": kanji,
+        "kana": note_field(note, 'kun'),
+        "notes": note_field(note, 'notes'),
+        "strokes": note_field(note, 'strokes'),
+      },
+      "options": {
+        "allowDuplicate": false
+      },
+    }
+  }
+  console.log(add)
+  // return
+  await post('addNote', add).then(json => {
+    console.log("added", add, json)
+  })
+  let strokes = {note: {id: id, fields: {kun: ''}}};
+  await post('updateNoteFields', strokes).then(json => {
+    console.log("updated", id, json)
+  })
+}
+
 module.exports = {
   post,
   colorize,
@@ -862,5 +902,6 @@ module.exports = {
   hint6k_notes,
   move_field,
   copy_context,
-  raw_svg
+  raw_svg,
+  kun_notes
 }
