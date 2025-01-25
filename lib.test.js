@@ -92,10 +92,18 @@ describe('multiple kanji', () => {
 })
 
 describe('reformat notes', () => {
+
+  const regex = new RegExp("(<b>[\\w\\s]+</b>)\\s+([一-龘])", 'gi')
+
   test('bold word followed by kanji', () => {
-    const regex = new RegExp("(<b>.+?</b>)\\s([一-龘])", 'gi')
     const string = "Een behoorlijk <b>groot</b> 大 <b>deel</b> 分";
     const result = string.replaceAll(regex, "$1 <u>$2</u>")
     expect(result).toBe("Een behoorlijk <b>groot</b> <u>大</u> <b>deel</b> <u>分</u>")
+  })
+
+  test('bold word with space', () => {
+    const string = "Een behoorlijk <b>groot deel</b> 大";
+    const result = string.replaceAll(regex, "$1 <u>$2</u>")
+    expect(result).toBe("Een behoorlijk <b>groot deel</b> <u>大</u>")
   })
 })
