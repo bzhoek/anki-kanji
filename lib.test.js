@@ -91,9 +91,10 @@ describe('multiple kanji', () => {
   });
 })
 
+// https://gist.github.com/terrancesnyder/1345094
 describe('reformat notes', () => {
 
-  const regex = new RegExp("(<b>[\\w\\s]+</b>)\\s+([一-龘])", 'gi')
+  const regex = new RegExp("(<b>[\\w\\s]+</b>)\\s+([一-龘ぁ-んァ-ン\\u2E80-\\u2EFF])", 'gi')
 
   test('bold word followed by kanji', () => {
     const string = "Een behoorlijk <b>groot</b> 大 <b>deel</b> 分";
@@ -105,5 +106,17 @@ describe('reformat notes', () => {
     const string = "Een behoorlijk <b>groot deel</b> 大";
     const result = string.replaceAll(regex, "$1 <u>$2</u>")
     expect(result).toBe("Een behoorlijk <b>groot deel</b> <u>大</u>")
+  })
+
+  test('bold word with katakana', () => {
+    const string = "In <b>neon</b> ネ licht";
+    const result = string.replaceAll(regex, "$1 <u>$2</u>")
+    expect(result).toBe("In <b>neon</b> <u>ネ</u> licht")
+  })
+
+  test('bold word with radical', () => {
+    const string = "<b>weg</b> ⻌";
+    const result = string.replaceAll(regex, "$1 <u>$2</u>")
+    expect(result).toBe("<b>weg</b> <u>⻌</u>")
   })
 })
