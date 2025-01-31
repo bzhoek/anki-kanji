@@ -8,9 +8,14 @@ script.
     tag.textContent = tag.textContent.replace(/[0-9]/g, '')
   })
   setTimeout(function () {
-    const regex = new RegExp("(<b>[\\w\\s,]+</b>)\\s+([一-龘ぁ-んァ-ン\\u2E80-\\u2EFF々])", 'gi')
+    const parts = new RegExp("(<b>[\\w\\s,]+</b>)\\s+([一-龘ぁ-んァ-ン\\u2E80-\\u2EFF々])", 'gi')
     Array.from(document.getElementsByClassName("notes")).forEach(tag => {
-      const replacement = tag.innerHTML.replaceAll(regex, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
+      const replacement = tag.innerHTML.replaceAll(parts, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
+      tag.innerHTML = replacement
+    })
+    const symbols = new RegExp("([▲⟁△⨹⧊◉◎⨀⏜▬⧨])", 'gi')
+    Array.from(document.getElementsByTagName("h1")).forEach(tag => {
+      const replacement = tag.innerHTML.replaceAll(symbols, "<span class='type'>$1</span>")
       tag.innerHTML = replacement
     })
   }, 400)
