@@ -2,7 +2,6 @@ const {
   to_express_html,
   to_meaning_html,
   to_kanji_html,
-  to_kun_yomi_html,
 } = require('./templates')
 
 describe('templates', () => {
@@ -15,14 +14,6 @@ describe('templates', () => {
       '{{#kanji}}<h2>終止形</h2>{{/kanji}}\n' +
       '{{^kanji}}<h2>しゅうしけい</h2>{{/kanji}}' +
       '</main>')
-  })
-
-  test('speaking kun', () => {
-    let result = to_kun_yomi_html()
-    expect(result).toBe('{{#kanji}}\n' +
-      '<main class="magenta speaking front"><h1 class="kanji {{Tags}}">{{kanji}}</h1><div class="target">{{target}}</div>' +
-      '<h2>&gt; V &lt;</h2></main>\n' +
-      '{{/kanji}}')
   })
 
   test('expressing', () => {

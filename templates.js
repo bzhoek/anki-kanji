@@ -53,10 +53,8 @@ function to_kanji_html() {
 }
 
 function to_hearing_html() {
-  let onyomi = ['オンヨミ'];
-
   let cards = [
-    {note: 'OnYomi', grammar: onyomi, color: 'yellow', type: ''},
+    {note: 'OnYomi', grammar: kango, color: 'yellow', type: ''},
     {note: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
     {note: 'Godan', grammar: godan, color: 'magenta', type: '⬤'},
     {note: 'Ichidan', grammar: ichidan, color: 'magenta', type: '⬤'},
@@ -66,45 +64,6 @@ function to_hearing_html() {
   write_html(cards, 'listening.back.pug', 'ToHearing.Back');
 
   return compiledTemplate(cards[0]);
-}
-
-function to_on_yomi_html() {
-  let onyomi = ['オンヨミ'];
-
-  let cards = [
-    {
-      note: 'OnKanji', grammar: onyomi, color: 'yellow', mode: 'speaking onkanji',
-      notempty: 'on', clazz: 'strokes', fmain: 'strokes', bmain: 'strokes', back: 'on', kanji: 'kanji'
-    },
-    {
-      note: 'OnYomi', grammar: onyomi, color: 'yellow', mode: 'speaking',
-      notempty: 'kanji', clazz: 'kanji', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
-    },
-  ]
-
-  write_html(cards, 'speaking.front.pug', 'ToOnYomi.Front');
-  write_html(cards, 'speaking.back.pug', 'ToOnYomi.Back');
-}
-
-function to_kun_yomi_html() {
-  let godan = ['V', '五段活用'];
-  let ichidan = ['V', '一段活用'];
-  let suru = ['V', 'するV'];
-
-  let cards = [
-    {note: 'Godan', grammar: godan},
-    {note: 'Ichidan', grammar: ichidan},
-    {note: 'Kunyomi', grammar: jukugo},
-    {note: 'Suru', grammar: suru},
-  ].map(card => Object.assign(card, {
-    mode: 'speaking', color: 'magenta',
-    notempty: 'kanji', clazz: 'kanji', fmain: 'kanji', bmain: 'furigana', back: 'kana', kanji: 'furigana'
-  }));
-
-  let compiledTemplate = write_html(cards, 'speaking.front.pug', 'ToKunYomi.Front');
-  write_html(cards, 'speaking.back.pug', 'ToKunYomi.Back');
-
-  return compiledTemplate(cards[0])
 }
 
 function to_meaning_html() {
@@ -160,8 +119,6 @@ const html_from_templates = () => {
   to_express_html()
   to_meaning_html()
   to_kanji_html()
-  to_kun_yomi_html()
-  to_on_yomi_html()
   to_hearing_html()
 }
 
@@ -169,6 +126,5 @@ module.exports = {
   to_express_html,
   to_meaning_html,
   to_kanji_html,
-  to_kun_yomi_html,
   html_from_templates
 }
