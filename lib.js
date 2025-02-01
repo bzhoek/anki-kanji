@@ -156,7 +156,7 @@ let refresh = true
 
 // FIXME
 function delay() {
-  return new Promise(resolve => setTimeout(resolve, 300));
+  return new Promise(resolve => setTimeout(resolve, 250));
 }
 
 async function kanji_svg(kanji) {
@@ -865,6 +865,18 @@ const kun_note = async (id, note) => {
   })
 }
 
+async function show_stats() {
+  let ids = await post('findNotes', {query: `deck:Japans::1-書く kanji:_`});
+  const result = [];
+  for (let id of ids.result) {
+    let note = await note_info(id);
+    let kanji = note_field(note, 'kanji')
+    result[kanji] = kanji
+  }
+
+  console.log('Total kanji:', Object.keys(result).length)
+}
+
 module.exports = {
   post,
   colorize,
@@ -903,5 +915,6 @@ module.exports = {
   move_field,
   copy_context,
   raw_svg,
-  kun_notes
+  kun_notes,
+  show_stats
 }

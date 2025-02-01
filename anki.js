@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context, raw_svg, kun_notes
+  move_field, copy_context, raw_svg, kun_notes, show_stats
 } = require('./lib')
 const {
   html_from_templates
@@ -94,6 +94,10 @@ cli.command('lapse')
   .argument('<count>', 'count')
   .description('Find lapsed kanji without vocab')
   .action((count) => lapse_cards(count))
+
+cli.command('stats')
+  .description('Find lapsed kanji without vocab')
+  .action(() => show_stats())
 
 cli.command('emphasize')
   .argument('<query>', 'query')
