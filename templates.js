@@ -54,10 +54,10 @@ function to_kanji_html() {
 
 function to_hearing_html() {
   let cards = [
-    {note: 'OnYomi', grammar: kango, color: 'yellow', type: ''},
+    {note: 'OnYomi', grammar: kango, color: 'magenta', type: ''},
     {note: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
-    {note: 'Godan', grammar: godan, color: 'magenta', type: '⬤'},
-    {note: 'Ichidan', grammar: ichidan, color: 'magenta', type: '⬤'},
+    {note: 'Godan', grammar: godan, color: 'violet', type: '⬤'},
+    {note: 'Ichidan', grammar: ichidan, color: 'violet', type: '⬤'},
   ].map(card => Object.assign(card, {mode: 'hearing'}));
 
   let compiledTemplate = write_html(cards, 'listening.front.pug', 'ToHearing.Front');
