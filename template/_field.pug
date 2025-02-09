@@ -1,0 +1,13 @@
+mixin heading(name, index)
+  h1.kanji= `{{${index}${name}}}`
+mixin field(name, index)
+  = `\n{{#${index}${name}}}`
+  div(class=`${name}`)= `{{${index}${name}}}`
+  = `\n{{/${index}${name}}}`
+mixin listening(index)
+  = `\n{{#${index}listening}}`
+  h2 聞く 対義語
+  = `\n{{/${index}listening}}`
+  = `\n{{^${index}listening}}`
+  h2 言う 対義語
+  = `\n{{/${index}listening}}`

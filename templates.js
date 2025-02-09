@@ -113,13 +113,19 @@ function to_express_html() {
   return compiledTemplate(cards[0])
 }
 
+function opposite_html() {
+  write_html([{note: 'Opposite', front: 2, back: 1}], 'opposite.back.pug', 'Listen2Speak1.Back');
+  write_html([{note: 'Opposite', front: 1, back: 2}], 'opposite.back.pug', 'Listen1Speak2.Back');
+}
+
 const html_from_templates = () => {
-  reading_kanji_html()
-  writing_kanji_html()
-  to_express_html()
-  to_meaning_html()
-  to_kanji_html()
-  to_hearing_html()
+  opposite_html()
+  // reading_kanji_html()
+  // writing_kanji_html()
+  // to_express_html()
+  // to_meaning_html()
+  // to_kanji_html()
+  // to_hearing_html()
 }
 
 module.exports = {
