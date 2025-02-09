@@ -753,10 +753,22 @@ const find_6k = async (kanji) => {
   return await note_info(id);
 }
 
-const find_onkanji = async (kanji) => {
-  let ids = await post('findNotes', {query: `note:OnKanji kanji:*${kanji}*`});
+const either_query = (query, fn) => {
+  if (query.startsWith('nid:')) {
+    return query
+  }
+  return fn()
+}
+
+const find_note = async (query) => {
+  let ids = await post('findNotes', {query: query});
   let id = ids.result[0];
   return await note_info(id);
+}
+
+const find_onkanji = async (kanji) => {
+  const query = either_query(kanji, () => `(note:OnYomi or note:KunYomi or note:OnKanji) kanji:${kanji}`);
+  return find_note(query);
 }
 
 const find_kun = async (kanji) => {
