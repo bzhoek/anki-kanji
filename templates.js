@@ -1,6 +1,14 @@
 const pug = require("pug");
 const fs = require("fs");
 
+const write_front_html = (cards, template, suffix) => {
+  write_html(cards, template, suffix + '.Front');
+}
+
+const write_back_html = (cards, template, suffix) => {
+  write_html(cards, template, suffix + '.Back');
+}
+
 const write_html = (cards, template, suffix) => {
   const compiledTemplate = pug.compileFile(`template/${template}`, {pretty: true});
 
@@ -117,13 +125,12 @@ function opposite_html() {
   [{front: 1, back: 2}, {front: 2, back: 1}].forEach(card => {
     const note = Object.assign({note: 'Opposite'}, card);
     const rwsuffix = `Read${card.front}Write${card.back}`;
-    write_html([note], 'mirror.r2w.front.pug', rwsuffix + '.Front');
-    write_html([note], 'mirror.r2w.back.pug', rwsuffix + '.Back');
+    write_front_html([note], 'mirror.r2w.front.pug', rwsuffix);
+    write_back_html([note], 'mirror.r2w.back.pug', rwsuffix);
     const lssuffix = `Listen${card.front}Speak${card.back}`;
-    write_html([note], 'opposite.back.pug', lssuffix + '.Back');
+    write_front_html([note], 'mirror.l2s.front.pug', lssuffix);
+    write_back_html([note], 'mirror.l2s.back.pug', lssuffix);
   })
-  // write_html([{note: 'Opposite', front: 1, back: 2}], 'opposite.back.pug', 'Listen1Speak2.Back');
-  // write_html([{note: 'Opposite', front: 1, back: 2}], 'mirror.r2w.reverse.pug', 'Read1Write2.Back');
 }
 
 const html_from_templates = () => {

@@ -1,5 +1,9 @@
 mixin heading(name, index)
   h1.kanji= `{{${index}${name}}}`
+mixin hint(name, index='')
+  = `\n{{#${index}${name}}}`
+  div(class=`${name}`)= `{{hint:${index}${name}}}`
+  = `\n{{/${index}${name}}}`
 mixin field(name, index='')
   = `\n{{#${index}${name}}}`
   div(class=`${name}`)= `{{${index}${name}}}`
