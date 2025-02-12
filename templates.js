@@ -120,12 +120,12 @@ function opposite_html() {
 
 const html_from_templates = () => {
   opposite_html()
-  // reading_kanji_html()
-  // writing_kanji_html()
-  // to_express_html()
-  // to_meaning_html()
-  // to_kanji_html()
-  // to_hearing_html()
+  reading_kanji_html()
+  writing_kanji_html()
+  to_express_html()
+  to_meaning_html()
+  to_kanji_html()
+  to_hearing_html()
 }
 
 module.exports = {

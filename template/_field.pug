@@ -1,9 +1,12 @@
 mixin heading(name, index)
   h1.kanji= `{{${index}${name}}}`
-mixin field(name, index)
+mixin field(name, index='')
   = `\n{{#${index}${name}}}`
   div(class=`${name}`)= `{{${index}${name}}}`
   = `\n{{/${index}${name}}}`
+mixin fields(...names)
+  each name in names
+    +field(name)
 mixin listening(index)
   = `\n{{#${index}listening}}`
   h2 聞く 対義語

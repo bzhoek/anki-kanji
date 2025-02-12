@@ -1,4 +1,5 @@
 doctype html
+include _field
 main(class=`${color} ${mode} back`)
   .top
     include _picture
@@ -9,21 +10,16 @@ main(class=`${color} ${mode} back`)
       | {{^kanji}}
       h1(class=`kanji {{Tags}}`) {{kana}}
       | {{/kanji}}
-      include _target
+  h1 {{nederlands}}
+  include _notes
   | {{#kanji}}
+  +field('kana')
   h2!= grammar[0]
     include _audio
-  h1 {{nederlands}}
-  | {{#kana}}
-  div {{kana}}
-  | {{/kana}}
   | {{/kanji}}
   | {{^kanji}}
   h2!= grammar[1] || grammar[0]
     include _audio
-  h1 {{nederlands}}
   | {{/kanji}}
-  include _notes
-  include _strokes
-  include _details
+  +fields('target', 'strokes', 'details')
 include _radical
