@@ -1,20 +1,12 @@
 = '{{#speech}}\n'
 doctype html
+include _field
 main(class=`${color} ${mode} front`)
   .top
-    include _picture_hint
+    +hint('picture')
     .text
       h1(class=`{{Tags}}`)
         span.type= type
-      | {{#hint}}
-      .hint {{hint:hint}}
-      | {{/hint}}
-  | {{#kanji}}
-  h2!= grammar[0]
-    include _audio
-  | {{/kanji}}
-  | {{^kanji}}
-  h2!= grammar[1] || grammar[0]
-    include _audio
-  | {{/kanji}}
+      +hint('hint')
+  +kanjikana(grammar)
 = '\n{{/speech}}'

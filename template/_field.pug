@@ -11,6 +11,15 @@ mixin field(name, index='')
 mixin fields(...names)
   each name in names
     +field(name)
+mixin kanjikana(grammar)
+  | {{#kanji}}
+  h2!= grammar[0]
+    include _audio
+  | {{/kanji}}
+  | {{^kanji}}
+  h2!= grammar[1] || grammar[0]
+    include _audio
+  | {{/kanji}}
 mixin listening(index)
   = `\n{{#${index}listening}}`
   h2 聞く 対義語
