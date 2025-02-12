@@ -114,8 +114,16 @@ function to_express_html() {
 }
 
 function opposite_html() {
-  write_html([{note: 'Opposite', front: 2, back: 1}], 'opposite.back.pug', 'Listen2Speak1.Back');
-  write_html([{note: 'Opposite', front: 1, back: 2}], 'opposite.back.pug', 'Listen1Speak2.Back');
+  [{front: 1, back: 2}, {front: 2, back: 1}].forEach(card => {
+    const note = Object.assign({note: 'Opposite'}, card);
+    const rwsuffix = `Read${card.front}Write${card.back}`;
+    write_html([note], 'mirror.r2w.front.pug', rwsuffix + '.Front');
+    write_html([note], 'mirror.r2w.back.pug', rwsuffix + '.Back');
+    const lssuffix = `Listen${card.front}Speak${card.back}`;
+    write_html([note], 'opposite.back.pug', lssuffix + '.Back');
+  })
+  // write_html([{note: 'Opposite', front: 1, back: 2}], 'opposite.back.pug', 'Listen1Speak2.Back');
+  // write_html([{note: 'Opposite', front: 1, back: 2}], 'mirror.r2w.reverse.pug', 'Read1Write2.Back');
 }
 
 const html_from_templates = () => {
