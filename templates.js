@@ -68,8 +68,8 @@ function to_hearing_html() {
     {note: 'Ichidan', grammar: ichidan, color: 'violet', type: '⬤'},
   ].map(card => Object.assign(card, {mode: 'hearing'}));
 
-  let compiledTemplate = write_html(cards, 'listening.front.pug', 'ToHearing.Front');
-  write_html(cards, 'listening.back.pug', 'ToHearing.Back');
+  let compiledTemplate = write_html(cards, 'hearing.front.pug', 'ToHearing.Front');
+  write_html(cards, 'hearing.back.pug', 'ToHearing.Back');
 
   return compiledTemplate(cards[0]);
 }
