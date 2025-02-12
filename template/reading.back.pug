@@ -11,7 +11,7 @@ main(class=`${color} ${mode} back`)
       h1(class=`kanji {{Tags}}`) {{kana}}
       | {{/kanji}}
   h1 {{nederlands}}
-  include _notes
+  +field('notes')
   | {{#kanji}}
   +field('kana')
   h2!= grammar[0]

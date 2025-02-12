@@ -1,4 +1,5 @@
 doctype html
+include _field
 main(class=`${color} ${mode} back`)
   .top
     include _picture
@@ -7,8 +8,7 @@ main(class=`${color} ${mode} back`)
       include _target
   h2!= grammar[1] || grammar[0]
     include _audio
-  include _strokes
-  include _notes
+  +fields('strokes', 'notes')
   div {{furigana}} {{kana}}
   include _details
 include _radical
