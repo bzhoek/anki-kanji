@@ -54,8 +54,8 @@ function to_kanji_html() {
     {note: 'Suru', grammar: suru, color: 'violet'},
   ].map(card => Object.assign(card, {mode: 'writing'}));
 
-  let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToKanji.Front');
-  write_html(cards, 'writing.back.pug', 'ToKanji.Back');
+  let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToWriting.Front');
+  write_html(cards, 'writing.back.pug', 'ToWriting.Back');
 
   return compiledTemplate(cards[0]);
 }
