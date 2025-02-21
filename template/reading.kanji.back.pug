@@ -4,10 +4,10 @@ main(class=`${color} ${mode} back`)
   .top
     include _picture
     .text
-      div(class=`strokes {{Tags}}`) {{strokes}}
-      h1 {{nederlands}}
-      include _target
+      +field('strokes')
+      +title('nederlands')
+      +field('on')
   h2!= grammar[0]
     include _audio
-  +fields('on', 'notes')
+  +fields('notes', 'target')
 include _radical
