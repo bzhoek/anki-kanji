@@ -3,21 +3,15 @@ include _mixins
   .top
     +field('picture')
     .text
-      | {{#kanji}}
-      h1(class=`kanji {{Tags}}`) {{furigana}}
-      | {{/kanji}}
-      | {{^kanji}}
-      h1(class=`kanji {{Tags}}`) {{kana}}
-      | {{/kanji}}
-  h1 {{nederlands}}
+      +optional('#kanji')
+        +heading('furigana')
+      +optional('^kanji')
+        +heading('kana')
+      h1 {{nederlands}}
   +field('notes')
-  | {{#kanji}}
-  +field('kana')
-  h2!= grammar[0]
-    include _audio
-  | {{/kanji}}
-  | {{^kanji}}
-  h2!= grammar[1] || grammar[0]
-    include _audio
-  | {{/kanji}}
+  +optional('#kanji')
+    +field('kana')
+    +audioheader(grammar[0])
+  +optional('^kanji')
+    +audioheader(grammar[1] || grammar[0])
   +fields('target', 'strokes', 'details')

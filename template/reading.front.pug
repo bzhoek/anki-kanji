@@ -3,17 +3,13 @@ include _mixins
   .top
     +hint('picture')
     .text
-      | {{#kanji}}
-      h1(class=`kanji {{Tags}}`) {{kanji}}
-      | {{/kanji}}
-      | {{^kanji}}
-      h1(class=`kanji {{Tags}}`) {{kana}}
-      | {{/kanji}}
+      +optional('#kanji')
+        +heading('kanji')
+      +optional('^kanji')
+        +heading('kana')
       +hint('target')
-  | {{#kanji}}
-  h2!= grammar[0]
-  | {{/kanji}}
-  | {{^kanji}}
-  h2!= grammar[1] || grammar[0]
-  | {{/kanji}}
+  +optional('#kanji')
+    h2!= grammar[0]
+  +optional('^kanji')
+    h2!= grammar[1] || grammar[0]
 

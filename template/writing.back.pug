@@ -6,6 +6,5 @@ include _mixins
       +title('furigana')
       +title('nederlands')
       +fields('notes', 'kana')
-  h2!= grammar[1] || grammar[0]
-    include _audio
+  +audioheader(grammar[1] || grammar[0])
   +fields('target', 'strokes', 'details')

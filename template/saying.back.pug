@@ -3,9 +3,8 @@ include _mixins
   .top
     +field('picture')
     .text
-      h1(class=`{{Tags}}`) {{nederlands}}
+      +title('nederlands')
       h1(class=`kanji {{Tags}}`) {{furigana}}
       +field('kana')
-  h2!= grammar[1] || grammar[0]
-    include _audio
+  +audioheader(grammar[1] || grammar[0])
   +fields('notes', 'target', 'strokes', 'details')

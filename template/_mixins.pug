@@ -6,39 +6,36 @@ mixin main(color, mode, side)
 mixin title(name, index='')
   h1(class=`${name} {{Tags}}`)= `{{${index}${name}}}`
 mixin heading(name, index='')
-  h1.kanji= `{{${index}${name}}}`
+  h1(class=`kanji {{Tags}}`)= `{{${index}${name}}}`
 mixin hint(name, index='')
-  = `\n{{#${index}${name}}}`
-  div(class=`${name}`)= `{{hint:${index}${name}}}`
-  = `\n{{/${index}${name}}}`
+  +optional(`#${index}${name}`)
+    div(class=`${name}`)= `{{hint:${index}${name}}}`
 mixin field(name, index='')
-  = `\n{{#${index}${name}}}`
-  div(class=`${name}`)= `{{${index}${name}}}`
-  = `\n{{/${index}${name}}}`
+  +optional(`#${index}${name}`)
+    div(class=`${name}`)= `{{${index}${name}}}`
 mixin cloze(name, index='')
-  = `\n{{#${index}${name}}}`
-  div(class=`${name}`)= `{{cloze:${index}${name}}}`
-  = `\n{{/${index}${name}}}`
+  +optional(`#${index}${name}`)
+    div(class=`${name}`)= `{{cloze:${index}${name}}}`
 mixin fields(...names)
   each name in names
     +field(name)
+mixin audioheader(title)
+  +subheader(title)
+    span.speech {{speech}} {{context}}
+mixin subheader(title)
+  h2= title
+    block
 mixin kanjikana(grammar)
-  | {{#kanji}}
-  h2!= grammar[0]
-    include _audio
-  | {{/kanji}}
-  | {{^kanji}}
-  h2!= grammar[1] || grammar[0]
-    include _audio
-  | {{/kanji}}
+  +optional('#kanji')
+    +audioheader(grammar[0])
+  +optional('^kanji')
+    +audioheader(grammar[1] || grammar[0])
 mixin listening(index)
-  = `\n{{#${index}listening}}`
-  h2 聞く 対義語
-  = `\n{{/${index}listening}}`
-  = `\n{{^${index}listening}}`
-  h2 言う 対義語
-  = `\n{{/${index}listening}}`
-mixin empty(field)
-  = `\n{{^${field}}}`
+  +optional(`#${index}listening}`)
+    h2 聞く 対義語
+  +optional(`^${index}listening}`)
+    h2 言う 対義語
+mixin optional(field)
+  = `\n{{${field}}}`
   block
-  = `\n{{/${field}}}`
+  = `\n{{/${field.substring(1)}}}`

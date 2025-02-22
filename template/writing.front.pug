@@ -3,11 +3,9 @@ include _mixins
   .top
     +hint('picture')
     .text
-      h1(class=`{{Tags}}`) {{nederlands}}
+      +title('nederlands')
       +hint('hint')
-  | {{#kanji}}
-  h2!= grammar[0]
-  | {{/kanji}}
-  | {{^kanji}}
-  h2!= grammar[1] || grammar[0]
-  | {{/kanji}}
+  +optional('#kanji')
+    h2!= grammar[0]
+  +optional('^kanji')
+    h2!= grammar[1] || grammar[0]

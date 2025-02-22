@@ -6,6 +6,5 @@ include _mixins
       +field('strokes')
       +title('nederlands')
       +field('on')
-  h2!= grammar[0]
-    include _audio
+  +audioheader(grammar[0])
   +fields('notes', 'target')
