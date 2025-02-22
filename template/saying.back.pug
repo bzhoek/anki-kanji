@@ -5,9 +5,9 @@ main(class=`${color} ${mode} back`)
     include _picture
     .text
       h1(class=`{{Tags}}`) {{nederlands}}
-      include _target
-      div {{kana}}
+      h1(class=`kanji {{Tags}}`) {{furigana}}
+      +field('kana')
   h2!= grammar[1] || grammar[0]
     include _audio
-  +fields('notes', 'furigana', 'strokes')
+  +fields('notes', 'target', 'strokes', 'details')
 include _radical
