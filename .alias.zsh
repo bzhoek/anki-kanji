@@ -9,12 +9,10 @@ usage() {
 aksort() {
   usage $# || return
 
-  ./anki.js move "$1 card:ToKanji" Japans::1-書く::漢字
+  ./anki.js move "$1 (card:ToKanji or card:ToWriting)" Japans::1-書く::漢字
   ./anki.js move "$1 note:Opposite card:Read*" Japans::1-書く::対義語
   ./anki.js move "$1 card:*Yomi" Japans::2-言う読む
-  ./anki.js move "$1 card:Speaking" Japans::2-言う読む
-  ./anki.js move "$1 card:ToExpress" Japans::2-言う読む
-  ./anki.js move "$1 card:ToMeaning" Japans::2-言う読む
+  ./anki.js move "$1 (card:Speaking or card:ToExpress or card:ToMeaning)" Japans::2-言う読む
   ./anki.js move "$1 note:Opposite card:Listen*" Japans::3-聞く::対義語
   ./anki.js move "$1 card:Listening" Japans::3-聞く::没入
   ./anki.js move "$1 card:ToHearing" Japans::3-聞く::単語
