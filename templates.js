@@ -133,11 +133,18 @@ function opposite_html() {
   })
 }
 
+const to_sides = (note, template, card) => {
+  ['Front', 'Back'].forEach(side => {
+    write_html([{note: note}],
+      `${template}.${side.toLowerCase()}.pug`,
+      `${card}.${side}`
+    )
+  })
+}
+
 const to_immerse_html = () => {
-  write_html([{note: 'Immersion'}], 'speaking.immerse.front.pug', 'Speaking.Front');
-  write_html([{note: 'Immersion'}], 'speaking.immerse.back.pug', 'Speaking.Back');
-  write_html([{note: 'Immersion'}], 'hearing.immerse.front.pug', 'Listening.Front');
-  write_html([{note: 'Immersion'}], 'hearing.immerse.back.pug', 'Listening.Back');
+  to_sides('Immersion', 'reading.immerse', 'Reading');
+  to_sides('Immersion', 'hearing.immerse', 'Listening');
 }
 
 const to_grammar_html = () => {
