@@ -882,7 +882,12 @@ async function show_stats() {
     unique[kanji] = kanji
   }
 
-  console.log('Unique kanji:', Object.keys(unique).length)
+  console.log('Unique items on', new Date().toLocaleDateString())
+  console.log('       kanji:', Object.keys(unique).length)
+  let yomi = await post('findNotes', {query: `deck:Japans note:*Yomi`});
+  console.log('       words:', yomi.result.length)
+  let verbs = await post('findNotes', {query: `deck:Japans note:*dan`});
+  console.log('       verbs:', verbs.result.length)
 }
 
 module.exports = {
