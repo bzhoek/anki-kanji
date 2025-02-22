@@ -126,8 +126,8 @@ const to_sides = (notes, template, card) => {
 
 const to_immerse_html = () => {
   const notes = [{note: 'Immersion'}];
-  to_sides(notes, 'reading.immerse', 'Reading');
-  to_sides(notes, 'hearing.immerse', 'Listening');
+  to_sides(notes, 'reading.immerse', 'ToMeaning');
+  to_sides(notes, 'hearing.immerse', 'ToHearing');
 }
 
 const to_grammar_html = () => {
