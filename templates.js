@@ -32,6 +32,7 @@ function writing_kanji_html() {
     note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'writing'
   }]
 
+  write_html(cards, 'writing.kanji.front.pug', 'ToKanji.Front');
   write_html(cards, 'writing.kanji.back.pug', 'ToKanji.Back');
 }
 
@@ -148,8 +149,7 @@ const to_immerse_html = () => {
 }
 
 const to_grammar_html = () => {
-  write_html([{note: 'Grammar'}], 'grammar.front.pug', 'Cloze.Front');
-  write_html([{note: 'Grammar'}], 'grammar.back.pug', 'Cloze.Back');
+  to_sides('Grammar', 'grammar', 'Cloze');
 }
 
 const html_from_templates = () => {

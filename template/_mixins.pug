@@ -4,7 +4,7 @@ mixin main(color, mode, side)
     block
   include _scripts
 mixin title(name, index='')
-  h1(class=`${name}`)= `{{${index}${name}}}`
+  h1(class=`${name} {{Tags}}`)= `{{${index}${name}}}`
 mixin heading(name, index='')
   h1.kanji= `{{${index}${name}}}`
 mixin hint(name, index='')
@@ -38,3 +38,7 @@ mixin listening(index)
   = `\n{{^${index}listening}}`
   h2 言う 対義語
   = `\n{{/${index}listening}}`
+mixin empty(field)
+  = `\n{{^${field}}}`
+  block
+  = `\n{{/${field}}}`

@@ -1,0 +1,10 @@
+include _mixins
++main(color, mode, 'front')
+  .top
+    +field('picture')
+    .text
+      +title('nederlands')
+      +hint('hint')
+  h2!= grammar[0]
+  +empty('on')
+    .info (音読みがない)
