@@ -134,7 +134,10 @@ function opposite_html() {
 }
 
 const to_immerse_html = () => {
-  write_html([{note: 'Immersion'}], 'immerse.back.pug', 'Listening.Back');
+  write_html([{note: 'Immersion'}], 'speaking.immerse.front.pug', 'Speaking.Front');
+  write_html([{note: 'Immersion'}], 'speaking.immerse.back.pug', 'Speaking.Back');
+  write_html([{note: 'Immersion'}], 'hearing.immerse.front.pug', 'Listening.Front');
+  write_html([{note: 'Immersion'}], 'hearing.immerse.back.pug', 'Listening.Back');
 }
 
 const to_grammar_html = () => {
