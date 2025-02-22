@@ -1,8 +1,7 @@
-doctype html
 include _field
-main(class=`${color} ${mode} back`)
++main(color, mode, 'back')
   .top
-    include _picture
+    +field('picture')
     .text
       +field('strokes')
       +title('nederlands')
@@ -10,4 +9,3 @@ main(class=`${color} ${mode} back`)
   h2!= grammar[0]
     include _audio
   +fields('notes', 'target')
-include _radical

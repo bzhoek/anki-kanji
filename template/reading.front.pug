@@ -1,7 +1,7 @@
-doctype html
-main(class=`${color} ${mode} front`)
+include _field
++main(color, mode, 'front')
   .top
-    include _picture_hint
+    +hint('picture')
     .text
       | {{#kanji}}
       h1(class=`kanji {{Tags}}`) {{kanji}}
@@ -9,7 +9,7 @@ main(class=`${color} ${mode} front`)
       | {{^kanji}}
       h1(class=`kanji {{Tags}}`) {{kana}}
       | {{/kanji}}
-      include _target_hint
+      +hint('target')
   | {{#kanji}}
   h2!= grammar[0]
   | {{/kanji}}
