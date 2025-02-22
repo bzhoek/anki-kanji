@@ -1,14 +1,6 @@
 const pug = require("pug");
 const fs = require("fs");
 
-const write_front_html = (cards, template, suffix) => {
-  write_html(cards, template, suffix + '.Front');
-}
-
-const write_back_html = (cards, template, suffix) => {
-  write_html(cards, template, suffix + '.Back');
-}
-
 const write_html = (cards, template, suffix) => {
   const compiledTemplate = pug.compileFile(`template/${template}`, {pretty: true});
 
@@ -32,8 +24,7 @@ function writing_kanji_html() {
     note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'writing'
   }]
 
-  write_html(cards, 'writing.kanji.front.pug', 'ToKanji.Front');
-  write_html(cards, 'writing.kanji.back.pug', 'ToKanji.Back');
+  to_sides(cards, 'writing.kanji', 'ToKanji');
 }
 
 function reading_kanji_html() {
@@ -41,7 +32,7 @@ function reading_kanji_html() {
     note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'reading'
   }]
 
-  write_html(cards, 'reading.kanji.back.pug', 'ToMeaning.Back');
+  to_sides(cards, 'reading.kanji', 'ToMeaning');
 }
 
 function to_kanji_html() {
@@ -55,10 +46,7 @@ function to_kanji_html() {
     {note: 'Suru', grammar: suru, color: 'violet'},
   ].map(card => Object.assign(card, {mode: 'writing'}));
 
-  let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToWriting.Front');
-  write_html(cards, 'writing.back.pug', 'ToWriting.Back');
-
-  return compiledTemplate(cards[0]);
+  to_sides(cards, 'writing', 'ToWriting');
 }
 
 function to_hearing_html() {
@@ -69,10 +57,7 @@ function to_hearing_html() {
     {note: 'Ichidan', grammar: ichidan, color: 'violet', type: '⬤'},
   ].map(card => Object.assign(card, {mode: 'hearing'}));
 
-  let compiledTemplate = write_html(cards, 'hearing.front.pug', 'ToHearing.Front');
-  write_html(cards, 'hearing.back.pug', 'ToHearing.Back');
-
-  return compiledTemplate(cards[0]);
+  to_sides(cards, 'hearing', 'ToHearing');
 }
 
 function to_meaning_html() {
@@ -125,12 +110,8 @@ function to_express_html() {
 function opposite_html() {
   [{front: 1, back: 2}, {front: 2, back: 1}].forEach(card => {
     const note = Object.assign({note: 'Opposite'}, card);
-    const rwsuffix = `Read${card.front}Write${card.back}`;
-    write_front_html([note], 'mirror.r2w.front.pug', rwsuffix);
-    write_back_html([note], 'mirror.r2w.back.pug', rwsuffix);
-    const lssuffix = `Listen${card.front}Speak${card.back}`;
-    write_front_html([note], 'mirror.l2s.front.pug', lssuffix);
-    write_back_html([note], 'mirror.l2s.back.pug', lssuffix);
+    to_sides([note], 'mirror.r2w', `Read${card.front}Write${card.back}`);
+    to_sides([note], 'mirror.l2s', `Listen${card.front}Speak${card.back}`);
   })
 }
 
