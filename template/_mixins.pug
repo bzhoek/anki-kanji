@@ -4,12 +4,15 @@ mixin main(color, mode, side)
     block
   include _scripts
 mixin title(name, index='')
-  h1(class=`${name} {{Tags}}`)= `{{${index}${name}}}`
+  h1(class=`${name}`)= `{{${index}${name}}}`
 mixin heading(name, index='')
-  h1(class=`kanji {{Tags}}`)= `{{${index}${name}}}`
+  h1(class=`kanji`)= `{{${index}${name}}}`
 mixin hint(name, index='')
   +optional(`#${index}${name}`)
     div(class=`${name}`)= `{{hint:${index}${name}}}`
+mixin text()
+  div(class=`text {{Tags}}`)
+    block
 mixin field(name, index='')
   +optional(`#${index}${name}`)
     div(class=`${name}`)= `{{${index}${name}}}`

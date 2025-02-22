@@ -2,9 +2,9 @@ include _mixins
 +main(color, mode, 'back')
   .top
     +field('picture')
-    .text
+    +text
       +title('nederlands')
-      h1(class=`kanji {{Tags}}`) {{furigana}}
+      +heading('furigana')
       +field('kana')
   +audioheader(grammar[1] || grammar[0])
   +fields('notes', 'target', 'strokes', 'details')
