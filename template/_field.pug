@@ -15,6 +15,10 @@ mixin field(name, index='')
   = `\n{{#${index}${name}}}`
   div(class=`${name}`)= `{{${index}${name}}}`
   = `\n{{/${index}${name}}}`
+mixin cloze(name, index='')
+  = `\n{{#${index}${name}}}`
+  div(class=`${name}`)= `{{cloze:${index}${name}}}`
+  = `\n{{/${index}${name}}}`
 mixin fields(...names)
   each name in names
     +field(name)

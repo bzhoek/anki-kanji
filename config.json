@@ -18,6 +18,7 @@
   ],
   "model_names": [
     "Godan",
+    "Grammar",
     "Hiragana",
     "Ichidan",
     "Immersion",
