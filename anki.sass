@@ -46,23 +46,17 @@ $base1: #93a1a1
       gap: 8pt
 
 h1, h2
-  font-size: 20pt
+  font-size: 2rem
   font-weight: normal
   margin: 0
 
-  b
-    font-size: 100%
-
   .type
-    font-size: 60%
+    font-size: 1rem
     font-weight: normal
 
 h2
   color: white
   margin: 8px 0
-
-h3
-  font-size: 16pt
 
 main
   &.jukukanji h2, &.violet h2
@@ -110,22 +104,23 @@ main
   &.writing h2::after
     content: ' /'
 
-  b
-    font-size: 110%
-
-  em
-    font-size: 110%
-    font-style: normal
 
   .notes
     .part
       color: red
 
+    b
+      font-size: 1.4rem
+
+    em
+      font-size: 1.4rem
+      font-style: normal
+
   .details
-    font-size: 12pt
+    font-size: 0.8rem
 
   .furigana
-    font-size: 28pt
+    font-size: 3rem
 
 .card.night_mode
   svg
@@ -134,7 +129,7 @@ main
 
 .card
   font-family: Helvetica, sans-serif
-  font-size: 14pt
+  font-size: 1.2rem
   text-align: center
   color: black
   background-color: #fdf6e3
@@ -143,7 +138,7 @@ div
   margin: 8pt 0
 
 .hint, .picture
-  font-size: 18pt
+  font-size: 1.4rem
 
   a
     color: $base1
@@ -158,10 +153,10 @@ div
     margin-left: .4em
 
   ruby
-    font-size: 18pt
+    font-size: 1.4rem
 
     rt
-      font-size: 14pt
+      font-size: 0.8rem
 
 .front
   svg
@@ -192,7 +187,7 @@ div
       height: 24pt
 
 .kanji, .kanji em
-  font-size: 48pt
+  font-size: 3rem
   font-family: 'Hiragino Sans', sans-serif
 
 .strokes
@@ -211,14 +206,16 @@ div
     text
       fill: transparent
 
-.kana
-  color: #268bd2
+//.kana
+//  color: #268bd2
+//
+.front
+  .cloze
+    color: #fdf6e3
 
-.cloze
-  color: #268bd2
-
-b
-  font-size: 1.2rem
+.back
+  .cloze
+    color: #268bd2
 
 svg
   text

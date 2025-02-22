@@ -1,4 +1,9 @@
 script.
+  Array.from(document.getElementsByClassName("cloze")).forEach(tag => {
+    tag.onclick = function () {
+      tag.style.color = '#268bd2'
+    }
+  })
   Array.from(document.getElementsByTagName("u")).forEach(tag => {
     tag.style.background = `url(r${tag.textContent}.svg) no-repeat center right`
     tag.style.backgroundSize = 'contain'
