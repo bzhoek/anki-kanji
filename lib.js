@@ -875,14 +875,14 @@ const kun_note = async (id, note) => {
 
 async function show_stats() {
   let ids = await post('findNotes', {query: `deck:Japans::1-書く kanji:_`});
-  const result = [];
-  for (let id of ids.result) {
-    let note = await note_info(id);
+  let notes = await post("notesInfo", {notes: ids.result});
+  const unique = [];
+  for (let note of notes.result) {
     let kanji = note_field(note, 'kanji')
-    result[kanji] = kanji
+    unique[kanji] = kanji
   }
 
-  console.log('Total kanji:', Object.keys(result).length)
+  console.log('Unique kanji:', Object.keys(unique).length)
 }
 
 module.exports = {
