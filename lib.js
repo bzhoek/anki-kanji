@@ -191,11 +191,11 @@ const stroke_note = async (id, note) => {
 }
 
 const iterate_notes = async (query, fn) => {
-  let json = await post('findNotes', {query: query});
-  console.log("Matches", json.result.length, "notes")
-  for (const id of json.result) {
-    let note = await note_info(id);
-    await fn(id, note)
+  let ids = await post('findNotes', {query: query});
+  console.log("Matches", ids.result.length, "notes")
+  let notes = await post("notesInfo", {notes: ids.result});
+  for (const note of notes.result) {
+    await fn(note.noteId, note)
     await delay()
   }
 }
