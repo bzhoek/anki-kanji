@@ -111,7 +111,11 @@ Kanji followed by hiragana is called 'おくりかな', and is used to conjugate
 
 [1]: Kanji from Zero #12
 
-0x4e00 一 tot 0x9f98 龘 zijn kanji.
+### Unicode CJK
+
+https://www.compart.com/en/unicode/block
+
+0x4e00 一 tot 0x9f98 龘 zijn kanji, maar \\u2E80-\\u9FFF bevat Kangxi, Bopomofo, Hangul en Kanbun.
 
 ### Strokes
 
