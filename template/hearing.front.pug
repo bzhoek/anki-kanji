@@ -3,8 +3,8 @@ include _mixins
 +main(color, mode, 'front')
   .top
     +hint('picture')
-    .text
-      h1(class=`{{Tags}}`)
+    .text(class=`{{Tags}}`)
+      h1
         span.type= type
       +hint('hint')
   +kanjikana(grammar)
