@@ -163,7 +163,8 @@ async function kanji_svg(kanji) {
   let svg = css_style
   for (let i = 0; i < kanji.length; i++) {
     let unicode = kanji.charCodeAt(i);
-    if (unicode >= 0x4E00 && unicode <= 0x9fbf) {
+    let char = kanji.charAt(i);
+    if (is_kanji(char)) {
       console.log(unicode)
       svg += await colorize(unicode, style_color)
     }
