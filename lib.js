@@ -837,7 +837,7 @@ const extract_parts_from_kanji = unicode => {
 const show_parts_of_kanji = char => {
   let unicode = char.charCodeAt(0)
   let parts = extract_parts_from_kanji(unicode);
-  console.log(char, unicode.toString(16), parts)
+  console.log(char, unicode.toString(16), parts.join(''))
 }
 
 const kun_note = async (id, note) => {
