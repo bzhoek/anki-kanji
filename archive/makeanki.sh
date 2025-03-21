@@ -111,7 +111,7 @@ EOM
           "fields": {
             "nederlands": "${MEANING}",
             "kanji": "${1}",
-            "on": "${ONYOMI}",
+            "kana": "${ONYOMI}",
             "notes": "",
             "strokes": "<img src=\"${UNICODE}-${STAMP}.png\" />"
           },
