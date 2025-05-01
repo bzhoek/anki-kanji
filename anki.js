@@ -17,11 +17,12 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context, raw_svg, kun_notes, show_stats
+  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts
 } = require('./lib')
 const {
   html_from_templates
 } = require("./templates");
+const {tts} = require("./tts");
 
 let cli = new Command()
 cli.name('anki')
@@ -124,6 +125,11 @@ cli.command('speech')
   .argument('<query>', 'query')
   .description('Add speech for matched notes')
   .action((query) => add_speech(query))
+
+cli.command('tts')
+  .argument('<query>', 'query')
+  .description('Text-to-speech from target to context')
+  .action((query) => add_tts(query))
 
 cli.command('lookup')
   .argument('<kanji>', 'kanji')

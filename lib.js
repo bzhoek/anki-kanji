@@ -7,6 +7,7 @@ const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
 const {un_furigana, furigana_html, ruby_target_result} = require("./furigana");
 const {strip_kana} = require('./util')
+const {tts} = require("./tts");
 
 let data = fs.readFileSync("config.json", "utf8")
 const config = JSON.parse(data);
@@ -344,6 +345,19 @@ const add_speech = async (query) => iterate_notes(query, async (id, note) => {
     console.error(update.error, strokes)
   }
   console.log('completed', sound)
+})
+
+const add_tts = async (query) => iterate_notes(query, async (id, note) => {
+  let speech = note.fields['target'].value;
+  const filename = await tts(speech)
+
+  let audio = `[sound:${filename}]`;
+  let strokes = {note: {id: id, fields: {context: audio}}};
+  let update = await post('updateNoteFields', strokes)
+  if (update.error) {
+    console.error(update.error, strokes)
+  }
+  console.log('completed', audio)
 })
 
 const try_media = async (name) => {
@@ -930,5 +944,6 @@ module.exports = {
   copy_context,
   raw_svg,
   kun_notes,
-  show_stats
+  show_stats,
+  add_tts
 }
