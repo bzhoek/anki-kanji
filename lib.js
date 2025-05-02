@@ -6,7 +6,7 @@ const {RateLimit} = require('async-sema')
 const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
 const {un_furigana, furigana_html, ruby_target_result} = require("./furigana");
-const {strip_kana} = require('./util')
+const {strip_kana, extract_before_period, extract_ruby_kana} = require('./util')
 const {tts} = require("./tts");
 
 let data = fs.readFileSync("config.json", "utf8")
@@ -347,17 +347,34 @@ const add_speech = async (query) => iterate_notes(query, async (id, note) => {
   console.log('completed', sound)
 })
 
-const add_tts = async (query) => iterate_notes(query, async (id, note) => {
-  let speech = note.fields['target'].value;
-  const filename = await tts(speech)
+const add_speech_field = async (text, field, object) => {
+  if (text.length === 0) {
+    return
+  }
 
-  let audio = `[sound:${filename}]`;
-  let strokes = {note: {id: id, fields: {context: audio}}};
+  const filename = await tts(text)
+  const audio = `[sound:${filename}]`;
+  return Object.assign(object, {[field]: audio})
+}
+
+const add_tts = async (query) => iterate_notes(query, async (id, note) => {
+  var fields = {}
+
+  if (note.fields['speech'].value === "") {
+    let kana = extract_before_period(note.fields['kana'].value);
+    fields = await add_speech_field(kana, 'speech', {})
+  }
+
+  if (note.fields['context'].value === "") {
+    let target = extract_ruby_kana(note.fields['target'].value);
+    fields = await add_speech_field(target, 'context', fields)
+  }
+
+  let strokes = {note: {id: id, fields: fields}};
   let update = await post('updateNoteFields', strokes)
   if (update.error) {
     console.error(update.error, strokes)
   }
-  console.log('completed', audio)
 })
 
 const try_media = async (name) => {
