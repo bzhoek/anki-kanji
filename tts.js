@@ -38,6 +38,10 @@ async function tts(text) {
   const writeFile = util.promisify(fs.writeFile);
   const filename = createFilename(text);
   const filepath = path.join(folder, filename);
+  if (fs.existsSync(filepath)) {
+    console.log(`File already exists: ${filepath}`);
+    return filename;
+  }
   await writeFile(filepath, response.audioContent, 'binary');
   console.log(`Wrote audio to: ${filepath}`);
   return filename;
