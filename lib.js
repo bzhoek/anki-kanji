@@ -349,7 +349,7 @@ const add_speech = async (query) => iterate_notes(query, async (id, note) => {
 
 const add_speech_field = async (text, field, object) => {
   if (text.length === 0) {
-    return
+    return object
   }
 
   const filename = await tts(text)
