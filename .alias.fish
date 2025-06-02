@@ -30,3 +30,12 @@ function aksort
   ./anki.js move "$FROM card:ToHearing" Japans::3-聞く::単語
   ./anki.js move "$FROM card:Cloze*" Japans::4-文法
 end
+
+function aktts
+  usage 1 "Usage: aktts <query>" $argv || return
+  set QRY $argv[1]
+
+  ./anki.js tts "$QRY kana:_* speech:"
+  ./anki.js tts "$QRY target:_* context:"
+  ./anki.js hint "$QRY target:_* hint:"
+end
