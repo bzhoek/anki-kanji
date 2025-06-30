@@ -15,6 +15,7 @@ function akprocess
   ./anki.js furigana $QRY
   ./anki.js speech $QRY
   ./anki.js mirror $QRY
+  aktts "$QRY"
 end
 
 function aksort
