@@ -689,7 +689,14 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
 
       let found = await find_onkanji(kanji);
       if (Object.keys(found).length > 0) {
-        let update = {note: {id: found.noteId, fields: add.note.fields, tags: tags}};
+        let fields = add.note.fields
+        let update = {
+          note: {
+            id: found.noteId,
+            fields: {details: fields.details, strokes: fields.strokes},
+            tags: tags
+          }
+        };
         await post('updateNote', update)
         console.log("updated", json)
       } else {
