@@ -16,12 +16,19 @@ mixin text()
 mixin field(name, index='')
   +optional(`#${index}${name}`)
     div(class=`${name}`)= `{{${index}${name}}}`
+mixin span(name, index='')
+  +optional(`#${index}${name}`)
+    span(class=`${name}`)= `{{${index}${name}}}`
 mixin cloze(name, index='')
   +optional(`#${index}${name}`)
     div(class=`${name}`)= `{{cloze:${index}${name}}}`
 mixin fields(...names)
   each name in names
     +field(name)
+mixin spans(index, ...names)
+  div
+    each name in names
+      +span(name, index)
 mixin audioheader(title)
   +subheader(title)
     span.speech {{speech}} {{context}}
