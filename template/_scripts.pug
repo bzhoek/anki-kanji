@@ -13,7 +13,7 @@ script.
     tag.textContent = tag.textContent.replace(/[0-9]/g, '')
   })
   setTimeout(function () {
-    const parts = new RegExp("(<b>[\\w\\s,']+</b>)\\s+([\\u2E80-\\u9FFFｲ𧘇𠂉𡗗𠦝丿]+)", 'gi')
+    const parts = new RegExp("(<b>[\\u00BF-\\u00FF\\w\\s,'-]+</b>)\\s+([\\u2E80-\\u9FFFｲ𧘇𠂉𡗗𠦝丿十卄]+)", 'gi')
     Array.from(document.getElementsByClassName("notes")).forEach(tag => {
       const replacement = tag.innerHTML.replaceAll(parts, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
       tag.innerHTML = replacement
