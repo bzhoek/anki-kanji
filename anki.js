@@ -138,10 +138,12 @@ cli.command('lookup')
     exec(`open https://kanjivg.tagaini.net/viewer.html?kanji=${kanji}`))
 
 cli.command('kanji')
+  .option("--kun", "Create as kun'yomi note")
   .argument('<kanji>', 'kanji')
   .description('Create a new note with reading and meaning')
-  .action((kanji) =>
-    add_kanji_with_reading_and_meaning(kanji))
+  .action((kanji, options) => {
+    add_kanji_with_reading_and_meaning(kanji, options.kun ? 'kun' : 'kan')
+  })
 
 cli.command('parts')
   .argument('<kanji>', 'kanji')

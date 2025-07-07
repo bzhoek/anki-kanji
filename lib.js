@@ -652,7 +652,7 @@ let kanjidb = new sqlite3.Database('japanese.sqlite', (err) => {
   }
 })
 
-const add_kanji_with_reading_and_meaning = (kanji) => {
+const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("SELECT info FROM kanji WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
     let json = JSON.parse(row.info)
@@ -672,7 +672,7 @@ const add_kanji_with_reading_and_meaning = (kanji) => {
       let add = {
         "note": {
           "deckName": "0-Inbox",
-          "modelName": "OnKanji",
+          "modelName": model === "kun" ? "KunYomi" : "OnKanji",
           "fields": {
             "nederlands": json.meanings.join(', '),
             "kanji": kanji,
