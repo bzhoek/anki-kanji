@@ -26,6 +26,14 @@ wget http://www.edrdg.org/kanjidic/kanjd212.gz # 5801 kanji from JIS X 0212
 
 http://ftp.edrdg.org/pub/Nihongo/edict2.gz
 ```
+## Google Cloud TTS
+
+```sh
+brew install --cask gcloud-cli
+gcloud init
+  gcloud = advance-seer-458507-r1
+gcloud auth application-default login
+```
 
 ## Usage
 
