@@ -36,3 +36,11 @@ akstroke() {
 akdefault() {
   akprocess deck:0-Inbox
 }
+
+aktts() {
+  usage $# || return
+
+  ./anki.js tts "$1 kana:_* speech:"
+  ./anki.js tts "$1 target:_* context:"
+  ./anki.js hint "$1 target:_* hint:"
+}
