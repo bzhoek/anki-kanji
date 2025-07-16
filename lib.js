@@ -358,22 +358,26 @@ const add_speech_field = async (text, field, object) => {
 }
 
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
-  var fields = {}
+  let speech = {};
+  if (note.modelName === "Grammar") {
+    let string = note.fields['sentence'].value;
+    const clean = string.replaceAll(/[^一-龘ぁ-んァ-ン]/g, "")
+    speech = await add_speech_field(clean, 'audio', speech)
+  } else {
+    if (note.fields['speech'].value === "") {
+      let kana = extract_before_period(note.fields['kana'].value);
+      speech = await add_speech_field(kana, 'speech', speech)
+    }
 
-  if (note.fields['speech'].value === "") {
-    let kana = extract_before_period(note.fields['kana'].value);
-    fields = await add_speech_field(kana, 'speech', {})
+    if (note.fields['context'].value === "") {
+      let target = extract_ruby_kana(note.fields['target'].value);
+      speech = await add_speech_field(target, 'context', speech)
+    }
   }
-
-  if (note.fields['context'].value === "") {
-    let target = extract_ruby_kana(note.fields['target'].value);
-    fields = await add_speech_field(target, 'context', fields)
-  }
-
-  let strokes = {note: {id: id, fields: fields}};
-  let update = await post('updateNoteFields', strokes)
+  let fields = {note: {id: id, fields: speech}};
+  let update = await post('updateNoteFields', fields)
   if (update.error) {
-    console.error(update.error, strokes)
+    console.error(update.error, fields)
   }
 })
 

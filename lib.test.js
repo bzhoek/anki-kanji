@@ -94,6 +94,12 @@ describe('multiple kanji', () => {
 // https://gist.github.com/terrancesnyder/1345094
 describe('reformat notes', () => {
 
+  test('only kanji', () => {
+    const string = "日本{{c1::の}}大学"
+    const result = string.replaceAll(/[^一-龘ぁ-んァ-ン]/g, "")
+    expect(result).toBe("日本の大学")
+  })
+
   const regex = new RegExp("(<b>[\\w\\s]+</b>)\\s+([一-龘ぁ-んァ-ン\\u2E80-\\u2EFF])", 'gi')
 
   test('bold word followed by kanji', () => {
