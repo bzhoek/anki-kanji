@@ -660,7 +660,6 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("SELECT info FROM kanji WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
     let json = JSON.parse(row.info)
-
     let meaning = row.meaning
 
     let tags = []
@@ -697,15 +696,16 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
           note: {
             id: found.noteId,
             fields: {details: fields.details, strokes: fields.strokes},
-            tags: tags
+            tags: tags.concat(found.tags)
           }
         };
         await post('updateNote', update)
-        console.log("updated", json)
+        delete update.note.fields.strokes
+        console.log("updated", update)
       } else {
-        post('addNote', add).then(json => {
-          console.log("added", meaning, json)
-        })
+        await post('addNote', add)
+        delete add.note.fields.strokes
+        console.log("added", add)
       }
     })
   })
