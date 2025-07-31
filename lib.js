@@ -660,7 +660,6 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("SELECT info FROM kanji WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
     let json = JSON.parse(row.info)
-    console.log(json)
 
     let meaning = row.meaning
 
