@@ -2,6 +2,27 @@ select count(*), factor from revlog group by factor;
 select count(*), factor from cards group by factor;
 update cards set factor = 1500 where factor >= 1300;
 
+## Hard three in a row
+
+Interval `ivl` hier nog in verwerken.
+
+```sqlite
+WITH
+last_revisions AS (
+  SELECT * FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY cid ORDER BY id DESC) AS rn
+    FROM revlog) sub
+  WHERE rn <= 3),
+repeated AS (
+  SELECT * FROM last_revisions
+  WHERE ease = 2
+  GROUP BY cid
+  HAVING COUNT(*) = 3)
+SELECT *
+from repeated
+ORDER BY cid, id ASC;
+```
+
 ### Ease factor
 
 ```sqlite
