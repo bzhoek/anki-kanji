@@ -38,5 +38,6 @@ function aktts
 
   ./anki.js tts "$QRY kana:_* speech:"
   ./anki.js tts "$QRY target:_* context:"
+  ./anki.js tts "$QRY sentence:_* audio:"
   ./anki.js hint "$QRY target:_* hint:"
 end
