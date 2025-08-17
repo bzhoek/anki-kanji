@@ -14,7 +14,7 @@ const config = JSON.parse(data);
 
 const rate_limit = RateLimit(5);
 
-const post = async (action, params) => {
+const post = async (action, params, retries = 3, delay = 1000) => {
   let request = {
     action: action,
     version: 6,
@@ -23,7 +23,15 @@ const post = async (action, params) => {
 
   await rate_limit()
 
-  return fetch('http://127.0.0.1:8765', {method: 'post', body: JSON.stringify(request)}).then(res => res.json())
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      let res = await fetch('http://127.0.0.1:8765', {method: 'post', body: JSON.stringify(request)})
+      return res.json()
+    } catch (err) {
+      console.warn(`${err} encountered. Retry ${attempt}/${retries}...`);
+      await new Promise(res => setTimeout(res, delay));
+    }
+  }
 }
 
 // noinspection JSUnusedLocalSymbols
