@@ -3,7 +3,7 @@ const {
   is_kunyomi,
   convert_kunyomi_to_onyomi,
   has_kanji,
-  find_onkanji,
+  find_kanji,
   multiple_kanji,
   missing_kanji, find_yomi, target_word
 } = require('./lib')
@@ -68,7 +68,7 @@ let n5_sample = `
 describe('multiple kanji', () => {
   test('find kanji', async () => {
     await target_word("格", "格好")
-    let kanji = await find_onkanji("格");
+    let kanji = await find_kanji("格");
     let onyomi = await find_yomi("格好");
     expect(kanji).toEqual([1551038144631])
   });

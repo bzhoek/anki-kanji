@@ -253,32 +253,32 @@ const convert_kana_field_to_onyomi = async (query) =>
     }
   })
 
-const target_word = async (char, word) => {
-  let kanji_note = await find_onkanji(char);
-  let onyomi_note = await find_yomi(word);
+const target_word = async (source, target) => {
+  let source_note = await find_kanji(source);
+  let target_note = await find_yomi(target);
 
-  let source = note_field(kanji_note, 'kanji');
-  let target = note_field(onyomi_note, 'kanji');
+  let source_word = note_field(source_note, 'kanji');
+  let target_word = note_field(target_note, 'kanji');
   let fields = {}
-  let speech = note_field(onyomi_note, 'speech');
-  let context = note_field(kanji_note, 'context');
+  let speech = note_field(target_note, 'speech');
+  let context = note_field(source_note, 'context');
   if (context.length === 0 && speech.length !== 0) {
     Object.assign(fields, {context: speech})
   } else {
-    console.error("Context not empty", char)
+    console.error("Context not empty", source)
   }
 
-  let kana = strip_kana(onyomi_note.fields['kana'].value)
-  let meaning = onyomi_note.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
-  let target_fld = `${target} <i>(${kana} ${meaning})</i> `
-  let hint_fld = target.replace(source, '・')
+  let kana = strip_kana(target_note.fields['kana'].value)
+  let meaning = target_note.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
+  let target_fld = `${target_word} <i>(${kana} ${meaning})</i> `
+  let hint_fld = target_word.replace(source_word, '・')
   Object.assign(fields, {target: target_fld, hint: hint_fld})
 
   if (Object.keys(fields).length === 0) {
     return
   }
 
-  let note = {note: {id: kanji_note.noteId, fields: fields}};
+  let note = {note: {id: source_note.noteId, fields: fields}};
   let update = await post('updateNoteFields', note)
   if (update.error) {
     console.error(update.error, note)
@@ -720,7 +720,7 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
         }
       }
 
-      let found = await find_onkanji(kanji);
+      let found = await find_kanji(kanji);
       if (Object.keys(found).length > 0) {
         let fields = add.note.fields
         let update = {
@@ -811,7 +811,7 @@ const convert_kunyomi_to_onyomi = (word) => {
 }
 
 const has_kanji = async (kanji) => {
-  return find_onkanji(kanji).result.length === 1
+  return find_kanji(kanji).result.length === 1
 }
 
 async function note_info(id) {
@@ -826,31 +826,26 @@ const find_6k = async (kanji) => {
   return await note_info(id);
 }
 
-const nid_or_query = (query, fn) => {
-  if (query.startsWith('nid:')) {
-    return query
-  }
-  return fn()
-}
-
 const find_note = async (query) => {
   let ids = await post('findNotes', {query: query});
   let id = ids.result[0];
   return await note_info(id);
 }
 
-const find_onkanji = async (kanji) => {
-  const query = nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:OnKanji) kanji:${kanji}`);
-  return find_note(query);
-}
+const find_kanji = async (kanji) =>
+  find_nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:OnKanji) kanji:${kanji}`);
 
-const find_kun = async (kanji) => {
-  return find_note(`note:KunYomi kanji:${kanji}`);
-}
+const find_kunyomi = async (kanji) =>
+  find_nid_or_query(kanji, () => `note:KunYomi kanji:${kanji}`);
 
-const find_yomi = async (kanji) => {
-  const query = nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:${kanji}`);
-  return find_note(query);
+const find_yomi = async (kanji) =>
+  find_nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:${kanji}`);
+
+const find_nid_or_query = (query, fn) => {
+  if (query.startsWith('nid:')) {
+    return find_note(query);
+  }
+  return find_note(fn());
 }
 
 const multiple_kanji = (list) => {
@@ -916,7 +911,7 @@ const show_parts_of_kanji = char => {
 
 const kun_note = async (id, note) => {
   const kanji = note_field(note, 'kanji')
-  const kun = await find_kun(kanji)
+  const kun = await find_kunyomi(kanji)
   if (kun.fields !== undefined) {
     return
   }
@@ -984,7 +979,7 @@ module.exports = {
   is_katakana,
   convert_kunyomi_to_onyomi,
   convert_kana_field_to_onyomi,
-  find_onkanji,
+  find_kanji,
   find_yomi,
   has_kanji,
   multiple_kanji,
