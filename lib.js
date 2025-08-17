@@ -257,6 +257,8 @@ const target_word = async (char, word) => {
   let kanji_note = await find_onkanji(char);
   let onyomi_note = await find_yomi(word);
 
+  let source = note_field(kanji_note, 'kanji');
+  let target = note_field(onyomi_note, 'kanji');
   let fields = {}
   let speech = note_field(onyomi_note, 'speech');
   let context = note_field(kanji_note, 'context');
@@ -267,10 +269,10 @@ const target_word = async (char, word) => {
   }
 
   let kana = strip_kana(onyomi_note.fields['kana'].value)
-  let nl = onyomi_note.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
-  let target = `${word} <i>(${kana} ${nl})</i> `
-  let hint = word.replace(char, '・')
-  Object.assign(fields, {target: target, hint: hint})
+  let meaning = onyomi_note.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
+  let target_fld = `${target} <i>(${kana} ${meaning})</i> `
+  let hint_fld = target.replace(source, '・')
+  Object.assign(fields, {target: target_fld, hint: hint_fld})
 
   if (Object.keys(fields).length === 0) {
     return
@@ -387,6 +389,29 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
   if (update.error) {
     console.error(update.error, fields)
   }
+})
+
+const kanji_depth = async (query) => iterate_notes(query, async (id, note) => {
+  if (note.modelName !== "OnKanji") {
+    console.log("Not kanji", id)
+    return
+  }
+
+  let kanji = note.fields['kanji'].value.trim();
+  let ids = await post('findNotes', {query: `deck:Japans (note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:*${kanji}*`});
+  let depth = ids.result.length
+  if (depth > 0) {
+    console.log(kanji, depth)
+    return
+  }
+  let update = {
+    note: {
+      id: note.noteId,
+      tags: note.tags.concat(['shallow'])
+    }
+  };
+  await post('updateNote', update)
+  console.log(kanji, "updated", update)
 })
 
 const try_media = async (name) => {
@@ -668,8 +693,6 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
   let unicode = kanji.charCodeAt(0)
   kanjidb.get("SELECT info FROM kanji WHERE json_extract(info, '$.kanji')=?", [kanji], function (err, row) {
     let json = JSON.parse(row.info)
-    let meaning = row.meaning
-
     let tags = []
     if (json.jlpt > 0) {
       tags.push(`jlpt${json.jlpt}`)
@@ -803,7 +826,7 @@ const find_6k = async (kanji) => {
   return await note_info(id);
 }
 
-const either_query = (query, fn) => {
+const nid_or_query = (query, fn) => {
   if (query.startsWith('nid:')) {
     return query
   }
@@ -817,7 +840,7 @@ const find_note = async (query) => {
 }
 
 const find_onkanji = async (kanji) => {
-  const query = either_query(kanji, () => `(note:OnYomi or note:KunYomi or note:OnKanji) kanji:${kanji}`);
+  const query = nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:OnKanji) kanji:${kanji}`);
   return find_note(query);
 }
 
@@ -826,7 +849,8 @@ const find_kun = async (kanji) => {
 }
 
 const find_yomi = async (kanji) => {
-  return find_note(`(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:${kanji}`);
+  const query = nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:${kanji}`);
+  return find_note(query);
 }
 
 const multiple_kanji = (list) => {
@@ -980,5 +1004,6 @@ module.exports = {
   raw_svg,
   kun_notes,
   show_stats,
-  add_tts
+  add_tts,
+  kanji_depth
 }
