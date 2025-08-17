@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts
+  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth
 } = require('./lib')
 const {
   html_from_templates
@@ -130,6 +130,11 @@ cli.command('tts')
   .argument('<query>', 'query')
   .description('Text-to-speech from target to context')
   .action((query) => add_tts(query))
+
+cli.command('depth')
+  .argument('<query>', 'query')
+  .description('Find depth of kanji in different notes')
+  .action((query) => kanji_depth("note:OnKanji -tag:shallow deck:Japans " + query))
 
 cli.command('lookup')
   .argument('<kanji>', 'kanji')
