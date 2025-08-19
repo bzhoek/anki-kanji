@@ -18,7 +18,7 @@ describe('templates', () => {
 
   test('expressing', () => {
     let result = to_express_html()
-    expect(result).toBe('<main class="cyan saying front"><h1 class="{{Tags}}">{{nederlands}}</h1>'+
+    expect(result).toBe('<main class="cyan saying front"><h1 class="{{Tags}}">{{meaning}}</h1>'+
       '{{#hint}}<div>{{hint}}</div>{{/hint}}\n' +
       '{{#kanji}}<h2>&gt; V &lt;</h2>{{/kanji}}\n' +
       '{{^kanji}}<h2>&gt; 五段活用 &lt;</h2>{{/kanji}}</main>')
@@ -26,7 +26,7 @@ describe('templates', () => {
 
   test('writing', () => {
     let result = to_kanji_html();
-    expect(result).toBe('<main class="violet writing front"><h1 class="{{Tags}}">{{nederlands}}</h1>{{#hint}}<div>{{hint}}</div>{{/hint}}\n' +
+    expect(result).toBe('<main class="violet writing front"><h1 class="{{Tags}}">{{meaning}}</h1>{{#hint}}<div>{{hint}}</div>{{/hint}}\n' +
       '{{#kanji}}<h2>\\ 辞書形 /</h2>{{/kanji}}\n' +
       '{{^kanji}}<h2>\\ 五段活用 /</h2>{{/kanji}}</main>')
   });

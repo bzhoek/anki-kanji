@@ -109,7 +109,7 @@ EOM
           "deckName": "Default",
           "modelName": "OnKanji",
           "fields": {
-            "nederlands": "${MEANING}",
+            "meaning": "${MEANING}",
             "kanji": "${1}",
             "kana": "${ONYOMI}",
             "notes": "",

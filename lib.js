@@ -269,7 +269,7 @@ const target_word = async (source, target) => {
   }
 
   let kana = strip_kana(target_note.fields['kana'].value)
-  let meaning = target_note.fields['nederlands'].value.replace(/<.+?>/g, '').trim()
+  let meaning = target_note.fields['meaning'].value.replace(/<.+?>/g, '').trim()
   let target_fld = `${target_word} <i>(${kana} ${meaning})</i> `
   let hint_fld = target_word.replace(source_word, '・')
   Object.assign(fields, {target: target_fld, hint: hint_fld})
@@ -707,7 +707,7 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
           "deckName": "0-Inbox",
           "modelName": model === "kun" ? "KunYomi" : "OnKanji",
           "fields": {
-            "nederlands": json.meanings.join(', '),
+            "meaning": json.meanings.join(', '),
             "kanji": kanji,
             "kana": json.katakana.join(', '),
             "details": json.meanings.join(', ') + '\n' + json.hiragana.join(', '),
@@ -920,7 +920,7 @@ const kun_note = async (id, note) => {
       "deckName": "0-Inbox",
       "modelName": "KunYomi",
       "fields": {
-        "nederlands": note_field(note, 'nederlands'),
+        "meaning": note_field(note, 'meaning'),
         "kanji": kanji,
         "kana": note_field(note, 'kun'),
         "notes": note_field(note, 'notes'),
