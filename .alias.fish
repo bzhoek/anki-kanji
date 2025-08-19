@@ -7,7 +7,7 @@ function usage
 end
 
 function akprocess
-  usage 1 "Usage: akprocess <query>" $argv || return
+  usage 1 "$_ <query>" $argv || return 1
   set QRY $argv[1]
 
   ./anki.js kana $QRY
@@ -19,9 +19,9 @@ function akprocess
 end
 
 function aksort
-  usage 1 "Usage: aksort <query>" $argv || return
+  usage 1 "$_ <query>" $argv || return
   set FROM $argv[1]
-  
+
   ./anki.js move "$FROM (card:ToKanji or card:ToWriting)" Japans::1-書く::漢字
   ./anki.js move "$FROM note:Opposite card:Read*" Japans::1-書く::対義語
   ./anki.js move "$FROM card:*Yomi" Japans::2-言う読む
@@ -33,7 +33,7 @@ function aksort
 end
 
 function aktts
-  usage 1 "Usage: aktts <query>" $argv || return
+  usage 1 "$_ <query>" $argv || return
   set QRY $argv[1]
 
   ./anki.js tts "$QRY kana:_* speech:"
