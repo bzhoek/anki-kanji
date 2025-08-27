@@ -22,8 +22,7 @@ function createFilepath(text) {
 
 const client = new textToSpeech.TextToSpeechClient();
 
-async function tts(text) {
-
+function createRequest(text) {
   const request = {
     input: {text: text},
     voice: {
@@ -31,20 +30,34 @@ async function tts(text) {
       name: "ja-JP-Neural2-C",
       ssmlGender: 'MALE'
     },
-    audioConfig: {audioEncoding: 'MP3'},
+    audioConfig: {
+      audioEncoding: 'MP3',
+      speakingRate: 1.0
+    },
   };
 
-  const [response] = await client.synthesizeSpeech(request);
-  const writeFile = util.promisify(fs.writeFile);
-  const filename = createFilename(text);
+  if (text.length > 10) {
+    request.audioConfig.speakingRate = 0.75
+  }
+
+  return request;
+}
+
+async function tts(text) {
+  const request = createRequest(text);
+  const hashValue = hash(JSON.stringify(request));
+  const filename =  `gcloud-${hashValue}.mp3`;
   const filepath = path.join(folder, filename);
   if (fs.existsSync(filepath)) {
     console.log(`File already exists: ${filepath}`);
     return filename;
   }
+
+  const [response] = await client.synthesizeSpeech(request);
+  const writeFile = util.promisify(fs.writeFile);
   await writeFile(filepath, response.audioContent, 'binary');
   console.log(`Wrote audio to: ${filepath}`);
   return filename;
 }
 
-module.exports = {hash, tts};
+module.exports = {hash, tts, createRequest};
