@@ -18,7 +18,7 @@ script.
       const replacement = tag.innerHTML.replaceAll(parts, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
       tag.innerHTML = replacement
     })
-    const symbols = new RegExp("([▲⟁△⨹⧊◉◎⨀⏜▬⧨⇓⨺🧮]+)", 'gi')
+    const symbols = new RegExp("\\s+([▲⟁△⨹⧊◉◎⨀⏜▬⧨⇓⨺🧮]+)", 'gi')
     Array.from(document.getElementsByTagName("h1")).forEach(tag => {
       const replacement = tag.innerHTML.replaceAll(symbols, "<span class='type'>$1</span>")
       tag.innerHTML = replacement
