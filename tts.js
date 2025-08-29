@@ -32,6 +32,7 @@ function createRequest(text) {
     },
     audioConfig: {
       audioEncoding: 'MP3',
+      effectsProfileId: ['headphone-class-device'],
       speakingRate: 1.0
     },
   };
