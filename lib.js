@@ -449,6 +449,15 @@ const move_field = async (query, source, target) => {
   });
 }
 
+const set_field = async (query, field, value) => {
+  await iterate_notes(query, async (id, note) => {
+    let update = {note: {id: id, fields: {}}};
+    Object.defineProperty(update.note.fields, field, {value: value, enumerable: true})
+    await post('updateNote', update)
+    console.log("updated", update)
+  });
+}
+
 const lapse_cards = async (count) =>
   iterate_notes(`prop:lapses=${count} note:OnKanji`, async (id, note) => {
     let kanji = note.fields.kanji.value.replace(/<.+?>/g, '').trim()
@@ -1001,5 +1010,6 @@ module.exports = {
   kun_notes,
   show_stats,
   add_tts,
-  kanji_depth
+  kanji_depth,
+  set_field
 }

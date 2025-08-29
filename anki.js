@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth
+  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth, set_field
 } = require('./lib')
 const {
   html_from_templates
@@ -90,6 +90,13 @@ cli.command('moveField')
   .argument('<target>', 'target field')
   .description('Move contents of fields')
   .action((query, source, target) => move_field(query, source, target))
+
+cli.command('setField')
+  .argument('<query>', 'query')
+  .argument('<field>', 'source field')
+  .argument('<value>', 'target field')
+  .description('Set value of field')
+  .action((query, field, value) => set_field(query, field, value))
 
 cli.command('lapse')
   .argument('<count>', 'count')
