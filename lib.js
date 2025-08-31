@@ -372,7 +372,7 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
   if (note.modelName === "Grammar") {
     let string = note.fields['sentence'].value;
     const pause = string.replaceAll("→", "、")
-    const clean = pause.replaceAll(/[^一-龘ぁ-んァ-ン、]/g, "")
+    const clean = pause.replaceAll(/[^一-龘ぁ-んァ-ン。、]/g, "")
     speech = await add_speech_field(clean, 'audio', speech)
   } else {
     if (note.fields['speech'].value === "") {
