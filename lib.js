@@ -516,13 +516,17 @@ const mirror_note = async (id, note) => {
 }
 
 async function mirror_note_side(note, side) {
-  let kanji = note.fields[`${side}reading`].value;
   let updates = {};
 
-  let svg = await kanji_svg(kanji);
-  Object.defineProperty(updates, `${side}writing`, {value: svg, enumerable: true})
+  let strokes = note_field(note, `${side}strokes`);
+  if(!strokes) {
+    strokes = await kanji_svg(reading);
+    Object.defineProperty(updates, `${side}strokes`, {value: strokes, enumerable: true})
+  }
 
-  let speech = await try_media(kanji);
+  let reading = note.fields[`${side}reading`].value;
+  let speaking = note_field(note, `${side}speaking`);
+  let speech = await tts(speaking || reading);
   if (speech !== undefined) {
     Object.defineProperty(updates, `${side}listening`, {value: `[sound:${speech}]`, enumerable: true})
   }
