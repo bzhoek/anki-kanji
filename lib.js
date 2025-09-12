@@ -213,6 +213,7 @@ const iterate_notes = async (query, fn) => {
 const clean_notes = async (query) => iterate_notes(query, clean_note)
 const emphasize_notes = async (query) => iterate_notes(query, emphasize_first_sentence)
 const furigana_notes = async (query) => iterate_notes(query, furigana_note)
+const generate_notes = async (query) => iterate_notes(query, generate_note)
 const retarget_notes = async (query) => iterate_notes(query, retarget_note)
 const hint6k_notes = async (query) => iterate_notes(query, kanji_to_hint6k)
 const notes_target_to_hint = async (query) => iterate_notes(query, target_to_hint)
@@ -521,7 +522,7 @@ async function mirror_note_side(note, side) {
   let updates = {};
 
   let strokes = note_field(note, `${side}strokes`);
-  if(!strokes) {
+  if (!strokes) {
     strokes = await kanji_svg(reading);
     Object.defineProperty(updates, `${side}strokes`, {value: strokes, enumerable: true})
   }
@@ -548,6 +549,35 @@ const furigana_note = async (id, note) => {
   }
   let update = {note: {id: id, fields: {furigana: furigana}}};
   console.log(kanji, furigana)
+  await post('updateNote', update)
+}
+
+const generate_note = async (id, note) => {
+  if (!['Godan', 'Ichidan', 'KunYomi', 'OnYomi', 'Suru'].includes(note.modelName)) {
+    console.log("Skip", note.modelName, id)
+    return
+  }
+
+  let notes = note_field(note, 'notes');
+  if (notes.length > 0) {
+    console.error("Skip non-empty notes", id)
+    return
+  }
+
+  notes = ""
+  let kanji = note_field(note, 'kanji');
+  let kanjis = kanji.replaceAll(/[^一-龘]/g, "")
+  for (const char of kanjis) {
+    let note = await find_kanji(char);
+    if (note.fields !== undefined) {
+      let meaning = note_field(note, 'meaning')
+      notes += `<b>${meaning}</b> `;
+    }
+    notes += `${char} `;
+  }
+
+  let update = {note: {id: id, fields: {notes: notes.trimEnd()}}};
+  console.log(kanji, update)
   await post('updateNote', update)
 }
 
@@ -1024,5 +1054,6 @@ module.exports = {
   add_tts,
   kanji_depth,
   set_field,
-  update_kanjis
+  update_kanjis,
+  generate_notes
 }

@@ -17,7 +17,8 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth, set_field, update_kanjis
+  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth, set_field, update_kanjis,
+  generate_notes
 } = require('./lib')
 const {
   html_from_templates
@@ -148,6 +149,11 @@ cli.command('parts')
   .argument('<kanji>', 'kanji')
   .description('Show parts of kanji')
   .action((kanji) => show_parts_of_kanji(kanji))
+
+cli.command('notes')
+  .argument('<query>', 'query')
+  .description('Generate basic notes from kanji')
+  .action((query, deck) => generate_notes(query))
 
 cli.command('restyle')
   .description('Reapply anki.css stylesheet to all notes')
