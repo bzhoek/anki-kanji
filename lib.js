@@ -503,8 +503,9 @@ const clean_note = async (id, note) => {
 }
 
 const mirror_note = async (id, note) => {
-  if (note.modelName !== 'Opposite')
+  if (!['Opposite', 'Pair'].includes(note.modelName)) {
     return
+  }
 
   let updates = {};
   Object.assign(updates, await mirror_note_side(note, '1'));
@@ -516,6 +517,7 @@ const mirror_note = async (id, note) => {
 }
 
 async function mirror_note_side(note, side) {
+  let reading = note.fields[`${side}reading`].value;
   let updates = {};
 
   let strokes = note_field(note, `${side}strokes`);
@@ -524,7 +526,6 @@ async function mirror_note_side(note, side) {
     Object.defineProperty(updates, `${side}strokes`, {value: strokes, enumerable: true})
   }
 
-  let reading = note.fields[`${side}reading`].value;
   let speaking = note_field(note, `${side}speaking`);
   let speech = await tts(speaking || reading);
   if (speech !== undefined) {
@@ -702,6 +703,13 @@ let kanjidb = new sqlite3.Database('japanese.sqlite', (err) => {
     console.error(err)
   }
 })
+
+async function update_kanjis(query) {
+  await iterate_notes(query, async (id, note) => {
+    let kanji = note_field(note, 'kanji');
+    await add_kanji_with_reading_and_meaning(kanji)
+  });
+}
 
 const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
   let unicode = kanji.charCodeAt(0)
@@ -1015,5 +1023,6 @@ module.exports = {
   show_stats,
   add_tts,
   kanji_depth,
-  set_field
+  set_field,
+  update_kanjis
 }

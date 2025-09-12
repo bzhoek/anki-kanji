@@ -17,7 +17,7 @@ const {
   move_related,
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
-  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth, set_field
+  move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth, set_field, update_kanjis
 } = require('./lib')
 const {
   html_from_templates
@@ -157,6 +157,13 @@ cli.command('kanji')
     add_kanji_with_reading_and_meaning(kanji, options.kun ? 'kun' : 'kan')
   })
 
+cli.command('kanjis')
+  .argument('<query>', 'query')
+  .description('Update kanjis for matching notes')
+  .action((query) => {
+    update_kanjis(query)
+  })
+
 cli.command('parts')
   .argument('<kanji>', 'kanji')
   .description('Show parts of kanji')
@@ -203,6 +210,7 @@ cli.command('template')
   .description('Generate card templates from pug files')
   .action(() => {
     html_from_templates()
+    upload_html_templates()
   })
 
 cli.parse()

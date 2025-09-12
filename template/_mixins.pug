@@ -42,9 +42,11 @@ mixin kanjikana(grammar)
     +audioheader(grammar[1] || grammar[0])
 mixin listening(index)
   +optional(`#${index}listening`)
-    h2 聞く 対義語
+    h2= grammar
+      span 聞く
   +optional(`^${index}listening`)
-    h2 言う 対義語
+    h2= grammar
+      span 言う
 mixin optional(field)
   = `\n{{${field}}}`
   block
