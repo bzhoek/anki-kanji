@@ -105,9 +105,9 @@ function to_express_html() {
   return compiledTemplate(cards[0])
 }
 
-function pair_html(note_name, grammar) {
+function pair_html(note_name, grammar, symbols = '') {
   [{front: 1, back: 2}, {front: 2, back: 1}].forEach(card => {
-    const note = Object.assign({note: note_name, grammar: grammar}, card);
+    const note = Object.assign({note: note_name, grammar: grammar, symbols: symbols}, card);
     to_sides([note], 'mirror.r2w', `Read${card.front}Write${card.back}`);
     to_sides([note], 'mirror.l2s', `Listen${card.front}Speak${card.back}`);
   })
@@ -135,7 +135,7 @@ const to_grammar_html = () => {
 
 const html_from_templates = () => {
   pair_html("Opposite", "対義語")
-  pair_html("Pair", "自他動詞")
+  pair_html("Pair", "自他動詞", "⊷⊶")
   reading_kanji_html()
   writing_kanji_html()
   to_express_html()
