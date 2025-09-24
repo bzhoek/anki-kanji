@@ -528,7 +528,8 @@ async function mirror_note_side(note, side) {
   }
 
   let speaking = note_field(note, `${side}speaking`);
-  let speech = await tts(speaking || reading);
+  const clean = (speaking || reading).replaceAll(/[^一-龘ぁ-んァ-ン。、]/g, "")
+  let speech = await tts(clean);
   if (speech !== undefined) {
     Object.defineProperty(updates, `${side}listening`, {value: `[sound:${speech}]`, enumerable: true})
   }
