@@ -12,15 +12,19 @@ script.
     tag.style.fontWeight = 'bold'
     tag.textContent = tag.textContent.replace(/[0-9]/g, '')
   })
+
+  function replaceText(clazz, regex, replacement) {
+    Array.from(document.getElementsByClassName(clazz)).forEach(tag => {
+      const newHTML = tag.innerHTML.replaceAll(regex, replacement)
+      tag.innerHTML = newHTML
+    })
+  }
+
   setTimeout(function () {
-    const parts = new RegExp("(<b>[\\u00BF-\\u00FF\\w\\s,'-]+</b>)\\s+([\\u2E80-\\u9FFFｲ𧘇𠂉𡗗𠦝丿十卄]+)", 'gi')
-    Array.from(document.getElementsByClassName("notes")).forEach(tag => {
-      const replacement = tag.innerHTML.replaceAll(parts, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
-      tag.innerHTML = replacement
-    })
+    const terms = new RegExp("(<b>[\\u00BF-\\u00FF\\w\\s,'-]+</b>)\\s+([\\u2E80-\\u9FFFｲ𧘇𠂉𡗗𠦝丿十卄]+)", 'gi')
+    replaceText("notes", terms, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
+    const kana = new RegExp("([一-龘ぁ-んァ]+)", 'gi')
+    replaceText("details", kana, "<em>$1</em>")
     const symbols = new RegExp("\\s+([▲⟁△⨹⧊◉◎⨀⏜▬⧨⇓⨺🧮]+)", 'gi')
-    Array.from(document.getElementsByTagName("h1")).forEach(tag => {
-      const replacement = tag.innerHTML.replaceAll(symbols, "<span class='type'>$1</span>")
-      tag.innerHTML = replacement
-    })
+    replaceText("meaning", symbols, "<span class='type'>$1</span>")
   }, 400)
