@@ -13,18 +13,17 @@ script.
     tag.textContent = tag.textContent.replace(/[0-9]/g, '')
   })
 
-  function replaceText(clazz, regex, replacement) {
-    Array.from(document.getElementsByClassName(clazz)).forEach(tag => {
-      const newHTML = tag.innerHTML.replaceAll(regex, replacement)
-      tag.innerHTML = newHTML
+  function replaceText(query, regex, replacement) {
+    Array.from(document.querySelectorAll(query)).forEach(tag => {
+      tag.innerHTML = tag.innerHTML.replaceAll(regex, replacement)
     })
   }
 
   setTimeout(function () {
     const terms = new RegExp("(<b>[\\u00BF-\\u00FF\\w\\s,'-]+</b>)\\s+([\\u2E80-\\u9FFFｲ𧘇𠂉𡗗𠦝丿十卄]+)", 'gi')
-    replaceText("notes", terms, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
+    replaceText(".notes", terms, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
     const kana = new RegExp("([一-龘ぁ-んァ]+)", 'gi')
-    replaceText("details", kana, "<em>$1</em>")
+    replaceText(".details", kana, "<em>$1</em>")
     const symbols = new RegExp("\\s+([▲⟁△⨹⧊◉◎⨀⏜▬⧨⇓⨺🧮]+)", 'gi')
-    replaceText("meaning", symbols, "<span class='type'>$1</span>")
+    replaceText("h1", symbols, "<span class='type'>$1</span>")
   }, 400)
