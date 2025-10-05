@@ -24,6 +24,6 @@ script.
     replaceText(".notes", terms, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
     const kana = new RegExp("([一-龘ぁ-んァ]+)", 'gi')
     replaceText(".details", kana, "<em>$1</em>")
-    const symbols = new RegExp("\\s+([▲⟁△⨹⧊◉◎⨀⏜▬⧨⇓⨺🧮]+)", 'gi')
+    const symbols = new RegExp("\\s+([◈◇◆▣□■△⨹⧊▲◉◎⨀◌⏜▬⧨⇓⨺]+)", 'gi')
     replaceText("h1", symbols, "<span class='type'>$1</span>")
   }, 400)
