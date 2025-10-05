@@ -1,4 +1,13 @@
 $base1: #93a1a1
+$base3: #fdf6e3
+$yellow: #b58900
+$orange: #cb4b16
+$red: #dc322f
+$magenta: #d33682
+$violet: #6c71c4
+$blue: #268bd2
+$cyan: #2aa198
+$green: #859900
 
 // iphone
 @media only screen and (orientation: portrait)
@@ -47,6 +56,7 @@ $base1: #93a1a1
 
 h1
   font-size: 2rem
+  line-height: 2.2rem
   font-weight: normal
   margin: 0
 
@@ -77,53 +87,37 @@ main.grammar
   .sentence
     font-size: 1.2rem
 
+    b
+      color: $blue
+      font-weight: normal
+
 main
   &.jukukanji h2, &.violet h2
-    background-color: #6c71c4
+    background-color: $violet
 
   &.jukukana h2, &.magenta h2
-    background-color: #d33682
+    background-color: $magenta
 
   &.jukumasu h2, &.cyan h2
-    background-color: #2aa198
+    background-color: $cyan
 
   &.jukuteta h2, &.blue h2
-    background-color: #268bd2
+    background-color: $blue
 
   &.toonyomi h2, &.yellow h2
-    background-color: #b58900
+    background-color: $yellow
 
   &.tokanji h2
-    background-color: #b58900
+    background-color: $yellow
 
   &.jukugo h2
-    background-color: #d33682
+    background-color: $magenta
 
-  &.hearing h2::before
-    content: '< '
-
-  &.hearing h2::after
-    content: ' >'
-
-  &.reading h2::before
-    content: '= '
-
-  &.reading h2::after
-    content: ' ='
-
-  &.speaking h2::before
-    content: '> '
-
-  &.speaking h2::after
-    content: ' <'
-
-  &.writing h2::before
-    content: '\\ '
-
-  &.writing h2::after
-    content: ' /'
+  &.green h2
+    background-color: $green
 
   .notes
+    line-height: 1.5rem
     .part
       color: red
 
@@ -155,16 +149,18 @@ main
   font-size: 1.2rem
   text-align: center
   color: black
-  background-color: #fdf6e3
+  background-color: $base3
 
 .hint, .picture
   font-size: 1.4rem
+  line-height: 1.8rem
 
   a
     color: $base1
 
 .target
-  font-size: 16pt
+  font-size: 1.4rem
+  line-height: 1.8rem
 
   a
     color: $base1
@@ -216,13 +212,13 @@ main
 
 .lookalike, .leech
   .kanji, .strokes
-    border: 1px solid #d33682
+    border: 1px solid $magenta
 
 .homophone
-  border: 1px solid  #268bd2
+  border: 1px solid  $blue
 
 .synonym
-  border: 1px solid   #2aa198
+  border: 1px solid   $cyan
 
 .onkanji
   div.strokes
@@ -235,11 +231,11 @@ main
 
 .front
   .cloze
-    color: #268bd2
+    color: $blue
 
 .back
   .cloze
-    color: #268bd2
+    color: $blue
 
 svg
   text
