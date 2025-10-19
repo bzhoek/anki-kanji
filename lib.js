@@ -369,11 +369,13 @@ const add_speech_field = async (text, field, object) => {
 }
 
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
+  const romaji = /[^一-龘ぁ-んァ-ン。、]/g;
+
   let speech = {};
   if (note.modelName === "Grammar") {
     let string = note.fields['sentence'].value;
     const pause = string.replaceAll("→", "、")
-    const clean = pause.replaceAll(/[^一-龘ぁ-んァ-ン。、]/g, "")
+    const clean = pause.replaceAll(romaji, "")
     speech = await add_speech_field(clean, 'audio', speech)
   } else {
     if (note.fields['speech'].value === "") {
@@ -383,7 +385,8 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
 
     if (note.fields['context'].value === "") {
       let target = extract_ruby_kana(note.fields['target'].value);
-      speech = await add_speech_field(target, 'context', speech)
+      const clean = target.replaceAll(romaji, "")
+      speech = await add_speech_field(clean, 'context', speech)
     }
   }
   let fields = {note: {id: id, fields: speech}};
