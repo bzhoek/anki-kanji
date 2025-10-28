@@ -14,8 +14,8 @@ const write_html = (cards, template, suffix) => {
   return compiledTemplate
 };
 
-let godan = ['辞書形', '五段動詞'];
-let ichidan = ['辞書形', '一段動詞'];
+let godan = ['動詞', '五段動詞'];
+let ichidan = ['動詞', '一段動詞'];
 let jukugo = ['熟語', 'じゅくご'];
 let kango = ['漢語', 'かんご'];
 
