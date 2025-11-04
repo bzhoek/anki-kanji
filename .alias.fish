@@ -15,6 +15,7 @@ function akprocess
   ./anki.js furigana $QRY
   ./anki.js speech $QRY
   ./anki.js mirror $QRY
+  ./anki.js notes "$QRY (note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:_* notes:"
   aktts "$QRY"
 end
 
