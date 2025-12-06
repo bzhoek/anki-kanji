@@ -878,15 +878,20 @@ async function note_info(id) {
 }
 
 const find_6k = async (kanji) => {
-  let ids = await post('findNotes', {query: `"note:Japanese Vocab Dynamic" Expression:${kanji}`});
-  let id = ids.result[0];
-  return await note_info(id);
+  return await find_note(`"note:Japanese Vocab Dynamic" Expression:${kanji}`);
 }
 
 const find_note = async (query) => {
-  let ids = await post('findNotes', {query: query});
-  let id = ids.result[0];
-  return await note_info(id);
+  let rsp = await post('findNotes', {query: query}).result;
+  switch (rsp.result.length) {
+    case 0:
+      throw new Error(`No matches for: ${query}`)
+    case 1:
+      let id = rsp.result[0];
+      return await note_info(id);
+    default:
+      throw new Error(`Multiple matches (${rsp.result}) for: ${query}`)
+  }
 }
 
 const find_kanji = async (kanji) =>
