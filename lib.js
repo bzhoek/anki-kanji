@@ -363,13 +363,14 @@ const add_speech_field = async (text, field, object) => {
     return object
   }
 
+  console.log('tts', text)
   const filename = await tts(text)
   const audio = `[sound:${filename}]`;
   return Object.assign(object, {[field]: audio})
 }
 
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
-  const romaji = /[^一-龘ぁ-んァ-ン。、]/g;
+  const romaji = /[^0-9０-９一-龘ぁ-んァ-ン。、]/g;
 
   let speech = {};
   if (note.modelName === "Grammar") {
