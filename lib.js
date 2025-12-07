@@ -7,7 +7,7 @@ const {DOMParser: parser} = require("@xmldom/xmldom");
 const xpath = require("xpath");
 const {un_furigana, furigana_html, ruby_target_result} = require("./furigana");
 const {strip_kana, extract_before_period, extract_ruby_kana} = require('./util')
-const {tts} = require("./tts");
+const {tts, unpackCloze} = require("./tts");
 
 let data = fs.readFileSync("config.json", "utf8")
 const config = JSON.parse(data);
@@ -370,13 +370,12 @@ const add_speech_field = async (text, field, object) => {
 }
 
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
-  const romaji = /[^0-9０-９一-龘ぁ-んァ-ン。、]/g;
+  const romaji = /[^０-９一-龘ぁ-んァ-ン。、]/g;
 
   let speech = {};
   if (note.modelName === "Grammar") {
-    let string = note.fields['sentence'].value;
-    const pause = string.replaceAll("→", "、")
-    const clean = pause.replaceAll(romaji, "")
+    let cloze = note.fields['sentence'].value;
+    const clean = unpackCloze(cloze).replaceAll("→", "、")
     speech = await add_speech_field(clean, 'audio', speech)
   } else {
     if (note.fields['speech'].value === "") {

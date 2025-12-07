@@ -1,4 +1,4 @@
-const {createRequest, hash} = require("./tts");
+const {createRequest, hash, unpackCloze} = require("./tts");
 
 describe('hash', () => {
   test('string', () => {
@@ -16,3 +16,23 @@ describe('createRequest', () => {
     expect(request.audioConfig.speakingRate).toEqual(0.75)
   })
 })
+
+describe('clean', () => {
+  test('cloze', () => {
+    let sentence = "手伝う → {{c1::手伝わない}}"
+    let result = unpackCloze(sentence);
+    expect(result).toEqual("手伝う → 手伝わない")
+  })
+
+  test('cloze hint', () => {
+    let sentence = "手伝う → {{c1::手伝わない::nai}}"
+    let result = unpackCloze(sentence);
+    expect(result).toEqual("手伝う → 手伝わない")
+  })
+
+  test('no cloze', () => {
+    let sentence = "手伝う"
+    let result = unpackCloze(sentence);
+    expect(result).toEqual(sentence)
+  })
+});

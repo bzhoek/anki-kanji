@@ -61,4 +61,9 @@ async function tts(text) {
   return filename;
 }
 
-module.exports = {hash, tts, createRequest};
+function unpackCloze(cloze) {
+  const regex = /(.*?)({{.*?::)(.*?)(::.+)?(}})/;
+  return cloze.replace(regex, "$1$3")
+}
+
+module.exports = {hash, tts, createRequest, unpackCloze};
