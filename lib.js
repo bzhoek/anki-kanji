@@ -363,7 +363,6 @@ const add_speech_field = async (text, field, object) => {
     return object
   }
 
-  console.log('tts', text)
   const filename = await tts(text)
   const audio = `[sound:${filename}]`;
   return Object.assign(object, {[field]: audio})

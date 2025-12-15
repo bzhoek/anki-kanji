@@ -50,14 +50,14 @@ async function tts(text) {
   const filename =  `gcloud-${hashValue}.mp3`;
   const filepath = path.join(folder, filename);
   if (fs.existsSync(filepath)) {
-    console.log(`File already exists: ${filepath}`);
+    console.log(`File already exists: ${filepath} for ${text}`);
     return filename;
   }
 
   const [response] = await client.synthesizeSpeech(request);
   const writeFile = util.promisify(fs.writeFile);
   await writeFile(filepath, response.audioContent, 'binary');
-  console.log(`Wrote audio to: ${filepath}`);
+  console.log(`Wrote audio to: ${filepath} for ${text}`);
   return filename;
 }
 
