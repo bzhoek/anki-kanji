@@ -50,20 +50,20 @@ async function tts(text) {
   const filename =  `gcloud-${hashValue}.mp3`;
   const filepath = path.join(folder, filename);
   if (fs.existsSync(filepath)) {
-    console.log(`File already exists: ${filepath} for ${text}`);
+    console.log(`File exists ${filename} for ${text}`);
     return filename;
   }
 
   const [response] = await client.synthesizeSpeech(request);
   const writeFile = util.promisify(fs.writeFile);
   await writeFile(filepath, response.audioContent, 'binary');
-  console.log(`Wrote audio to: ${filepath} for ${text}`);
+  console.log(`Wrote audio to ${filename} for ${text}`);
   return filename;
 }
 
 function unpackCloze(cloze) {
-  const regex = /(.*?)({{.*?::)(.*?)(::.+)?(}})/;
-  return cloze.replace(regex, "$1$3")
+  const regex = /(.*?)({{.*?::)(.*?)(::.+)?(}})/g;
+  return cloze.replaceAll(regex, "$1$3")
 }
 
 module.exports = {hash, tts, createRequest, unpackCloze};
