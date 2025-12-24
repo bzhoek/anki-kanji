@@ -18,7 +18,7 @@ const {
   show_parts_of_kanji,
   target_word, clean_notes, mirror_notes, furigana_notes, retarget_notes, notes_target_to_hint, hint6k_notes,
   move_field, copy_context, raw_svg, kun_notes, show_stats, add_tts, kanji_depth, set_field, update_kanjis,
-  generate_notes
+  generate_notes, convert_showdown
 } = require('./lib')
 const {
   html_from_templates
@@ -180,6 +180,11 @@ cli.command('speech')
   .argument('<query>', 'query')
   .description('Add speech for matched notes')
   .action((query) => add_speech(query))
+
+cli.command('markdown')
+  .argument('<query>', 'query')
+  .description('Add speech for matched notes')
+  .action((query) => convert_showdown(query))
 
 cli.command('stats')
   .description('Find lapsed kanji without vocab')

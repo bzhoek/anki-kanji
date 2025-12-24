@@ -358,6 +358,28 @@ const add_speech = async (query) => iterate_notes(query, async (id, note) => {
   console.log('completed', sound)
 })
 
+const convert_showdown = async (query) => iterate_notes(query, async (id, note) => {
+  const showdown = require('showdown');
+  let converter = new showdown.Converter()
+  // converter.setFlavor('github')
+  converter.setOption('tables', 'true')
+
+  let html = note.fields['sentence'].value;
+  let doc = new parser().parseFromString(`<html>${html}</html>`, 'text/xml');
+  let pre = xpath.select1("//pre", doc)
+  if (pre !== undefined) {
+    let text = pre.textContent
+    let converted = converter.makeHtml(text);
+    let strokes = {note: {id: id, fields: {sentence: `<pre>${text}</pre>${converted}`}}};
+    let update = await post('updateNoteFields', strokes)
+    if (update.error) {
+      console.error(update.error, strokes)
+    } else {
+      console.log(text, converted)
+    }
+  }
+})
+
 const add_speech_field = async (text, field, object) => {
   if (text.length === 0) {
     return object
@@ -1063,5 +1085,6 @@ module.exports = {
   kanji_depth,
   set_field,
   update_kanjis,
-  generate_notes
+  generate_notes,
+  convert_showdown
 }
