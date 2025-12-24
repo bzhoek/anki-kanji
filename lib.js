@@ -255,7 +255,7 @@ const convert_kana_field_to_onyomi = async (query) =>
   })
 
 const target_word = async (source, target) => {
-  let source_note = await find_kanji(source);
+  let source_note = await find_kanji(source, only_note);
   let target_note = await find_yomi(target);
 
   let source_word = note_field(source_note, 'kanji');
@@ -901,21 +901,32 @@ const find_6k = async (kanji) => {
   return await find_note(`"note:Japanese Vocab Dynamic" Expression:${kanji}`);
 }
 
-const find_note = async (query) => {
-  let rsp = await post('findNotes', {query: query}).result;
-  switch (rsp.result.length) {
+const find_note = async (query, select) => {
+  let rsp = await post('findNotes', {query: query});
+  if (select !== undefined) {
+    return select(rsp.result)
+  }
+  return first_note(rsp.result);
+}
+
+async function only_note(result) {
+  switch (result.length) {
     case 0:
       throw new Error(`No matches for: ${query}`)
     case 1:
-      let id = rsp.result[0];
-      return await note_info(id);
+      return await first_note(result)
     default:
       throw new Error(`Multiple matches (${rsp.result}) for: ${query}`)
   }
 }
 
-const find_kanji = async (kanji) =>
-  find_nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:OnKanji) kanji:${kanji}`);
+async function first_note(result) {
+  let id = result[0];
+  return await note_info(id);
+}
+
+const find_kanji = async (kanji, select) =>
+  find_nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:OnKanji) kanji:${kanji}`, select);
 
 const find_kunyomi = async (kanji) =>
   find_nid_or_query(kanji, () => `note:KunYomi kanji:${kanji}`);
@@ -923,11 +934,11 @@ const find_kunyomi = async (kanji) =>
 const find_yomi = async (kanji) =>
   find_nid_or_query(kanji, () => `(note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:${kanji}`);
 
-const find_nid_or_query = (query, fn) => {
+const find_nid_or_query = (query, fn, select) => {
   if (query.startsWith('nid:')) {
-    return find_note(query);
+    return find_note(query, select);
   }
-  return find_note(fn());
+  return find_note(fn(), select);
 }
 
 const multiple_kanji = (list) => {
