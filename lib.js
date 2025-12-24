@@ -391,13 +391,21 @@ const add_speech_field = async (text, field, object) => {
 }
 
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
-  const romaji = /[^０-９一-龘ぁ-んァ-ン。、]/g;
+  const romaji = /[^０-９一-龘ぁ-んァ-ン。、\n|]/g;
 
   let speech = {};
   if (note.modelName === "Grammar") {
-    let cloze = note.fields['sentence'].value;
-    const clean = unpackCloze(cloze).replaceAll("→", "、")
-    speech = await add_speech_field(clean, 'audio', speech)
+    let value = note.fields['sentence'].value;
+    let doc = new parser().parseFromString(`<html>${value}</html>`, 'text/xml');
+    let pre = xpath.select1("//pre", doc)
+    if (pre !== undefined) {
+      value = pre.textContent
+    }
+    value = unpackCloze(value).replaceAll("→", "、")
+    value = value.replaceAll(romaji, "")
+    value = value.replaceAll("|", "\n")
+    value = value.split("\n").filter(x => x.length > 0).join("、")
+    speech = await add_speech_field(value, 'audio', speech)
   } else {
     if (note.fields['speech'].value === "") {
       let kana = extract_before_period(note.fields['kana'].value);
