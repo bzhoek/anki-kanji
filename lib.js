@@ -912,19 +912,19 @@ const find_6k = async (kanji) => {
 const find_note = async (query, select) => {
   let rsp = await post('findNotes', {query: query});
   if (select !== undefined) {
-    return select(rsp.result)
+    return select(query, rsp.result)
   }
   return first_note(rsp.result);
 }
 
-async function only_note(result) {
+async function only_note(query, result) {
   switch (result.length) {
     case 0:
       throw new Error(`No matches for: ${query}`)
     case 1:
       return await first_note(result)
     default:
-      throw new Error(`Multiple matches (${rsp.result}) for: ${query}`)
+      throw new Error(`Multiple matches (${result}) for: ${query}`)
   }
 }
 
