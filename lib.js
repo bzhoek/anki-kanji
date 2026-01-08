@@ -401,7 +401,7 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
     if (pre !== undefined) {
       value = pre.textContent
     }
-    value = unpackCloze(value).replaceAll("→", "、")
+    value = unpackCloze(value).replaceAll(/[→　・]/g, "、")
     value = value.replaceAll(romaji, "")
     value = value.replaceAll("|", "\n")
     value = value.split("\n").filter(x => x.length > 0).join("、")
