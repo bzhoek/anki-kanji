@@ -183,7 +183,7 @@ cli.command('speech')
 
 cli.command('markdown')
   .argument('<query>', 'query')
-  .description('Add speech for matched notes')
+  .description('Format <pre> fields with showdown')
   .action((query) => convert_showdown(query))
 
 cli.command('stats')
