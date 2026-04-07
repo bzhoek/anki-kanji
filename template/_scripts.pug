@@ -10,11 +10,12 @@ script.
       tag.innerHTML = tag.innerHTML.replaceAll(regex, replacement)
     })
   }
-
+  // x3000 - x30FF: punctuation, hiragana and katakana
+  // x4E00 - x9FFF: cjk unified ideographs
   setTimeout(function () {
     const terms = new RegExp("(<b>[\\u00BF-\\u00FF\\w\\s,'-]+</b>)\\s+([\\u2E80-\\u9FFFｲ𧘇𠂉𡗗𠦝丿十卄]+)", 'gi')
     replaceText(".notes", terms, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
-    const kana = new RegExp("([一-龘ぁ-んァ]+)", 'gi')
+    const kana = new RegExp("([一-龘\\u3000-\\u30FF]+)", 'gi')
     replaceText(".details", kana, "<em>$1</em>")
     const symbols = new RegExp("\\s+([◈◇◆▣□■△⨹⧊▲◉◎⨀◌⏜▬⧨⇓⨺]+)", 'gi')
     replaceText("h1, .listening", symbols, "<span class='type'>$1</span>")
