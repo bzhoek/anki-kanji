@@ -1,3 +1,5 @@
+set SENTENCE $HOME/bzhoek/openai-jp/sentence.ts
+
 function usage
   set -l actual (count $argv[3..-1])
   if test $actual -lt $argv[1]
@@ -10,7 +12,7 @@ function akprocess
   usage 1 "$_ <query>" $argv || return 1
   set QRY $argv[1]
 
-  ./anki.js kana $QRY
+  $SENTENCE onyomi $QRY
   ./anki.js stroke $QRY
   ./anki.js furigana $QRY
   ./anki.js speech $QRY
@@ -42,5 +44,5 @@ function aktts
   ./anki.js tts "$QRY kana:_* speech:"
   ./anki.js tts "$QRY target:_* context:"
   ./anki.js tts "$QRY sentence:_* audio:"
-  ./anki.js hint "$QRY target:_* hint:"
+  $SENTENCE hint "$QRY target:_* hint:"
 end
