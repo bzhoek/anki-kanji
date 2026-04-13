@@ -12,7 +12,7 @@ function akprocess
   usage 1 "$_ <query>" $argv || return 1
   set QRY $argv[1]
 
-  $SENTENCE onyomi $QRY
+  $SENTENCE onyomi "$QRY note:OnYomi"
   ./anki.js stroke $QRY
   ./anki.js furigana $QRY
   ./anki.js speech $QRY
