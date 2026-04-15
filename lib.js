@@ -425,6 +425,10 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
       speech = await add_speech_field(clean, 'context', speech)
     }
   }
+  if (Object.keys(speech).length === 0) {
+    console.warn("No speech added to", id);
+    return;
+  }
   let fields = {note: {id: id, fields: speech}};
   let update = await post('updateNoteFields', fields)
   if (update.error) {
