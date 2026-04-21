@@ -50,7 +50,7 @@ node anki stroke nid:1661888566814 # add strokes for found kanji
 Nested decks are named `<top level>::<next level>`
 
 ```sh
-./anki.js move card:ToMeaning Japans::Lezen
+./anki.js move card:read-mean Japans::Lezen
 ./anki.js move card:ToKanji Japans::Schrijven::Kanji
 ```
 
@@ -59,7 +59,7 @@ Nested decks are named `<top level>::<next level>`
 My current strategy is to make all mnemonics personal: *I* do something *radical* with
 *radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
 
-1. ToMeaning for reading, from kanji
+1. read-mean for reading, from kanji
 2. ToKanji for writing, from native language
 3. To<On|Kun>Yomi for speaking, from kanji
 

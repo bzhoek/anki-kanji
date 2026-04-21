@@ -409,7 +409,7 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
       value = pre.textContent
     }
     value = unpackCloze(value).replaceAll(/[→　・]/g, "、")
-    value = value.replaceAll(romaji, "")
+    // value = value.replaceAll(romaji, "")
     value = value.replaceAll("|", "\n")
     value = value.split("\n").filter(x => x.length > 0).join("、")
     speech = await add_speech_field(value, 'audio', speech)

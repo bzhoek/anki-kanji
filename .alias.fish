@@ -25,15 +25,15 @@ function aksort
   usage 1 "$_ <query>" $argv || return
   set FROM $argv[1]
 
-  ./anki.js move "$FROM (card:ToKanji or card:ToWriting)" Japans::1-書く
+  ./anki.js move "$FROM card:mean-write" Japans::1-書く
   ./anki.js move "$FROM note:Opposite card:Read*" Japans::1-書く
   ./anki.js move "$FROM card:*Yomi" Japans::2-言う読む
-  ./anki.js move "$FROM (card:Speaking or card:ToExpress or card:ToMeaning)" Japans::2-言う読む
+  ./anki.js move "$FROM (card:Speaking or card:ToExpress or card:read-mean)" Japans::2-言う読む
   ./anki.js move "$FROM note:Pair card:Read*" Japans::2-言う読む
   ./anki.js move "$FROM note:Opposite card:Listen*" Japans::3-聞く
   ./anki.js move "$FROM note:Pair card:Listen*" Japans::3-聞く
   ./anki.js move "$FROM card:Listening" Japans::3-聞く
-  ./anki.js move "$FROM card:ToHearing" Japans::3-聞く
+  ./anki.js move "$FROM card:hear-write" Japans::3-聞く
   ./anki.js move "$FROM card:Cloze*" Japans::4-文法
 end
 

@@ -24,7 +24,7 @@ function writing_kanji_html() {
     note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'writing'
   }]
 
-  both_sides(cards, 'writing.kanji', 'ToKanji');
+  both_sides(cards, 'mean-write.kanji', 'mean-write');
 }
 
 function reading_kanji_html() {
@@ -32,7 +32,7 @@ function reading_kanji_html() {
     note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'reading'
   }]
 
-  both_sides(cards, 'reading.kanji', 'ToMeaning');
+  both_sides(cards, 'read-mean.kanji', 'read-mean');
 }
 
 function to_kanji_html() {
@@ -46,7 +46,7 @@ function to_kanji_html() {
     {note: 'Suru', grammar: suru, color: 'violet'},
   ].map(card => Object.assign(card, {mode: 'writing'}));
 
-  both_sides(cards, 'writing', 'ToWriting');
+  both_sides(cards, 'mean-write', 'mean-write');
 }
 
 function to_hearing_html() {
@@ -57,7 +57,7 @@ function to_hearing_html() {
     {note: 'OnYomi', grammar: kango, color: 'magenta', type: ''},
   ].map(card => Object.assign(card, {mode: 'hearing'}));
 
-  both_sides(cards, 'hearing', 'ToHearing');
+  both_sides(cards, 'hearing', 'hear-write');
 }
 
 function to_meaning_html() {
@@ -84,8 +84,8 @@ function to_meaning_html() {
     mode: 'reading'
   }))
 
-  let compiledTemplate = write_html(fronts, 'reading.front.pug', 'ToMeaning.Front');
-  write_html(backs, 'reading.back.pug', 'ToMeaning.Back');
+  let compiledTemplate = write_html(fronts, 'read-mean.front.pug', 'read-mean.Front');
+  write_html(backs, 'read-mean.back.pug', 'read-mean.Back');
 
   return compiledTemplate(fronts[0])
 }
@@ -99,7 +99,7 @@ function to_express_html() {
     {note: 'Ichidan', grammar: ichidan, color: 'cyan'},
   ].map(card => Object.assign(card, {mode: 'saying'}));
 
-  let compiledTemplate = write_html(cards, 'writing.front.pug', 'ToExpress.Front');
+  let compiledTemplate = write_html(cards, 'mean-write.front.pug', 'ToExpress.Front');
   write_html(cards, 'saying.back.pug', 'ToExpress.Back');
 
   return compiledTemplate(cards[0])
@@ -124,8 +124,8 @@ const both_sides = (notes, template, card) => {
 
 const to_immerse_html = () => {
   const notes = [{note: 'Immersion'}];
-  both_sides(notes, 'reading.immerse', 'ToMeaning');
-  both_sides(notes, 'hearing.immerse', 'ToHearing');
+  both_sides(notes, 'reading.immerse', 'read-mean');
+  both_sides(notes, 'hearing.immerse', 'hear-mean');
 }
 
 const to_grammar_html = () => {
