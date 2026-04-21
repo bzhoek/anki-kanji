@@ -135,7 +135,7 @@ const to_grammar_html = () => {
 
 const html_from_templates = () => {
   pair_html("Opposite", "∥ 対義語", "blue")
-  pair_html("Pair", "⇔ 自他動詞", "green", "◉◎")
+  pair_html("Pair", "⇔ 自他動詞", "green", "をが")
   reading_kanji_html()
   writing_kanji_html()
   to_express_html()
