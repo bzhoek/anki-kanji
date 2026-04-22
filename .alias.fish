@@ -40,6 +40,6 @@ function aktts
   ./anki.js tts "$QRY kana:_* speech:"
   ./anki.js tts "$QRY target:_* context:"
   ./anki.js tts "$QRY sentence:_* audio:"
-  $SENTENCE hint "$QRY target:_* hint:"
+  ./anki.js mirror $QRY
   $DANKI hint "$QRY target:_* hint:"
 end
