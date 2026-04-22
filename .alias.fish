@@ -1,4 +1,4 @@
-set SENTENCE $HOME/bzhoek/openai-jp/sentence.ts
+set DANKI $HOME/bzhoek/openai-jp/main.ts
 
 function usage
   set -l actual (count $argv[3..-1])
@@ -12,7 +12,7 @@ function akprocess
   usage 1 "$_ <query>" $argv || return 1
   set QRY $argv[1]
 
-  $SENTENCE onyomi "$QRY note:OnYomi"
+  $DANKI onyomi "$QRY note:OnYomi"
   ./anki.js stroke $QRY
   ./anki.js furigana $QRY
   ./anki.js speech $QRY
@@ -25,16 +25,12 @@ function aksort
   usage 1 "$_ <query>" $argv || return
   set FROM $argv[1]
 
-  ./anki.js move "$FROM card:mean-write" Japans::1-書く
-  ./anki.js move "$FROM note:Opposite card:Read*" Japans::1-書く
-  ./anki.js move "$FROM card:*Yomi" Japans::2-言う読む
-  ./anki.js move "$FROM (card:Speaking or card:ToExpress or card:read-mean)" Japans::2-言う読む
-  ./anki.js move "$FROM note:Pair card:Read*" Japans::2-言う読む
-  ./anki.js move "$FROM note:Opposite card:Listen*" Japans::3-聞く
-  ./anki.js move "$FROM note:Pair card:Listen*" Japans::3-聞く
-  ./anki.js move "$FROM card:Listening" Japans::3-聞く
-  ./anki.js move "$FROM card:hear-write" Japans::3-聞く
-  ./anki.js move "$FROM card:Cloze*" Japans::4-文法
+  $DANKI move "$FROM card:mean-write*" "Japans::1-意味書く"
+  $DANKI move "$FROM card:hear-write*" "Japans::2-聞く書く"
+  $DANKI move "$FROM card:mean-say" "Japans::3-意味言う"
+  $DANKI move "$FROM card:hear-mean*" "Japans::4-聞く意味"
+  $DANKI move "$FROM card:read-mean*" "Japans::5-読む意味"
+  $DANKI move "$FROM note:Grammar" "Japans::6-文法"
 end
 
 function aktts
@@ -45,4 +41,5 @@ function aktts
   ./anki.js tts "$QRY target:_* context:"
   ./anki.js tts "$QRY sentence:_* audio:"
   $SENTENCE hint "$QRY target:_* hint:"
+  $DANKI hint "$QRY target:_* hint:"
 end

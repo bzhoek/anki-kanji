@@ -58,6 +58,8 @@ function to_hearing_html() {
   ].map(card => Object.assign(card, {mode: 'hearing'}));
 
   both_sides(cards, 'hearing', 'hear-write');
+  let hearMean = cards.map(card => Object.assign(card, {mode: 'hear-mean'}));
+  both_sides(hearMean, 'hearing', 'hear-mean');
 }
 
 function to_meaning_html() {
@@ -99,8 +101,8 @@ function to_express_html() {
     {note: 'Ichidan', grammar: ichidan, color: 'cyan'},
   ].map(card => Object.assign(card, {mode: 'saying'}));
 
-  let compiledTemplate = write_html(cards, 'mean-write.front.pug', 'ToExpress.Front');
-  write_html(cards, 'saying.back.pug', 'ToExpress.Back');
+  let compiledTemplate = write_html(cards, 'mean-write.front.pug', 'mean-say.Front');
+  write_html(cards, 'saying.back.pug', 'mean-say.Back');
 
   return compiledTemplate(cards[0])
 }
@@ -108,8 +110,8 @@ function to_express_html() {
 function pair_html(note_name, grammar, color, symbols = '') {
   [{front: 1, back: 2}, {front: 2, back: 1}].forEach(card => {
     const note = Object.assign({note: note_name, grammar: grammar, color: color, symbols: symbols}, card);
-    both_sides([note], 'mirror.r2w', `Read${card.front}Write${card.back}`);
-    both_sides([note], 'mirror.l2s', `Listen${card.front}Speak${card.back}`);
+    both_sides([note], 'mirror.r2w', `read-mean${card.front}`);
+    both_sides([note], 'mirror.l2s', `hear-mean${card.front}`);
   })
 }
 
