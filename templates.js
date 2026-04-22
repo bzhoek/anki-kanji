@@ -50,16 +50,17 @@ function to_kanji_html() {
 }
 
 function to_hearing_html() {
-  let cards = [
+  let plain = [
     {note: 'Godan', grammar: godan, color: 'violet', type: '⬤'},
     {note: 'Ichidan', grammar: ichidan, color: 'violet', type: '⬤'},
     {note: 'Kunyomi', grammar: jukugo, color: 'violet', type: ''},
     {note: 'OnYomi', grammar: kango, color: 'magenta', type: ''},
-  ].map(card => Object.assign(card, {mode: 'hearing'}));
+  ];
 
-  both_sides(cards, 'hearing', 'hear-write');
-  let hearMean = cards.map(card => Object.assign(card, {mode: 'hear-mean'}));
-  both_sides(hearMean, 'hearing', 'hear-mean');
+  ["hear-write", "hear-mean"].forEach(mode => {
+    let cards = plain.map(card => Object.assign(card, {mode: mode}));
+    both_sides(cards, 'hearing', mode);
+  })
 }
 
 function to_meaning_html() {
