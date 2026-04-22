@@ -4,16 +4,9 @@ Make beautiful kanji stroke diagrams in Anki with very distinct colors and conve
 
 ![cat](neko.png).
 
-## Radicals
-
-https://kanjialive.com/214-traditional-kanji-radicals/
-
-| radical         | mnemonic |
-|-----------------|----------|
-| ![](⌜-hoek.svg) | hoek     |
-| ![](⌜-klif.svg) | klif     |
-
 ## Requirements
+
+### KanjiVG and JMdict
 
 ```sh
 git submodule add https://github.com/KanjiVG/kanjivg
@@ -26,7 +19,8 @@ wget http://www.edrdg.org/kanjidic/kanjd212.gz # 5801 kanji from JIS X 0212
 
 http://ftp.edrdg.org/pub/Nihongo/edict2.gz
 ```
-## Google Cloud TTS
+
+### Google Cloud TTS
 
 ```sh
 brew install --cask gcloud-cli
@@ -41,7 +35,7 @@ Install Anki with the [AnkiConnect](https://ankiweb.net/shared/info/2055492159) 
 
 ```sh
 node anki.js -h
-node anki.js kanji å¼µ # create new `OnKanji` note
+node anki.js kanji  猫 # create new `OnKanji` note
 node anki stroke nid:1661888566814 # add strokes for found kanji
 ```
 
@@ -56,50 +50,38 @@ Nested decks are named `<top level>::<next level>`
 
 ## Strategies
 
-My current strategy is to make all mnemonics personal: *I* do something *radical* with
+### Mnemonics
+
+My current strategy is to make all mnemonics personal: (*I*) do something *radical* with
 *radical*, etc. Shout-out to [KanjiDamage](http://wwwkanjidamage.com/) for inspiration.
 
-1. read-mean for reading, from kanji
-2. ToKanji for writing, from native language
-3. To<On|Kun>Yomi for speaking, from kanji
-
-At first, I studied under the assumption that if I could write it, I could also read it, so I only had to learn Dutch to kana and kanji, but that didn't work for me. When I visited Japan, I realized that I recognized many of the kanji on the signs, but didn't know what they meant.
+https://kanjialive.com/214-traditional-kanji-radicals/
 
 ### Templates
 
-- `reading` tests the understanding of the *meaning*
-- `saying` tests expressing *verbs*
-- `speaking` tests the on and kun *pronouncing*
-- `writing` tests knowing how to write kanji and kana for words
+At first, I studied under the assumption that if I could write it, I could also read it, so I only had to learn Dutch to kana and kanji, but that didn't work for me. When I visited Japan, I realized that I recognized many of the kanji on the signs, but didn't know what they meant.
 
-### 2024
+1. reading meaning to writing kanji
+2. hearing jp to writing kanji
+3. reading meaning to saying jp
+4. hearing jp to meaning
+5. reading jp to meaning
+
+### Context
 
 There is still a lot of regression, probably because there is too little context. So this year, I'm adding 1T for a `target` word or sentence.
 
-- reading the meaning
-- speaking by pronouncing
-
 For writing, I'm adding a `hint` that leaves out the kanji or word.
-
-### Hints
-
-| field   | writing | speaking | reading | listening |
-|---------|---------|----------|---------|-----------|
-| zintuig | hand    | mond     | oog     | oor       |
-
-### Parts
-`Ik heb <b>ogen</b> 目 op <b>steeltjes</b> voor de <b>kipjes </b>`
-`(<b>.+?</b>)\s([一-龘])`
 
 ## Background
 
-## JMdict
+### JMdict
 
 http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project
 
 Heeft zo'n 1000 antoniemen, dus 500 paren. In XML maar ook simpele EDICT met regels in EUC-JP.
 
-### XML
+#### XML
 
 ```sh
 wget http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz # 10Mb > 60Mb
