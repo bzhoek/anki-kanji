@@ -271,7 +271,7 @@ const target_word = async (source, target) => {
 
   let kana = strip_kana(target_note.fields['kana'].value)
   let meaning = target_note.fields['meaning'].value.replace(/<.+?>/g, '').trim()
-  let target_fld = `${target_word} <i>(${kana} ${meaning})</i> `
+  let target_fld = `<dl><dt>${target_word}</dt><dd>${kana} ${meaning}</dd></dl>`
   let hint_fld = target_word.replace(source_word, '・')
   Object.assign(fields, {target: target_fld, hint: hint_fld})
 
