@@ -1,4 +1,4 @@
-set DANKI $HOME/bzhoek/openai-jp/main.ts
+set DANKI $HOME/bzhoek/danki/main.ts
 
 function usage
   set -l actual (count $argv[3..-1])
@@ -40,6 +40,6 @@ function aktts
   ./anki.js tts "$QRY kana:_* speech:"
   ./anki.js tts "$QRY target:_* context:"
   ./anki.js tts "$QRY sentence:_* audio:"
-  ./anki.js mirror $QRY
-  $DANKI hint "$QRY target:_* hint:"
+  ./anki.js mirror "$QRY (1listening: or 2listening:)"
+  $DANKI hint  "$QRY target:_* hint:"
 end
