@@ -19,13 +19,11 @@
   "model_names": [
     "Godan",
     "Grammar",
-    "Hiragana",
     "Ichidan",
     "Immersion",
-    "Katakana",
-    "Kunyomi",
+    "KunYomi",
     "OnKanji",
-    "Onyomi",
+    "OnYomi",
     "Opposite",
     "Pair",
     "Suru"
