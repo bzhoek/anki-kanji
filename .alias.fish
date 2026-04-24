@@ -1,11 +1,20 @@
 set DANKI $HOME/bzhoek/danki/main.ts
 
+set DAN_YOMI "note:*Dan or note:*Yomi"
+set NOTE_NOTES "$DAN_YOMI or note:Opposite"
+set NO_NOTES "notes: or 1notes: or 2notes:"
+set READINGS "kanji:_* or 1reading:_* or 2reading:_*"
+
 function usage
   set -l actual (count $argv[3..-1])
   if test $actual -lt $argv[1]
     echo "Usage: $argv[2]"
     return 1
   end
+end
+
+function aknotes
+  $DANKI notes -n "deck:Japans ($READINGS) ($NOTE_NOTES) ($NO_NOTES)"
 end
 
 function akprocess
@@ -17,7 +26,7 @@ function akprocess
   ./anki.js furigana $QRY
   ./anki.js speech $QRY
   ./anki.js mirror $QRY
-  ./anki.js notes "$QRY (note:OnYomi or note:KunYomi or note:Godan or note:Ichidan) kanji:_* notes:"
+  $DANKI notes "$QRY ($READINGS) ($NOTE_NOTES) ($NO_NOTES)"
   aktts "$QRY"
 end
 
