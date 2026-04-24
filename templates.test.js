@@ -1,5 +1,5 @@
 const {
-  to_express_html,
+  to_mean_say_html,
   to_meaning_html,
   to_kanji_html,
 } = require('./templates')
@@ -17,7 +17,7 @@ describe('templates', () => {
   })
 
   test('expressing', () => {
-    let result = to_express_html()
+    let result = to_mean_say_html()
     expect(result).toBe('<main class="cyan saying front"><h1 class="{{Tags}}">{{meaning}}</h1>'+
       '{{#hint}}<div>{{hint}}</div>{{/hint}}\n' +
       '{{#kanji}}<h2>&gt; V &lt;</h2>{{/kanji}}\n' +

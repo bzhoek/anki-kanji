@@ -93,13 +93,15 @@ function to_meaning_html() {
   return compiledTemplate(fronts[0])
 }
 
-function to_express_html() {
+function to_mean_say_html() {
   let godan = ['V', '五段動詞'];
   let ichidan = ['V', '一段動詞'];
 
   let cards = [
     {note: 'Godan', grammar: godan, color: 'cyan'},
     {note: 'Ichidan', grammar: ichidan, color: 'cyan'},
+    {note: 'OnYomi', grammar: kango, color: 'cyan'},
+    {note: 'KunYomi', grammar: jukugo, color: 'cyan'},
   ].map(card => Object.assign(card, {mode: 'saying'}));
 
   let compiledTemplate = write_html(cards, 'mean-write.front.pug', 'mean-say.Front');
@@ -141,7 +143,7 @@ const html_from_templates = () => {
   pair_html("Pair", "⇔ 自他動詞", "green", "をが")
   reading_kanji_html()
   writing_kanji_html()
-  to_express_html()
+  to_mean_say_html()
   to_meaning_html()
   to_kanji_html()
   to_hearing_html()
@@ -150,7 +152,7 @@ const html_from_templates = () => {
 }
 
 module.exports = {
-  to_express_html,
+  to_mean_say_html,
   to_meaning_html,
   to_kanji_html,
   html_from_templates
