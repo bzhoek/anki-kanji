@@ -98,11 +98,11 @@ function to_mean_say_html() {
   let ichidan = ['V', '一段動詞'];
 
   let cards = [
-    {note: 'Godan', grammar: godan, color: 'cyan'},
-    {note: 'Ichidan', grammar: ichidan, color: 'cyan'},
-    {note: 'OnYomi', grammar: kango, color: 'cyan'},
-    {note: 'KunYomi', grammar: jukugo, color: 'cyan'},
-  ].map(card => Object.assign(card, {mode: 'saying'}));
+    {note: 'Godan', grammar: godan, color: 'violet'},
+    {note: 'Ichidan', grammar: ichidan, color: 'violet'},
+    {note: 'OnYomi', grammar: kango, color: 'magenta'},
+    {note: 'KunYomi', grammar: jukugo, color: 'violet'},
+  ].map(card => Object.assign(card, {mode: 'mean-say'}));
 
   let compiledTemplate = write_html(cards, 'mean-write.front.pug', 'mean-say.Front');
   write_html(cards, 'saying.back.pug', 'mean-say.Back');
