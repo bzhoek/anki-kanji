@@ -20,7 +20,7 @@ script.
     replaceText(".details", kanjikana, "<em>$1</em>")
     const symbols = new RegExp("\\s+([◈◇◆▣□■△⨹⧊▲⨀⏜▬⧨⇓⨺]+)", 'gi')
     replaceText("h1, .listening", symbols, "<span class='type'>$1</span>")
-    // wrap kana in meaning
-    const kana = new RegExp("([\\u3000-\\u30FF]+)", 'gi')
-    replaceText(".meaning", kana, "<span class='type'>$1</span>")
+    // wrap trailing kana in meaning
+    const kana = new RegExp("\\s+(<.+?>)?([\\u3000-\\u30FF]+)(</.+?>)?$", 'gi')
+    replaceText(".meaning", kana, "&nbsp;$1<span class='type'>$2</span>$3")
   }, 400)
