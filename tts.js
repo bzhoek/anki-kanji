@@ -62,8 +62,8 @@ async function tts(text) {
 }
 
 function unpackCloze(cloze) {
-  const regex = /(.*?)({{.*?::)(.*?)(::.+)?(}})/g;
-  return cloze.replaceAll(regex, "$1$3")
+  const regex = /{{c\d+::(.*?)(::.*?)?}}/g;
+  return cloze.replaceAll(regex, "$1")
 }
 
 module.exports = {hash, tts, createRequest, unpackCloze};
