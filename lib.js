@@ -315,49 +315,6 @@ const copy_context = async (source_id, target_id) => {
   }
 }
 
-const add_speech = async (query) => iterate_notes(query, async (id, note) => {
-  if (note.fields['speech'] === undefined) {
-    return
-  }
-
-  let speech = note.fields['speech'].value;
-  if (speech.startsWith("[")) {
-    return
-  }
-
-  let words = note.fields['kanji'].value;
-  words = words.replace(/<.+?>/g, '').trim()
-  words = words.replace(/\s/g, '').trim()
-
-  let clean = words.split(".")[0].trim()
-  if (clean.length === 0) {
-    return
-  }
-  console.log(clean)
-
-  let filename = await try_media(clean)
-  if (filename === undefined) {
-    let kanji = as_jukugo(words)
-    if (kanji.length === 0) {
-      return
-    }
-    filename = await try_media(kanji.join(''))
-  }
-
-  if (filename === undefined) {
-    console.error("No media for", clean[0])
-    return
-  }
-
-  let sound = `[sound:${filename}]`;
-  let strokes = {note: {id: id, fields: {speech: sound}}};
-  let update = await post('updateNoteFields', strokes)
-  if (update.error) {
-    console.error(update.error, strokes)
-  }
-  console.log('completed', sound)
-})
-
 const convert_showdown = async (query) => iterate_notes(query, async (id, note) => {
   const showdown = require('showdown');
   let converter = new showdown.Converter()
@@ -1097,7 +1054,6 @@ module.exports = {
   multiple_kanji,
   missing_kanji,
   move_related,
-  add_speech,
   lapse_cards,
   parse_kanjidic,
   extract_parts_from_kanji,

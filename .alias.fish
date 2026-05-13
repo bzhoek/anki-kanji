@@ -24,7 +24,6 @@ function akprocess
   $DANKI onyomi "$QRY note:OnYomi"
   ./anki.js stroke $QRY
   ./anki.js furigana $QRY
-  ./anki.js speech $QRY
   ./anki.js mirror $QRY
   $DANKI notes "$QRY ($READINGS) ($NOTE_NOTES) ($NO_NOTES)"
   aktts "$QRY"

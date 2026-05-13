@@ -11,7 +11,6 @@ const {
   upload_html_templates,
   configure_decks, lapse_cards,
   add_kanji_with_reading_and_meaning,
-  add_speech,
   convert_kana_field_to_onyomi,
   missing_kanji,
   move_related,
@@ -175,11 +174,6 @@ cli.command('setField')
   .argument('<value>', 'target field')
   .description('Set value of field')
   .action((query, field, value) => set_field(query, field, value))
-
-cli.command('speech')
-  .argument('<query>', 'query')
-  .description('Add speech for matched notes')
-  .action((query) => add_speech(query))
 
 cli.command('markdown')
   .argument('<query>', 'query')
