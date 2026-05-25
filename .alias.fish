@@ -13,6 +13,12 @@ function usage
   end
 end
 
+function akflag
+  $DANKI ease --ease 2 --flag 2 "rated:4:2 -flag:2"
+  $DANKI ease --ease 3 --flag 0 "rated:4:3 flag:2"
+  $DANKI flag "is:buried-manually -flag:1" 1
+end
+
 function aknotes
   $DANKI notes -n "deck:Japans ($READINGS) ($NOTE_NOTES) ($NO_NOTES)"
 end
