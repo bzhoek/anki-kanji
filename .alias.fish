@@ -20,7 +20,7 @@ function akflag
 end
 
 function aknotes
-  $DANKI notes -n "deck:Japans ($READINGS) ($NOTE_NOTES) ($NO_NOTES)"
+  $DANKI notes "deck:Japans ($READINGS) ($NOTE_NOTES) ($NO_NOTES)"
 end
 
 function akprocess
