@@ -181,10 +181,15 @@ main
     font-size: 3rem
     line-height: 3rem
 
-.card.night_mode
-  svg
+
+.card.nightMode
+  .picture
+    svg
+      path
+        stroke: $base3 !important
+
     text
-      fill: $base1
+      fill: $base3 !important
 
 .card
   font-family: Helvetica, sans-serif
@@ -215,11 +220,6 @@ main
 
     rt
       font-size: 0.8rem
-      
-.mean-say
-  ruby
-    rt
-      display: none
 
 .front
   svg
