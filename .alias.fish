@@ -13,10 +13,12 @@ function usage
   end
 end
 
+# after *all* reviews
 function akflag
   $DANKI ease --ease 2 --flag 2 "rated:4:2 -flag:2"
   $DANKI ease --ease 3 --flag 0 "rated:4:3 flag:2"
   $DANKI flag "is:buried-manually -flag:1" 1
+  $DANKI flag "flag:1 -is:buried-manually -prop:due=0" 0
 end
 
 function aknotes
