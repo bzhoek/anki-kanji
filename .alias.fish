@@ -19,10 +19,16 @@ function akflag
   $DANKI ease --ease 3 --flag 0 "rated:4:3 flag:2"
   $DANKI flag "is:buried-manually -flag:1" 1
   $DANKI flag "flag:1 -is:buried-manually -prop:due=0" 0
+  $DANKI flag "deck:Japans is:new -flag:3" 3
+  $DANKI flag "deck:Japans flag:3 -is:new" 0
 end
 
 function aknotes
   $DANKI notes "deck:Japans ($READINGS) ($NOTE_NOTES) ($NO_NOTES)"
+end
+
+function akmarkdown
+  ./anki.js markdown "<pre> edited:1"
 end
 
 function akprocess
