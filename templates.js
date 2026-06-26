@@ -118,9 +118,9 @@ function pair_html(note_name, grammar, color, symbols = '') {
   })
 }
 
-const both_sides = (notes, template, card) => {
+const both_sides = (cards, template, card) => {
   ['Front', 'Back'].forEach(side => {
-    write_html(notes,
+    write_html(cards,
       `${template}.${side.toLowerCase()}.pug`,
       `${card}.${side}`
     )
