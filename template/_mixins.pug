@@ -1,6 +1,6 @@
-mixin main(color, mode, side)
+mixin main(...classes)
   doctype html
-  main(class=`${color} ${mode} ${side}`)
+  main(class=`${classes.join(' ')}`)
     block
   include _scripts
 mixin title(name, index='')
