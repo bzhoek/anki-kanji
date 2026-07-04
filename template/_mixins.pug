@@ -6,8 +6,15 @@ mixin main(...classes)
 mixin title(name, index='')
   h1(class=`${name}`)= `{{${index}${name}}}`
 mixin heading(name, index='', symbols='')
-  h1(class=`kanji`)= `{{${index}${name}}}`
+  h1(class=`kanji`)
+    span= `{{${index}${name}}}`
     span(class='type')= `${symbols.length === 2 ? ' ' + symbols[index-1] : ''}`
+mixin heading_presuffix(title, prefix, suffix)
+  h2
+    if prefix.length > 0
+      span(class='prefix')= prefix
+    span= title
+    span(class='suffix')= suffix
 mixin hint(name, index='')
   +optional(`#${index}${name}`)
     div(class=`${name}`)= `{{hint:${index}${name}}}`
@@ -30,25 +37,26 @@ mixin spans(index, ...names)
   div
     each name in names
       +span(name, index)
-mixin audioheader(title)
-  +subheader(title)
-    span.speech {{speech}} {{context}}
-mixin subheader(title)
+mixin subheader(title, suffix='')
   h2= title
+    if suffix.length > 0
+      span(class='suffix')= suffix
     block
-mixin kanjikana(grammar)
+mixin kanjikana(grammar, suffix='')
   +optional('#kanji')
-    +audioheader(grammar[0])
+    +subheader(grammar[0], suffix)
   +optional('^kanji')
-    +audioheader(grammar[1] || grammar[0])
+    +subheader(grammar[1] || grammar[0], suffix)
 mixin listening(index)
   +optional(`#${index}listening`)
-    h2= grammar
-      span 聞く
+    +heading_presuffix(grammar, '', '聞く')
   +optional(`^${index}listening`)
-    h2= grammar
-      span 言う
+    +heading_presuffix(grammar, '', '言う')
 mixin optional(field)
   = `\n{{${field}}}`
   block
   = `\n{{/${field.substring(1)}}}`
+mixin audio
+  .audio
+    +span('speech')
+    +span('context')

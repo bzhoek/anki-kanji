@@ -1,9 +1,9 @@
 include _mixins
 +main(color, mode, 'back')
-  .top
-    +field('picture')
-    +text
-      +title('meaning')
-  +fields('strokes', 'notes', 'kana')
-  +audioheader(grammar[0])
-  +fields('target', 'details')
+  +heading_presuffix(grammar[0], '', '書く')
+  +field('picture')
+  +title('meaning')
+  +fields('notes', 'strokes', 'kana')
+  +field('target')
+  +audio
+  +field('details')

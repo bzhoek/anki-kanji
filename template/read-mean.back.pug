@@ -1,18 +1,14 @@
 include _mixins
 +main(color, mode, 'back')
-  .top
-    +field('picture')
-    +text
-      +optional('#kanji')
-        +heading('furigana')
-      +optional('^kanji')
-        +heading('kana')
-      +title('meaning')
-      +optional('#kanji')
-        +field('kana')
-      +field('target')
+  +kanjikana(grammar)
+  +field('picture')
   +optional('#kanji')
-    +audioheader(grammar[0])
+    +heading('furigana')
   +optional('^kanji')
-    +audioheader(grammar[1] || grammar[0])
+    +heading('kana')
+  +title('meaning')
+  +optional('#kanji')
+    +field('kana')
+  +field('target')
   +fields('notes', 'strokes', 'details')
+  +audio

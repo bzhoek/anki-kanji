@@ -1,10 +1,10 @@
 include _mixins
 +main(color, mode, 'back')
-  .top
-    +field('picture')
-    +text
-      +title('furigana')
-      +title('meaning')
-      +fields('notes', 'kana')
-  +audioheader(grammar[1] || grammar[0])
-  +fields('target', 'strokes', 'details')
+  +kanjikana(grammar)
+  +field('picture')
+  +title('meaning')
+  +fields('notes', 'strokes', 'kana')
+  +field('target')
+  +audio
+  +field('details')
+  +title('furigana')

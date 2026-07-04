@@ -1,9 +1,9 @@
 include _mixins
 +main(color, mode, 'back')
-  +subheader(grammar[0])
+  +kanjikana(grammar, suffix)
   +field('picture')
-  +field('strokes')
   +title('meaning')
+  +heading('furigana')
   +field('kana')
-  +fields('notes', 'target')
+  +fields('notes', 'target', 'strokes', 'details')
   +audio

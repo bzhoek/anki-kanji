@@ -57,10 +57,12 @@ function to_hearing_html() {
     {note: 'OnYomi', grammar: kango, color: 'magenta', type: ''},
   ];
 
-  ["hear-write", "hear-mean"].forEach(mode => {
-    let cards = plain.map(card => Object.assign(card, {mode: mode}));
-    both_sides(cards, 'hearing', mode);
-  })
+  let write = plain.map(card => Object.assign(card, {mode: "hear-write", suffix: "書く"}));
+  write_html(write, 'hear.front.pug', 'hear-write.Front');
+  write_html(write, 'hear-write.back.pug', 'hear-write.Back');
+  let mean = plain.map(card => Object.assign(card, {mode: "hear-mean", suffix: "意味"}));
+  write_html(mean, 'hear.front.pug', 'hear-mean.Front');
+  write_html(mean, 'hear-mean.back.pug', 'hear-mean.Back');
 }
 
 function to_meaning_html() {
@@ -94,28 +96,33 @@ function to_meaning_html() {
 }
 
 function to_mean_say_html() {
-  let godan = ['V', '五段動詞'];
-  let ichidan = ['V', '一段動詞'];
+  let godan = ['動詞', '五段'];
+  let ichidan = ['動詞', '一段'];
 
   let cards = [
     {note: 'Godan', grammar: godan, color: 'violet'},
     {note: 'Ichidan', grammar: ichidan, color: 'violet'},
     {note: 'OnYomi', grammar: kango, color: 'magenta'},
     {note: 'KunYomi', grammar: jukugo, color: 'violet'},
-  ].map(card => Object.assign(card, {mode: 'mean-say'}));
+  ].map(card => Object.assign(card, {mode: 'mean-say', suffix: "言う"}));
 
   let compiledTemplate = write_html(cards, 'mean-write.front.pug', 'mean-say.Front');
-  write_html(cards, 'saying.back.pug', 'mean-say.Back');
+  write_html(cards, 'mean-say.back.pug', 'mean-say.Back');
 
   return compiledTemplate(cards[0])
 }
 
-function pair_html(note_name, grammar, color, symbols = '') {
-  [{front: 1, back: 2}, {front: 2, back: 1}].forEach(card => {
-    const note = Object.assign({note: note_name, grammar: grammar, color: color, symbols: symbols}, card);
-    both_sides([note], 'mirror.r2w', `read-mean${card.front}`);
-    both_sides([note], 'mirror.l2s', `hear-mean${card.front}`);
-  })
+function pair_html(note_name, grammar, prefix, color, symbols = '') {
+  [{front: 1, back: 2}, {front: 2, back: 1}]
+    .forEach(side => {
+      const note = Object.assign(side, {
+        note: note_name, grammar: grammar, prefix: prefix, color: color, symbols: symbols
+      });
+      Object.assign(note, {mode: 'read-mean', suffix: "意味"});
+      both_sides([note], 'read-mean.mirror', `read-mean${side.front}`);
+      Object.assign(note, {mode: 'hear-mean', suffix: "意味"});
+      both_sides([note], 'hear-mean.mirror', `hear-mean${side.front}`);
+    })
 }
 
 const both_sides = (cards, template, card) => {
@@ -139,8 +146,8 @@ const to_grammar_html = () => {
 }
 
 const html_from_templates = () => {
-  pair_html("Opposite", "∥ 対義語", "blue")
-  pair_html("Pair", "⇔ 自他動詞", "green", "をが")
+  pair_html("Opposite", "対義語", "⇕", "blue")
+  pair_html("Pair", "自他動詞", "⇔", "green", "をが")
   reading_kanji_html()
   writing_kanji_html()
   to_mean_say_html()

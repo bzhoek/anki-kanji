@@ -1,10 +1,8 @@
 include _mixins
 +main(color, mode, 'front')
-  .top
-    +hint('picture')
-    +text
-      +field('strokes')
-      +field('target')
   +subheader(grammar[0])
+  +hint('picture')
+  +field('strokes')
+  +field('target')
   +optional('^kana')
     .info (音読みがない)

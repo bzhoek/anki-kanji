@@ -1,0 +1,13 @@
+include _mixins
++main(color, 'listening', 'back', mode)
+  = `{{FrontSide}}`
+  +heading('reading', front, symbols)
+  +spans(front, 'meaning', 'speaking')
+  +field('notes', front)
+  +heading_presuffix(grammar, '', suffix)
+  +field('picture', back)
+  +heading('reading', back, symbols)
+  +spans(back, 'meaning', 'speaking')
+  +field('notes', back)
+  +field('strokes', back)
+  +field('listening', back, symbols)

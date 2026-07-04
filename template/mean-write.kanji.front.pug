@@ -1,10 +1,8 @@
 include _mixins
 +main(color, mode, 'front')
-  .top
-    +hint('picture')
-    +text
-      +title('meaning')
-      +field('hint')
-  h2!= grammar[0]
+  +heading_presuffix(grammar[0], '', '書く')
+  +hint('picture')
+  +title('meaning')
+  +field('hint')
   +optional('^kana')
     .info (音読みがない)

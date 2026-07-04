@@ -1,15 +1,9 @@
 include _mixins
 +main(color, mode, 'front')
-  .top
-    +hint('picture')
-    +text
-      +optional('#kanji')
-        +heading('kanji')
-      +optional('^kanji')
-        +heading('kana')
-      +field('target')
+  +kanjikana(grammar)
+  +hint('picture')
   +optional('#kanji')
-    h2!= grammar[0]
+    +heading('kanji')
   +optional('^kanji')
-    h2!= grammar[1] || grammar[0]
-
+    +heading('kana')
+  +field('target')
