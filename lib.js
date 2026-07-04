@@ -543,10 +543,13 @@ const furigana_note = async (id, note) => {
     return
   }
   let kanji = note_field(note, 'kanji');
-  let plain = un_furigana(kanji);
-  let furigana = await furigana_html(plain);
-  if (note.modelName === 'OnYomi') {
-    furigana = convert_kunyomi_to_onyomi(furigana);
+  let furigana = await note_field(note, 'kana');
+  if (kanji.length > 0) {
+    let plain = un_furigana(kanji);
+    furigana = await furigana_html(plain);
+    if (note.modelName === 'OnYomi') {
+      furigana = convert_kunyomi_to_onyomi(furigana);
+    }
   }
   let update = {note: {id: id, fields: {furigana: furigana}}};
   console.log(kanji, furigana)
