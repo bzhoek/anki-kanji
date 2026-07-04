@@ -19,21 +19,22 @@ let ichidan = ['動詞', '一段動詞'];
 let jukugo = ['熟語', 'じゅくご'];
 let kango = ['漢語', 'かんご'];
 
-function writing_kanji_html() {
-  let cards = [{
-    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'writing'
-  }]
-
-  both_sides(cards, 'mean-write.kanji', 'mean-write');
-}
-
-const read_mean_suffix = "意味";
+const mean_suffix = "意味";
 function reading_kanji_html() {
   let cards = [{
-    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'reading', suffix: read_mean_suffix
+    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'reading', suffix: mean_suffix
   }]
 
   both_sides(cards, 'read-mean.kanji', 'read-mean');
+}
+
+const write_suffix = "書く";
+function writing_kanji_html() {
+  let cards = [{
+    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'writing', suffix: write_suffix
+  }]
+
+  both_sides(cards, 'mean-write.kanji', 'mean-write');
 }
 
 function to_kanji_html() {
@@ -45,7 +46,7 @@ function to_kanji_html() {
     {note: 'Onyomi', grammar: kango, color: 'magenta'},
     {note: 'Kunyomi', grammar: jukugo, color: 'violet'},
     {note: 'Suru', grammar: suru, color: 'violet'},
-  ].map(card => Object.assign(card, {mode: 'writing'}));
+  ].map(card => Object.assign(card, {mode: 'writing', suffix: write_suffix}));
 
   both_sides(cards, 'mean-write', 'mean-write');
 }
@@ -77,7 +78,7 @@ function to_meaning_html() {
     {note: 'Onyomi', grammar: kango, color: 'magenta'},
     {note: 'Suru', grammar: suru, color: 'violet'}
   ].map(meaning => Object.assign(meaning, {
-    mode: 'reading', suffix: read_mean_suffix
+    mode: 'reading', suffix: mean_suffix
   }))
 
   let backs = [
@@ -87,7 +88,7 @@ function to_meaning_html() {
     {note: 'Onyomi', grammar: kango, color: 'magenta'},
     {note: 'Suru', grammar: suru, color: 'violet'},
   ].map(meaning => Object.assign(meaning, {
-    mode: 'reading', suffix: read_mean_suffix
+    mode: 'reading', suffix: mean_suffix
   }))
 
   let compiledTemplate = write_html(fronts, 'read-mean.front.pug', 'read-mean.Front');
@@ -119,7 +120,7 @@ function pair_html(note_name, grammar, prefix, color, symbols = '') {
       const note = Object.assign(side, {
         note: note_name, grammar: grammar, prefix: prefix, color: color, symbols: symbols
       });
-      Object.assign(note, {mode: 'read-mean', suffix: read_mean_suffix});
+      Object.assign(note, {mode: 'read-mean', suffix: mean_suffix});
       both_sides([note], 'read-mean.mirror', `read-mean${side.front}`);
       Object.assign(note, {mode: 'hear-mean', suffix: "意味"});
       both_sides([note], 'hear-mean.mirror', `hear-mean${side.front}`);
