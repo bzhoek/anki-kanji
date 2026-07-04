@@ -355,7 +355,7 @@ const add_speech_field = async (text, field, object) => {
 }
 
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
-  const romaji = /[^０-９一-龘ぁ-んァ-ン。、\n|]/g;
+  const romaji = /[^０-９一-龘ぁ-んァ-ン。、　\n|]/g;
 
   let speech = {};
   if (note.modelName === "Grammar") {
@@ -367,7 +367,7 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
     }
     value = unpackCloze(value).replaceAll(/[→　・]/g, "、")
     // value = value.replaceAll(romaji, "")
-    value = value.replaceAll("|", "\n")
+    value = value.replaceAll(/[|-]/g, "\n")
     value = value.split("\n").filter(x => x.length > 0).join("、")
     speech = await add_speech_field(value, 'audio', speech)
   } else {
@@ -528,7 +528,7 @@ async function mirror_note_side(note, side) {
   }
 
   let speaking = note_field(note, `${side}speaking`);
-  const clean = (speaking || reading).replaceAll(/[^一-龘ぁ-んァ-ン。、]/g, "")
+  const clean = (speaking || reading).replaceAll(/[^一-龘ぁ-んァ-ン。、　]/g, "")
   let speech = await tts(clean);
   if (speech !== undefined) {
     Object.defineProperty(updates, `${side}listening`, {value: `[sound:${speech}]`, enumerable: true})
