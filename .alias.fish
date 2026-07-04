@@ -21,6 +21,7 @@ function akflag
   $DANKI flag "flag:1 -is:buried-manually -prop:due=0" 0
   $DANKI flag "deck:Japans is:new -flag:3" 3
   $DANKI flag "deck:Japans flag:3 -is:new" 0
+  $DANKI clean
 end
 
 function aknotes
