@@ -27,9 +27,10 @@ function writing_kanji_html() {
   both_sides(cards, 'mean-write.kanji', 'mean-write');
 }
 
+const read_mean_suffix = "意味";
 function reading_kanji_html() {
   let cards = [{
-    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'reading'
+    note: 'OnKanji', grammar: ['漢字'], color: 'yellow', mode: 'reading', suffix: read_mean_suffix
   }]
 
   both_sides(cards, 'read-mean.kanji', 'read-mean');
@@ -66,7 +67,7 @@ function to_hearing_html() {
 }
 
 function to_meaning_html() {
-  let suru = ['V'];
+  let suru = ['動詞'];
 
   let dictionary = ['終止形', 'しゅうしけい'];
   let fronts = [
@@ -76,7 +77,7 @@ function to_meaning_html() {
     {note: 'Onyomi', grammar: kango, color: 'magenta'},
     {note: 'Suru', grammar: suru, color: 'violet'}
   ].map(meaning => Object.assign(meaning, {
-    mode: 'reading'
+    mode: 'reading', suffix: read_mean_suffix
   }))
 
   let backs = [
@@ -86,7 +87,7 @@ function to_meaning_html() {
     {note: 'Onyomi', grammar: kango, color: 'magenta'},
     {note: 'Suru', grammar: suru, color: 'violet'},
   ].map(meaning => Object.assign(meaning, {
-    mode: 'reading'
+    mode: 'reading', suffix: read_mean_suffix
   }))
 
   let compiledTemplate = write_html(fronts, 'read-mean.front.pug', 'read-mean.Front');
@@ -118,7 +119,7 @@ function pair_html(note_name, grammar, prefix, color, symbols = '') {
       const note = Object.assign(side, {
         note: note_name, grammar: grammar, prefix: prefix, color: color, symbols: symbols
       });
-      Object.assign(note, {mode: 'read-mean', suffix: "意味"});
+      Object.assign(note, {mode: 'read-mean', suffix: read_mean_suffix});
       both_sides([note], 'read-mean.mirror', `read-mean${side.front}`);
       Object.assign(note, {mode: 'hear-mean', suffix: "意味"});
       both_sides([note], 'hear-mean.mirror', `hear-mean${side.front}`);
