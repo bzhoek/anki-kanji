@@ -1,3 +1,4 @@
+// Variables
 $base1: #93a1a1
 $base3: #fdf6e3
 $yellow: #b58900
@@ -9,28 +10,14 @@ $blue: #268bd2
 $cyan: #2aa198
 $green: #859900
 
+// Mixins
+@mixin main-theme($color)
+  h2
+    background-color: $color
+
+// Base Styles
 body, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ul, ol, li, blockquote, pre, button, input, textarea, th, td
   margin: 0
-  
-.text
-  display: flex
-  flex-direction: column
-  gap: 8pt
-  
-dt, .hint, .sentence
-  line-break: strict
-  word-break: keep-all
-  overflow-wrap: anywhere
-  text-wrap: pretty
-
-dl, dt, dd
-
-  dt
-    line-height: 1.2
-
-  dd
-    font-size: 0.8em
-    line-height: 1.0
 
 h1
   font-size: 2rem
@@ -51,11 +38,25 @@ h2
 
   span
     margin-left: .8rem
-  
+
   .prefix
     display: inline-block
     transform: scale(1.6)
     vertical-align: 0.2rem
+
+dl
+  dt
+    line-height: 1.2
+
+  dd
+    font-size: 0.8em
+    line-height: 1.0
+
+dt, .hint, .sentence
+  line-break: strict
+  word-break: keep-all
+  overflow-wrap: anywhere
+  text-wrap: pretty
 
 table
   text-align: left
@@ -65,68 +66,78 @@ table
   td
     padding-right: 1em
 
-main.onyomi.hear-mean
-  .furigana
-    rt
-      font-size: 1.0rem
-      
-main.front, main.back
-  display: flex
-  flex-direction: column
-  gap: .4rem
-  
-main.listening, main.writing
-  .listening
-    .type
+// Card Base
+.card
+  font-family: Helvetica, sans-serif
+  font-size: 1.2rem
+  text-align: center
+  color: black
+  background-color: $base3
+
+  &.nightMode
+    .picture
+      svg
+        path
+          stroke: $base3 !important
+
+        text
+          fill: $base3 !important
+
+// Main Content
+main
+  &.front, &.back
+    display: flex
+    flex-direction: column
+    gap: .4rem
+
+  &.listening, &.writing
+    .listening .type
       display: none
 
-main.grammar
-  .details, .grammar
+  &.grammar
+    .details, .grammar
+      font-size: 1.0rem
+
+    .sentence
+      font-size: 1.2rem
+
+      b
+        color: $blue
+        font-weight: normal
+
+    .sentence, .details
+      pre
+        display: none
+
+  &.read-mean
+    .strokes
+      display: none
+
+    &.front
+      .listening
+        display: none
+
+  &.onyomi.hear-mean .furigana rt
     font-size: 1.0rem
 
-  .sentence
-    font-size: 1.2rem
+  // Themes
+  &.jukukanji, &.violet
+    @include main-theme($violet)
 
-    b
-      color: $blue
-      font-weight: normal
+  &.jukukana, &.magenta, &.jukugo
+    @include main-theme($magenta)
 
-  .sentence, .details
-    pre
-      display: none
+  &.jukumasu, &.cyan
+    @include main-theme($cyan)
 
-main.read-mean.front
-  .listening
-    display: none
+  &.jukuteta, &.blue
+    @include main-theme($blue)
 
-main.read-mean
-  .strokes
-    display: none
+  &.toonyomi, &.tokanji, &.yellow
+    @include main-theme($yellow)
 
-main
-  &.jukukanji h2, &.violet h2
-    background-color: $violet
-
-  &.jukukana h2, &.magenta h2
-    background-color: $magenta
-
-  &.jukumasu h2, &.cyan h2
-    background-color: $cyan
-
-  &.jukuteta h2, &.blue h2
-    background-color: $blue
-
-  &.toonyomi h2, &.yellow h2
-    background-color: $yellow
-
-  &.tokanji h2
-    background-color: $yellow
-
-  &.jukugo h2
-    background-color: $magenta
-
-  &.green h2
-    background-color: $green
+  &.green
+    @include main-theme($green)
 
   .notes
     line-height: 1.5rem
@@ -160,22 +171,7 @@ main
     rt
       font-size: 1.2rem
 
-.card.nightMode
-  .picture
-    svg
-      path
-        stroke: $base3 !important
-
-    text
-      fill: $base3 !important
-
-.card
-  font-family: Helvetica, sans-serif
-  font-size: 1.2rem
-  text-align: center
-  color: black
-  background-color: $base3
-
+// Components
 .hint, .picture
   font-size: 1.4rem
   line-height: 1.8rem
@@ -198,52 +194,6 @@ main
 
     rt
       font-size: 0.8rem
-
-.front
-  svg
-    text
-      fill: transparent
-
-    .answer
-      display: none
-
-  .hint, .target
-    dd
-      display: none
-
-  .target
-
-    rt, i
-      display: none
-      
-.front
-  .target
-    display: none
-    
-.back
-  svg
-    .hint
-      display: none
-
-  .hint
-    display: none
-    
-  .target
-
-    i
-      display: inline-block
-
-
-  .front
-    .picture
-      .hint
-        display: block !important
-
-    .target
-      display: block
-      
-      dd
-        display: block
 
 .kana
   line-height: 1.2
@@ -279,14 +229,48 @@ main
     text
       fill: transparent
 
+// Card Sides (Front & Back)
 .front
   .cloze
     color: $blue
+
+  svg
+    text
+      fill: transparent
+
+    .answer
+      display: none
+
+  .hint dd, .target dd
+    display: none
+
+  .target
+    display: none
 
 .back
   .cloze
     color: $blue
 
+  svg .hint
+    display: none
+
+  .hint
+    display: none
+
+  .target i
+    display: inline-block
+
+  .front
+    .picture .hint
+      display: block !important
+
+    .target
+      display: block
+
+      dd
+        display: block
+
+// Strokes SVG styles
 .strokes
   svg
     text
@@ -368,44 +352,36 @@ main
     .stroke-23
       stroke: #42150A
 
-// iphone
+// Media Queries
 @media only screen and (orientation: portrait)
-  .strokes
-    svg
-      width: 40vw
-      height: 40vw
+  .strokes svg
+    width: 40vw
+    height: 40vw
   svg
     width: 80vw
     height: 80vw
+  main .details
+    margin: .4em 0
 
-  main
-    .details
-      margin: .4em 0
-
-// iphone
 @media only screen and (orientation: landscape)
-  .strokes
-    svg
-      width: 28vh
-      height: 28vh
+  .strokes svg
+    width: 28vh
+    height: 28vh
   svg
     width: 56vh
     height: 56vh
 
 // ipad and desktop
 @media only screen and (min-device-width: 1024px)
-  .strokes
-    svg
-      width: 20vh
-      height: 20vh
+  .strokes svg
+    width: 20vh
+    height: 20vh
   svg
     width: 40vh
     height: 40vh
-
   main
     .details
       margin: .4em 2em
 
-    .picture
-      img
-        max-width: 24rem
+    .picture img
+      max-width: 24rem
