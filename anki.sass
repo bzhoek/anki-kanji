@@ -85,7 +85,7 @@ table
 
 // Main Content
 .card-wrapper
-  max-width: 320px !important // or 440 px for iphone pro
+  max-width: 393px !important // or 440 px for iphone pro
   width: 100%
   margin: 0 auto // Centers the card content on desktop
   box-sizing: border-box
@@ -99,6 +99,12 @@ main
   &.listening, &.writing
     .listening .type
       display: none
+  
+  div, h1
+    margin: 0 0.6rem
+
+  .card-wrapper, .front-content
+    margin: 0
 
   &.grammar
     &.back h2, .details, .grammar
@@ -118,7 +124,6 @@ main
         color: $blue
         font-weight: normal
 
-    .sentence, .details
       pre
         display: none
 
@@ -376,8 +381,6 @@ main
   svg
     width: 80vw
     height: 80vw
-  main .details
-    margin: .4em 0
 
 @media only screen and (orientation: landscape)
   .strokes svg
@@ -395,9 +398,7 @@ main
   svg
     width: 40vh
     height: 40vh
+    
   main
-    .details
-      margin: .4em 2em
-
     .picture img
       max-width: 24rem
