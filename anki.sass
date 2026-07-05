@@ -85,7 +85,7 @@ table
 
 // Main Content
 .card-wrapper
-  max-width: 320px !important
+  max-width: 320px !important // or 440 px for iphone pro
   width: 100%
   margin: 0 auto // Centers the card content on desktop
   box-sizing: border-box
@@ -101,8 +101,15 @@ main
       display: none
 
   &.grammar
-    .details, .grammar
+    &.back h2, .details, .grammar
       font-size: 1.0rem
+
+    &.front
+      margin-top: .4rem
+      
+      .sentence
+        dd
+          display: none
 
     .sentence
       font-size: 1.2rem
@@ -132,6 +139,9 @@ main
 
   &.jukukana, &.magenta, &.jukugo
     @include main-theme($magenta)
+
+  &.grammar
+    @include main-theme($base1)
 
   &.jukumasu, &.cyan
     @include main-theme($cyan)
