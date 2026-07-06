@@ -23,4 +23,10 @@ script.
     // wrap trailing kana in meaning
     const kana = new RegExp("\\s+(<.+?>)?([\\u3000-\\u30FF]+)(</.+?>)?$", 'gi')
     replaceText(".meaning", kana, "&nbsp;$1<span class='type'>$2</span>$3")
+
+    const elementToMove = document.querySelector('.audio');
+    const targetContainer = document.querySelector('main.back');
+    if (elementToMove && targetContainer) {
+      targetContainer.appendChild(elementToMove);
+    }
   }, 400)
