@@ -385,17 +385,11 @@ main
   .strokes svg
     width: 40vw
     height: 40vw
-  svg
-    width: 80vw
-    height: 80vw
 
 @media only screen and (orientation: landscape)
   .strokes svg
     width: 28vh
     height: 28vh
-  svg
-    width: 56vh
-    height: 56vh
 
 // ipad and desktop
 @media only screen and (min-device-width: 1024px)
@@ -403,9 +397,9 @@ main
     width: 20vh
     height: 20vh
   svg
-    width: 40vh
-    height: 40vh
+    max-width: 24rem
     
   main
-    .picture img
-      max-width: 24rem
+    .picture
+      img, svg
+        max-width: 24rem
