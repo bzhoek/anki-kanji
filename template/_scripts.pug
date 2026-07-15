@@ -11,17 +11,22 @@ script.
     })
   }
   
-  const KANJI = "\\u4E00-\\u9FFF"; // x4E00 - x9FFF: cjk unified ideographs
-  const KANA = "\\u3000-\\u30FF"; // x3000 - x30FF: punctuation, hiragana and katakana
-  const SYMBOLS = "◈◇◆▣□■△⨹⧊▲⨀⏜▬⧨⨺";
-  
   setTimeout(function () {
-    const terms = new RegExp("(<b>[\\u00BF-\\u00FF\\w\\s,'/-]+</b>)\\s+([\\u2E80-\\u9FFFｲ𧘇𠂉𡗗𠦝丿十卄]+)", 'gi')
+    const LATIN = "\\u0000-\\u007F"; // basic latin
+    const RADICALS = "\\u2E80-\\u2FDF"; // cjk and kangxi radicals
+    const KANJI = "\\u4E00-\\u9FFF"; // cjk unified ideographs
+    const KANA = "\\u3000-\\u30FF"; // punctuation, hiragana and katakana
+    const FULL_HALF = "\\uFF00-\\uFFEF"; // (full-half)
+    const KANJA = `${RADICALS}${KANJI}${KANA}${FULL_HALF}`;
+    const WS = "(?:\\s|&nbsp;)+";
+    const SYMBOLS = "◈◇◆▣□■△⨹⧊▲⨀⏜▬⧨⨺";
+
+    // highlight kanji after bold words
+    const terms = new RegExp(`(<b>[${LATIN}]+</b>)${WS}([${KANJA}]+)`, 'gi')
     replaceText(".notes", terms, "<b>$1</b>&nbsp;<span class='part'>$2</span>")
+    // highlight kanji in details
     const kanja = new RegExp(`([${KANJI}${KANA}]+)`, 'gi')
     replaceText(".details", kanja, "<em>$1</em>")
-    const symbols = new RegExp(`\\s+([${SYMBOLS}]+)`, 'gi')
-    replaceText("h1, .listening", symbols, "<span class='type'>$1</span>")
     // wrap trailing kana and symbols in meaning
     const kana = new RegExp(`\\s+(<.+?>)?([${KANA}${SYMBOLS}]+)(</.+?>)?$`, 'gi')
     replaceText(".meaning", kana, "&nbsp;$1<span class='type'>$2</span>$3")
