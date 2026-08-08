@@ -1,0 +1,10 @@
+= '{{#speech}}\n'
+include _mixins
++main(color, mode, 'front')
+  +kanjikana(grammar, suffix)
+  +field('strokes')
+  +hint('picture')
+  +field('hint')
+  +field('target')
+  +audio
+= '\n{{/speech}}'

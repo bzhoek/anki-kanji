@@ -60,7 +60,7 @@ function to_hearing_html() {
   ];
 
   let write = plain.map(card => Object.assign(card, {mode: "hear-write", suffix: "書く"}));
-  write_html(write, 'hear.front.pug', 'hear-write.Front');
+  write_html(write, 'hear-write.front.pug', 'hear-write.Front');
   write_html(write, 'hear-write.back.pug', 'hear-write.Back');
   let mean = plain.map(card => Object.assign(card, {mode: "hear-mean", suffix: "意味"}));
   write_html(mean, 'hear.front.pug', 'hear-mean.Front');
