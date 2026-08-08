@@ -552,7 +552,7 @@ const furigana_note = async (id, note) => {
     }
   }
   let update = {note: {id: id, fields: {furigana: furigana}}};
-  console.log(kanji, furigana)
+  console.log("Furigana", kanji, furigana);
   await post('updateNote', update)
 }
 
