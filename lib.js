@@ -360,8 +360,9 @@ const add_speech_field = async (text, field, object) => {
   return Object.assign(object, {[field]: audio})
 }
 
+const KANJI_KANA = "\\u3000-\\u30FF\\u4e00-\\u9fff\\uff00-\\uffef"; // (kana)(kanji)(full-half)
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
-  const romaji = /[^０-９一-龘ぁ-んァ-ン。、　\n|]/g;
+  const only_kanja = new RegExp(`[^${KANJI_KANA}\n|]`, "g");
 
   let speech = {};
   if (note.modelName === "Grammar") {
@@ -372,7 +373,7 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
       value = pre.textContent
     }
     value = unpackCloze(value).replaceAll(/[→　・]/g, "、")
-    // value = value.replaceAll(romaji, "")
+    value = value.replaceAll(only_kanja, "")
     value = value.replaceAll(/[|-]/g, "\n")
     value = value.split("\n").filter(x => x.length > 0).join("、")
     speech = await add_speech_field(value, 'audio', speech)
