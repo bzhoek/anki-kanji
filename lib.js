@@ -327,9 +327,9 @@ const convert_showdown = async (query) => iterate_notes(query, async (id, note) 
     let pre = xpath.select1("//pre", doc)
     if (pre !== undefined) {
       let text = pre.textContent
+      console.log("Markdown", text);
       let converted = converter.makeHtml(text);
-      Object.assign(fields, {[field]: `${pre.toString()}<div>${converted}</div>`})
-      // let strokes = {note: {id: id, fields: {sentence: `<pre>${text}</pre>${converted}`}}};
+      Object.assign(fields, {[field]: `<div>${pre.toString()}<div>${converted}</div></div>`})
     }
   });
   if (Object.keys(fields).length > 0) {
