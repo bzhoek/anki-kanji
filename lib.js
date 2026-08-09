@@ -328,7 +328,7 @@ const convert_showdown = async (query) => iterate_notes(query, async (id, note) 
     if (pre !== undefined) {
       let text = pre.textContent
       let converted = converter.makeHtml(text);
-      Object.assign(fields, {[field]: `<pre>${text}</pre>${converted}`})
+      Object.assign(fields, {[field]: `${pre.toString()}<div>${converted}</div>`})
       // let strokes = {note: {id: id, fields: {sentence: `<pre>${text}</pre>${converted}`}}};
     }
   });

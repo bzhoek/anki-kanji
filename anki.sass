@@ -61,7 +61,7 @@ dt, .hint, .sentence
 table
   text-align: left
   margin: 0 auto
-  font-size: 0.8rem
+  width: 100%
 
   td
     padding-right: 1em
@@ -117,6 +117,10 @@ main
         dd
           display: none
 
+        .obscure + div
+          .cloze-inactive
+            color: transparent
+
     .sentence
       font-size: 1.2rem
 
@@ -126,8 +130,7 @@ main
 
       pre
         display: none
-
-
+      
   &.hear-write.front .strokes
     display: none
 
