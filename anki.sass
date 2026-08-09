@@ -142,9 +142,12 @@ main
       display: none
 
     &.front
-      .listening
+      .listening, .type
         display: none
 
+  &.read-mean.back .front .type
+    display: inline
+    
   &.onyomi.hear-mean .furigana rt
     font-size: 1.0rem
 
