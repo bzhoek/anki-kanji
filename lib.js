@@ -323,7 +323,13 @@ const convert_showdown = async (query) => iterate_notes(query, async (id, note) 
   let fields = {};
   ['sentence', 'details'].forEach(field => {
     let html = note.fields[field].value;
-    let doc = new parser().parseFromString(`<html>${html}</html>`, 'text/xml');
+    let doc = new parser({
+      errorHandler: {
+        warning: () => {},
+        error: () => {},
+        fatalError: (err) => console.error(err)
+      }
+    }).parseFromString(`<html>${html}</html>`, 'text/xml');
     let pre = xpath.select1("//pre", doc)
     if (pre !== undefined) {
       let text = pre.textContent
