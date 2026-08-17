@@ -12,6 +12,11 @@ script.
   }
   
   setTimeout(function () {
+    Array.from(document.getElementsByTagName("iframe")).forEach(tag => {
+      tag.setAttribute('scrolling', 'no');
+      tag.style.height = tag.contentWindow.document.body.scrollHeight + 'px';
+    })
+
     const LATIN = "\\u0000-\\u007F\\u0080-\\u00FF"; // basic latin + supplement
     const RADICALS = "\\u2E80-\\u2FDF"; // cjk and kangxi radicals
     const KANJI = "\\u4E00-\\u9FFF"; // cjk unified ideographs
