@@ -146,8 +146,9 @@ main
   &.hear-write.back .strokes
     display: block
 
-  &.hear-mean.back .front .picture
-    display: none
+  &.hear-mean.back, &.hear-write.back, &.read-mean.back 
+    .front .picture
+      display: none
 
   &.read-mean
     .strokes
