@@ -24,7 +24,7 @@ script.
     const FULL_HALF = "\\uFF00-\\uFFEF"; // (full-half)
     const KANJA = `${RADICALS}${KANJI}${KANA}${FULL_HALF}`;
     const WS = "(?:\\s|&nbsp;)+";
-    const SYMBOLS = "◈◇◆▣□■△⨹⧊▲⨀⏜▬⧨⨺";
+    const SYMBOLS = "◈◇◆▣□■△⨹⧊▲⨀⏜▬⧨⨺CFHNR";
 
     // highlight kanji after bold words
     const terms = new RegExp(`(<b>[${LATIN}]+</b>)${WS}([${KANJA}]+)`, 'gi')
@@ -33,7 +33,7 @@ script.
     const kanja = new RegExp(`([${KANJI}${KANA}]+)`, 'gi')
     replaceText(".details", kanja, "<em>$1</em>")
     // wrap trailing kana and symbols in meaning
-    const kana = new RegExp(`\\s+(<.+?>)?([${KANA}${SYMBOLS}]+)(</.+?>)?$`, 'gi')
+    const kana = new RegExp(`\\s+(<.+?>)?([${KANA}${SYMBOLS}]+)(</.+?>)?$`, 'g')
     replaceText(".meaning", kana, "&nbsp;$1<span class='type'>$2</span>$3")
 
     const elementToMove = document.querySelector('.audio');
