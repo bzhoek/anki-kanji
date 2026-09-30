@@ -20,7 +20,8 @@ function aktts
 end
 
 function akbreak
-  $DANKI break "target:re:[\x{3000}-\x{9FFF}]{9,} -target:re:[\u200B]"
+  $DANKI break "$DECK target:re:[\x{3000}-\x{9FFF}]{9,} -target:re:[\u200B]"
+  $DANKI break "$DECK -sentence:re:[\u200B]"
 end
 
 function akgenerate
