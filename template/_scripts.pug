@@ -15,6 +15,9 @@ script.
     Array.from(document.getElementsByTagName("iframe")).forEach(tag => {
       tag.setAttribute('scrolling', 'no');
       tag.style.height = tag.contentWindow.document.body.scrollHeight + 'px';
+      const style = document.createElement('style');
+      style.textContent = 'body { font-size: 16px; }';
+      tag.contentDocument.head.appendChild(style);
     })
 
     const LATIN = "\\u0000-\\u007F\\u0080-\\u00FF"; // basic latin + supplement
