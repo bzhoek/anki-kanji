@@ -114,11 +114,11 @@ function to_mean_say_html() {
   return compiledTemplate(cards[0])
 }
 
-function pair_html(note_name, grammar, prefix, color, symbols = '') {
+function pair_html(note_name, grammar, prefix, color, instruction, symbols = '') {
   [{front: 1, back: 2}, {front: 2, back: 1}]
     .forEach(side => {
       const note = Object.assign(side, {
-        note: note_name, grammar: grammar, prefix: prefix, color: color, symbols: symbols
+        note: note_name, grammar: grammar, prefix: prefix, color: color, instruction: instruction, symbols: symbols
       });
       Object.assign(note, {mode: 'read-mean', suffix: mean_suffix});
       both_sides([note], 'read-mean.mirror', `read-mean${side.front}`);
@@ -148,8 +148,8 @@ const to_grammar_html = () => {
 }
 
 const html_from_templates = () => {
-  pair_html("Opposite", "対義語", "⇕", "blue")
-  pair_html("Pair", "自他動詞", "⇔", "green", "をが")
+  pair_html("Opposite", "対義語", "⇕", "blue", "Opposite of")
+  pair_html("Pair", "自他動詞", "⇔", "green", "Verb pair with", "をが")
   reading_kanji_html()
   writing_kanji_html()
   to_mean_say_html()
