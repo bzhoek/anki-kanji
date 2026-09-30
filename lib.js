@@ -321,7 +321,7 @@ const convert_showdown = async (query) => iterate_notes(query, async (id, note) 
   // converter.setFlavor('github')
   converter.setOption('tables', 'true');
   let fields = {};
-  ['sentence', 'details'].forEach(field => {
+  ['sentence'].forEach(field => {
     let html = note.fields[field].value;
     let doc = new parser({
       errorHandler: {
