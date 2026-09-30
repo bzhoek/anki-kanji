@@ -27,7 +27,7 @@ script.
     const FULL_HALF = "\\uFF00-\\uFFEF"; // (full-half)
     const KANJA = `${RADICALS}${KANJI}${KANA}${FULL_HALF}`;
     const WS = "(?:\\s|&nbsp;)+";
-    const SYMBOLS = "◈◇◆▣□■△⨹⧊▲⨀⏜▬⧨⨺CFHNR";
+    const SYMBOLS = "◈◇◆▣□■△⨹⧊▲⨀⏜▬⧨⨺CFHNRSX";
 
     // highlight kanji after bold words
     const terms = new RegExp(`(<b>[${LATIN}]+</b>)${WS}([${KANJA}]+)`, 'gi')
