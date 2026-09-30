@@ -385,7 +385,7 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
 
     if (note.fields['context'].value === "") {
       let target = extract_ruby_kana(note.fields['target'].value);
-      const clean = target.replaceAll(romaji, "")
+      const clean = target.replaceAll(only_kanja, "")
       speech = await add_speech_field(clean, 'context', speech)
     }
   }
