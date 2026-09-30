@@ -148,8 +148,8 @@ const to_grammar_html = () => {
 }
 
 const html_from_templates = () => {
-  pair_html("Opposite", "対義語", "⇕", "blue", "Opposite of")
-  pair_html("Pair", "自他動詞", "⇔", "green", "Verb pair with", "をが")
+  pair_html("Opposite", "対義語", "⇕", "blue", "opposite of")
+  pair_html("Pair", "自他動詞", "⇔", "green", "verb pair with", "をが")
   reading_kanji_html()
   writing_kanji_html()
   to_mean_say_html()
