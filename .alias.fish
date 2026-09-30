@@ -24,8 +24,9 @@ function akbreak
 end
 
 function akgenerate
-  $DANKI generate "kanji:_* target: -note:OnKanji"
-  $DANKI translate "(note:*dan OR note:*yomi) -target:<dl>* target:_*"
+  $DANKI generate "$DECK target: -note:OnKanji"
+  $DANKI translate "$DECK ($DAN_YOMI) -target:<dl>* target:_*"
+  $DANKI translate "$DECK ($DAN_YOMI) target:*<dd></dd>*"
   $ANKI tts "$DECK target:_* context:"
 end
 
