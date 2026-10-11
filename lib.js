@@ -1022,7 +1022,7 @@ const kun_note = async (id, note) => {
 }
 
 async function show_stats() {
-  let ids = await post('findNotes', {query: `deck:Japans::1-意味書く kanji:_`});
+  let ids = await post('findNotes', {query: `kanji:_ -is:new`});
   let notes = await post("notesInfo", {notes: ids.result});
   const unique = [];
   for (let note of notes.result) {
