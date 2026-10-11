@@ -33,8 +33,9 @@ end
 
 # after *all* reviews
 function akflag
-  $DANKI ease --ease 2 --flag 2 "rated:4:2 -flag:2"
-  $DANKI ease --ease 3 --flag 0 "rated:4:3 flag:2"
+  $DANKI ease --ease 1 --flag 1 "rated:3:1 -flag:1"
+  $DANKI ease --ease 2 --flag 2 "rated:3:2 -flag:2"
+  $DANKI ease --ease 3 --flag 0 "rated:3:3 flag:2"
   $DANKI flag "is:buried-manually -flag:1" 1
   $DANKI flag "flag:1 -is:buried-manually -prop:due=0" 0
   $DANKI flag "$DECK is:new -flag:3" 3
