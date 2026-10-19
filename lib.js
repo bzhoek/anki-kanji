@@ -360,6 +360,21 @@ const add_speech_field = async (text, field, object) => {
   return Object.assign(object, {[field]: audio})
 }
 
+const xml_path = (xml, path) => {
+  let doc = new parser({
+    errorHandler: {
+      warning: () => {},
+      error: () => {},
+      fatalError: (err) => console.error(err)
+    }
+  }).parseFromString(`<html>${xml}</html>`, 'text/xml');
+  let pre = xpath.select1(path, doc)
+  if (pre === undefined) {
+    return undefined
+  }
+  return pre.textContent
+}
+
 const KANJI_KANA = "\\u3000-\\u30FF\\u4e00-\\u9fff\\uff00-\\uffef"; // (kana)(kanji)(full-half)
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
   const only_kanja = new RegExp(`[^${KANJI_KANA}\n|]`, "g");
@@ -367,11 +382,7 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
   let speech = {};
   if (note.modelName === "Grammar") {
     let value = note.fields['sentence'].value;
-    let doc = new parser().parseFromString(`<html>${value}</html>`, 'text/xml');
-    let pre = xpath.select1("//pre", doc)
-    if (pre !== undefined) {
-      value = pre.textContent
-    }
+    value = xml_path(value, "//pre") || value
     value = unpackCloze(value).replaceAll(/[→　・]/g, "、")
     value = value.replaceAll(only_kanja, "")
     value = value.replaceAll(/[|-]/g, "\n")
@@ -384,8 +395,13 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
     }
 
     if (note.fields['context'].value === "") {
-      let target = extract_ruby_kana(note.fields['target'].value);
-      const clean = target.replaceAll(only_kanja, "")
+      let target = note.fields['target'].value;
+      let clean = xml_path(target, "//dl/dt");
+      if (clean === undefined) {
+        target = extract_ruby_kana(target);
+        clean = target.replaceAll(only_kanja, "")
+      }
+
       speech = await add_speech_field(clean, 'context', speech)
     }
   }
