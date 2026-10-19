@@ -77,10 +77,10 @@ function ak_sort
 
   $DANKI move "$FROM card:mean-write*" "Japans::1-意味書く"
   $DANKI move "$FROM card:hear-write*" "Japans::2-聞く書く"
-  $DANKI move "$FROM card:mean-say" "Japans::3-意味言う"
-  $DANKI move "$FROM card:hear-mean*" "Japans::4-聞く意味"
-  $DANKI move "$FROM card:read-mean*" "Japans::5-読む意味"
-  $DANKI move "$FROM note:Grammar" "Japans::6-文法"
+  $DANKI move "$FROM note:Grammar" "Japans::3-文法"
+  $DANKI move "$FROM card:read-mean*" "Japans::4-読む意味"
+  $DANKI move "$FROM card:hear-mean*" "Japans::5-聞く意味"
+  $DANKI move "$FROM card:mean-say" "Japans::6-意味言う"
 end
 
 function ak_tts
