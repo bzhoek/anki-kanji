@@ -375,6 +375,10 @@ const xml_path = (xml, path) => {
   return pre.textContent
 }
 
+const ZWSP = "\u200B"; // zero-width space
+const clean_breaks = (sentence, separator = ZWSP) =>
+  sentence.replaceAll(separator, "");
+
 const KANJI_KANA = "\\u3000-\\u30FF\\u4e00-\\u9fff\\uff00-\\uffef"; // (kana)(kanji)(full-half)
 const add_tts = async (query) => iterate_notes(query, async (id, note) => {
   const only_kanja = new RegExp(`[^${KANJI_KANA}\n|]`, "g");
@@ -401,7 +405,8 @@ const add_tts = async (query) => iterate_notes(query, async (id, note) => {
         target = extract_ruby_kana(target);
         clean = target.replaceAll(only_kanja, "")
       }
-
+      
+      clean = clean_breaks(clean);
       speech = await add_speech_field(clean, 'context', speech)
     }
   }
