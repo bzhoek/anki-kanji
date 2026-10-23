@@ -786,6 +786,7 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
     }
 
     colorize(unicode, style_color).then(async (svg) => {
+      let parts = extract_parts_from_kanji(unicode).join('')
       let add = {
         "note": {
           "deckName": "0-Inbox",
@@ -795,7 +796,8 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
             "kanji": kanji,
             "kana": json.katakana.join(', '),
             "details": json.meanings.join(', ') + '\n' + json.hiragana.join(', '),
-            "strokes": css_style + svg
+            "strokes": css_style + svg,
+            "notes": parts
           },
           "options": {
             "allowDuplicate": false
@@ -814,6 +816,9 @@ const add_kanji_with_reading_and_meaning = (kanji, model = "kanji") => {
             tags: tags.concat(found.tags)
           }
         };
+        if (found.fields.notes && note_field(found, 'notes') === '') {
+          update.note.fields.notes = parts
+        }
         await post('updateNote', update)
         delete update.note.fields.strokes
         console.log("updated", update)
