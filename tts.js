@@ -33,13 +33,9 @@ function createRequest(text) {
     audioConfig: {
       audioEncoding: 'MP3',
       effectsProfileId: ['headphone-class-device'],
-      speakingRate: 1.0
+      speakingRate: 0.8
     },
   };
-
-  if (text.length > 10) {
-    request.audioConfig.speakingRate = 0.75
-  }
 
   return request;
 }
@@ -49,10 +45,10 @@ async function tts(text) {
   const hashValue = hash(JSON.stringify(request));
   const filename =  `gcloud-${hashValue}.mp3`;
   const filepath = path.join(folder, filename);
-  if (fs.existsSync(filepath)) {
-    console.log(`File exists ${filename} for ${text}`);
-    return filename;
-  }
+  // if (fs.existsSync(filepath)) {
+  //   console.log(`File exists ${filename} for ${text}`);
+  //   return filename;
+  // }
 
   const [response] = await client.synthesizeSpeech(request);
   const writeFile = util.promisify(fs.writeFile);
