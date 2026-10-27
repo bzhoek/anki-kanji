@@ -54,8 +54,8 @@ dl
 
 dt, .hint, .sentence
   line-break: strict
-  word-break: keep-all
-  overflow-wrap: anywhere
+  word-break: keep-all // prevents all character breaks, and relies on ZWSP
+  overflow-wrap: anywhere // unless that overflows
   text-wrap: pretty
 
 table
