@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const {Command} = require('commander');
-const sass = require('node-sass');
+const sass = require('sass');
 const {exec} = require('child_process');
 
 const {
@@ -157,9 +157,7 @@ cli.command('notes')
 cli.command('restyle')
   .description('Reapply anki.css stylesheet to all notes')
   .action(() => {
-    const css = sass.renderSync({
-      file: 'anki.sass',
-    }).css.toString()
+    const css = sass.compile('anki.sass').css
     update_styling(css)
   })
 
