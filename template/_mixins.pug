@@ -2,7 +2,7 @@ mixin main(...classes)
   doctype html
   .card-wrapper
     .front-content
-        main(class=`${classes.join(' ')}`)
+        main(class=`${classes.join(' ')} {{Tags}}`)
           block
         include _scripts
 mixin title(name, index='')
@@ -20,9 +20,6 @@ mixin heading_presuffix(title, prefix, suffix)
 mixin hint(name, index='')
   +optional(`#${index}${name}`)
     div(class=`${name}`)= `{{hint:${index}${name}}}`
-mixin text()
-  div(class=`text {{Tags}}`)
-    block
 mixin field(name, index='', symbols='')
   +optional(`#${index}${name}`)
     div(class=`${name}`)= `{{${index}${name}}}${symbols.length === 2 ? ' ' + symbols[index-1] : ''}`
